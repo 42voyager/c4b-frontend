@@ -1,19 +1,22 @@
 <template>
   <NavBar/>
   <Banner/>
+  <WrapperHighlights title="Pontos fortes do produto" />
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import NavBar from './components/Navbar.vue';
+import NavBar from './components/TheNavbar.vue';
 import Banner from './components/Banner.vue';
-import ButtonDefault from './components/ButtonDefault.vue';
+// import ButtonDefault from './components/ButtonDefault.vue';
+import WrapperHighlights from './components/WrapperHighlights.vue';
 
 @Options({
   components: {
     NavBar,
     Banner,
-    ButtonDefault,
+    // ButtonDefault,
+	WrapperHighlights
   },
 })
 export default class App extends Vue {}
