@@ -9,7 +9,7 @@
 		</div>
 		<div class="column column-two">
 			<h2> Solicite seu crédito </h2>
-			<TheForm @submitForm="test"/>
+			<TheForm @submitForm="submitUser"/>
 		</div>
 	</div>
 </template>
@@ -36,7 +36,7 @@ interface IUserData {
 	}
 })
 export default class TwoColumnSection extends Vue {
-	test(user: IUserData): void {
+	submitUser(user: IUserData): void {
 		console.log('Submitted user', user)
 	}
 }
