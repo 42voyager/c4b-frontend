@@ -8,6 +8,7 @@
     imageFileName2="info-img3.jpg"
     imageFileName3="info-img4.jpg"
   />
+  <TheFooter/>
 </template>
 
 <script lang="ts">
@@ -15,8 +16,9 @@ import { Options, Vue } from 'vue-class-component';
 import NavBar from './components/TheNavbar.vue';
 import Banner from './components/Banner.vue';
 import WrapperHighlights from './components/WrapperHighlights.vue';
-import TwoColumnSection from './components/TwoColumnSection.vue'
-import InformationSection from './components/InformationSection.vue'
+import TwoColumnSection from './components/TwoColumnSection.vue';
+import InformationSection from './components/InformationSection.vue';
+import TheFooter from './components/TheFooter.vue';
 
 @Options({
   components: {
@@ -24,7 +26,8 @@ import InformationSection from './components/InformationSection.vue'
     Banner,
     WrapperHighlights,
     TwoColumnSection,
-    InformationSection
+    InformationSection,
+    TheFooter
   },
 })
 export default class App extends Vue {}
