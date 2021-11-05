@@ -1,8 +1,8 @@
 <template>
   <ul class="nav-bar">
     <li class="wrraper-logo"><a href="#"><img src="../assets/logo-abc.png" alt="Logo Banco ABC"></a></li>
-    <li><a class="active" href="#">Solicitar</a></li>
-    <li><a href="#">Informações</a></li>
+    <li><a class="active" href="#two-column-section">Solicitar</a></li>
+    <li><a href="#information-section">Informações</a></li>
     <li><a href="#">FAQ</a></li>
   </ul>
 </template>

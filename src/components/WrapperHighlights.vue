@@ -5,17 +5,17 @@
 		</div>
 		<div class="wrapper-highlights">
 			<Highlight
-				imageName='img_item_01.jpg'
+				imageFileName='img_item_01.jpg'
 				altText='Imagem 1'
 				title='Ponto 1'
 				description='Nunc mattis feugiat ex scelerisque congue.' />
 			<Highlight
-				imageName='img_item_02.jpg'
+				imageFileName='img_item_02.jpg'
 				altText='Imagem 2'
 				title='Ponto 2'
 				description='Nunc mattis feugiat ex scelerisque congue.' />
 			<Highlight
-				imageName='img_item_03.jpg'
+				imageFileName='img_item_03.jpg'
 				altText='Imagem 3'
 				title='Ponto 3'
 				description='Nunc mattis feugiat ex scelerisque congue.' />

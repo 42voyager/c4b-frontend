@@ -1,7 +1,7 @@
 <template>
 	<div class="highlight-item">
 		<div class="wrapper-img">
-			<img class="highlight-img" :src="require('@/assets/' + imageName)" :alt=altText />
+			<img class="highlight-img" :src="require('@/assets/' + imageFileName)" :alt=altText />
 		</div>
 		<h3>{{ title }}</h3>
 		<p>{{ description }}</p>
@@ -13,7 +13,7 @@ import { Options, Vue } from 'vue-class-component';
 
 @Options({
 	props: {
-		imageName: String,
+		imageFileName: String,
 		altText: String,
 		title: String,
 		description: String
@@ -25,7 +25,7 @@ export default class Highlight extends Vue {
 </script>
 
 <style scoped>
-.highlight {
+.highlight-item {
 	text-align: center;
 	margin-top: 40px;
 	margin-left: 30px;

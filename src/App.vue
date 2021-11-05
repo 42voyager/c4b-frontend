@@ -2,21 +2,29 @@
   <NavBar/>
   <Banner/>
   <WrapperHighlights title="Pontos fortes do produto" />
+  <TwoColumnSection imageFileName="side-img.jpg"/>
+  <InformationSection 
+    imageFileName1="info-img1.jpg"
+    imageFileName2="info-img3.jpg"
+    imageFileName3="info-img4.jpg"
+  />
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import NavBar from './components/TheNavbar.vue';
 import Banner from './components/Banner.vue';
-// import ButtonDefault from './components/ButtonDefault.vue';
 import WrapperHighlights from './components/WrapperHighlights.vue';
+import TwoColumnSection from './components/TwoColumnSection.vue'
+import InformationSection from './components/InformationSection.vue'
 
 @Options({
   components: {
     NavBar,
     Banner,
-    // ButtonDefault,
-	WrapperHighlights
+    WrapperHighlights,
+    TwoColumnSection,
+    InformationSection
   },
 })
 export default class App extends Vue {}
