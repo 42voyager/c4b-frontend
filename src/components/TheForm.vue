@@ -44,7 +44,7 @@
     </div>
     <div class="wrapper-optin">
       <label for="optin" class="label-optin">
-        Li e estou de acordo com os <a href="#"> termos e condições </a>
+        Li e estou de acordo com os <a href="termos.html"> termos e condições </a>
       </label>
       <input 
         type="checkbox" 
