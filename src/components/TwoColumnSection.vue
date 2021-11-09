@@ -16,15 +16,8 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import TheForm from './TheForm.vue'
-
-interface IUserData {
-	name: string;
-	email: string;
-	cellphone: string;
-	cnpj: string;
-	company: string;
-	optin: boolean;
-}
+import ApiController from '../api/controller'
+import IUserData from '../types/user'
 
 @Options({
 	props: {
@@ -37,7 +30,7 @@ interface IUserData {
 })
 export default class TwoColumnSection extends Vue {
 	submitUser(user: IUserData): void {
-		console.log('Submitted user', user)
+		new ApiController().postUser(user)
 	}
 }
 </script>
