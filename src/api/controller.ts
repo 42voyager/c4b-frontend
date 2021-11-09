@@ -5,6 +5,7 @@ const API_URL = 'http://localhost:5001/Customer/'
 
 export default class ApiController {
     postUser(user: IUserData):void {
+        console.log(user.name, user.email)
         axios.post(API_URL, user)
             .then(response => {
                 console.log('Usuario Adicionado', response)
