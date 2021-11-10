@@ -1,15 +1,15 @@
 <template>
 	<div class="two-column-section" id="two-column-section">
 		<div class="column column-one">
-			<img 
-				class="side-img" 
+			<img
+				class="side-img"
 				:src="require('@/assets/' + imageFileName)"
 				:alt="altText"
 			/>
 		</div>
 		<div class="column column-two">
 			<h2> Solicite seu crédito </h2>
-			<TheForm @submitForm="submitUser"/>
+			<TheForm @submitForm="submitUser" :enableMessage="enableMessage" :messageResponse="messageResponse" />
 		</div>
 	</div>
 </template>
@@ -29,9 +29,19 @@ import IUserData from '../types/user'
 	}
 })
 export default class TwoColumnSection extends Vue {
-	submitUser(user: IUserData): void {
-		new ApiController().postUser(user)
-	}
+	enableMessage = false;
+	messageResponse = {};
+    submitUser(user: IUserData): void {
+        new ApiController().postUser(user)
+            .then(res => {
+				console.log("Aqui é o res: ", res.response.data.title);
+            })
+            .catch(err => {
+				console.log("Aqui é o err: ", err.response.data.errors);
+				this.enableMessage = true;
+				this.messageResponse = err.response.data.errors;
+            })
+    }
 }
 </script>
 

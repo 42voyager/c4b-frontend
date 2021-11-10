@@ -44,19 +44,63 @@
     </div>
     <div class="wrapper-optin">
       <label for="optin" class="label-optin">
-        Li e estou de acordo com os <a href="termos.html"> termos e condições </a>
+        Li e estou de acordo com os
+        <a href="termos.html"> termos e condições </a>
       </label>
-      <input 
-        type="checkbox" 
-        class="checkbox-optin" 
-        v-model="user.optin" 
-      />
+      <input type="checkbox" class="checkbox-optin" v-model="user.optin" />
     </div>
     <div class="wrapper-button">
-      <ButtonDefault 
-        msg="Solicitar" 
-        @buttonClicked="submitForm()"
-      />
+      <ButtonDefault msg="Solicitar" @buttonClicked="submitForm()" />
+    </div>
+    <div
+      class="message-panel"
+      id="message-panel"
+      v-bind:class="{ disable: !enableMessage }"
+    >
+      <ul>
+        <li>
+          {{
+            messageResponse.Name != undefined
+              ? messageResponse.Name.join("")
+              : null
+          }}
+        </li>
+        <li>
+          {{
+            messageResponse.Email != undefined
+              ? messageResponse.Email.join("")
+              : null
+          }}
+        </li>
+        <li>
+          {{
+            messageResponse.Cnpj != undefined
+              ? messageResponse.Cnpj.join("")
+              : null
+          }}
+        </li>
+        <li>
+          {{
+            messageResponse.Cellphone != undefined
+              ? messageResponse.Cellphone.join("")
+              : null
+          }}
+        </li>
+        <li>
+          {{
+            messageResponse.Company != undefined
+              ? messageResponse.Company.join("")
+              : null
+          }}
+        </li>
+        <li>
+          {{
+            messageResponse.Optin != undefined
+              ? messageResponse.Optin.join("")
+              : null
+          }}
+        </li>
+      </ul>
     </div>
   </form>
 </template>
@@ -66,7 +110,10 @@ import { Options, Vue } from "vue-class-component";
 import ButtonDefault from "./ButtonDefault.vue";
 
 @Options({
-  props: {},
+  props: {
+    enableMessage: Boolean,
+    messageResponse: Object,
+  },
   emit: ["submitForm"],
   components: {
     ButtonDefault,
@@ -92,8 +139,8 @@ export default class TheForm extends Vue {
       cellphone: "",
       cnpj: "",
       company: "",
-      optin: false, 
-    }
+      optin: false,
+    };
     this.user = emptyUser;
   }
 }
@@ -131,5 +178,24 @@ export default class TheForm extends Vue {
   justify-content: center;
   margin: 20px 0;
   width: 100%;
+}
+#message-panel {
+  margin-bottom: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  width: 100%;
+  height: 100%;
+  background-color:#fff;
+  border: solid 1px red;
+}
+.message-panel ul {
+	font-size: 12px;
+	margin-bottom: 0;
+}
+.message-panel li {
+	margin-bottom: 10px;
+}
+.disable {
+  display: none;
 }
 </style>
