@@ -30,7 +30,7 @@ import IUserData from '../types/user'
 })
 export default class TwoColumnSection extends Vue {
 	submitUser(user: IUserData): void {
-		const post = new ApiController().postUser(user)
+		new ApiController().postUser(user)
 	}
 }
 </script>
