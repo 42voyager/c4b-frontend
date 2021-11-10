@@ -58,47 +58,61 @@
       v-bind:class="{ disable: !enableMessage }"
     >
       <ul>
-        <li>
-          {{
-            messageResponse.Name != undefined
-              ? messageResponse.Name.join("")
-              : null
-          }}
+        <li
+          v-if="
+            messageResponse.Name != undefined &&
+            messageResponse.Name.lenght != 0
+          "
+        >
+          {{ messageResponse.Name.join(' ') }}
         </li>
-        <li>
-          {{
-            messageResponse.Email != undefined
-              ? messageResponse.Email.join("")
-              : null
-          }}
+        <li
+          v-if="
+            messageResponse.Email != undefined &&
+            messageResponse.Email.lenght != 0
+          "
+        >
+          {{ messageResponse.Email.join(' ') }}
         </li>
-        <li>
-          {{
-            messageResponse.Cnpj != undefined
-              ? messageResponse.Cnpj.join("")
-              : null
-          }}
+        <li
+          v-if="
+            messageResponse.Cellphone != undefined &&
+            messageResponse.Cellphone.lenght != 0
+          "
+        >
+          {{ messageResponse.Cellphone.join(' ') }}
         </li>
-        <li>
-          {{
-            messageResponse.Cellphone != undefined
-              ? messageResponse.Cellphone.join("")
-              : null
-          }}
+        <li
+          v-if="
+            messageResponse.Cnpj != undefined &&
+            messageResponse.Cnpj.lenght != 0
+          "
+        >
+          {{ messageResponse.Cnpj.join(' ') }}
         </li>
-        <li>
-          {{
-            messageResponse.Company != undefined
-              ? messageResponse.Company.join("")
-              : null
-          }}
+        <li
+          v-if="
+            messageResponse.Company != undefined &&
+            messageResponse.Company.lenght != 0
+          "
+        >
+          {{ messageResponse.Company.join(' ') }}
         </li>
-        <li>
-          {{
-            messageResponse.Optin != undefined
-              ? messageResponse.Optin.join("")
-              : null
-          }}
+        <li
+          v-if="
+            messageResponse.Optin != undefined &&
+            messageResponse.Optin.lenght != 0
+          "
+        >
+          {{ messageResponse.Optin.join(' ') }}
+        </li>
+        <li
+          v-if="
+            messageResponse.title != undefined &&
+            messageResponse.title.lenght != 0
+          "
+        >
+          {{ messageResponse.title }}
         </li>
       </ul>
     </div>
@@ -130,7 +144,7 @@ export default class TheForm extends Vue {
   };
   submitForm(): void {
     this.$emit("submitForm", this.user);
-    this.resetForm();
+    // this.resetForm();
   }
   resetForm(): void {
     const emptyUser = {
@@ -185,15 +199,15 @@ export default class TheForm extends Vue {
   padding-bottom: 15px;
   width: 100%;
   height: 100%;
-  background-color:#fff;
+  background-color: #fff;
   border: solid 1px red;
 }
 .message-panel ul {
-	font-size: 12px;
-	margin-bottom: 0;
+  font-size: 12px;
+  margin-bottom: 0;
 }
 .message-panel li {
-	margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 .disable {
   display: none;

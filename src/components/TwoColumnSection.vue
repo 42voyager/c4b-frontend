@@ -34,10 +34,10 @@ export default class TwoColumnSection extends Vue {
     submitUser(user: IUserData): void {
         new ApiController().postUser(user)
             .then(res => {
-				console.log("Aqui é o res: ", res.response.data.title);
+				this.enableMessage = true;
+				this.messageResponse = {title: res.statusText};
             })
             .catch(err => {
-				console.log("Aqui é o err: ", err.response.data.errors);
 				this.enableMessage = true;
 				this.messageResponse = err.response.data.errors;
             })
