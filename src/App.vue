@@ -1,7 +1,7 @@
 <template>
   <NavBar/>
   <Banner/>
-  <WrapperHighlights title="Pontos fortes do produto" />
+  <WrapperHighlights :title="titlePontoForte" />
   <TwoColumnSection imageFileName="side-img.jpg"/>
   <InformationSection 
     imageFileName1="info-img1.jpg"
@@ -19,6 +19,7 @@ import WrapperHighlights from './components/WrapperHighlights.vue';
 import TwoColumnSection from './components/TwoColumnSection.vue';
 import InformationSection from './components/InformationSection.vue';
 import TheFooter from './components/TheFooter.vue';
+import { TitlePontoForte } from './text/variables';
 
 @Options({
   components: {
@@ -30,7 +31,9 @@ import TheFooter from './components/TheFooter.vue';
     TheFooter
   },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  titlePontoForte = TitlePontoForte;
+}
 </script>
 
 <style>

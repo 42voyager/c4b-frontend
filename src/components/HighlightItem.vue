@@ -1,7 +1,7 @@
 <template>
 	<div class="highlight-item">
 		<div class="wrapper-img">
-			<img class="highlight-img" :src="require('@/assets/' + imageFileName)" :alt=altText />
+			<img class="highlight-img" :src="require('@/assets/itens/' + imageFileName)" :alt=altText />
 		</div>
 		<h3>{{ title }}</h3>
 		<p>{{ description }}</p>

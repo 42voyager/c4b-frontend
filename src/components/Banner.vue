@@ -1,9 +1,9 @@
 <template>
 	<div class="banner">
-		<img src="../assets/banner2.png" alt="">
+		<img src="../assets/banner/banner2.png" alt="">
 		<div class="text-banner">
-			<h1>Lorem ipsum dolor sit amet, consectetur adipiscing</h1>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing</p>
+			<h1>{{ titleBanner }}</h1>
+			<p>{{ textBanner }}</p>
 			<ButtonDefault msg="Solicitar"/>
 		</div>
 		<div class="banner-overlay"></div>
@@ -13,6 +13,7 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import ButtonDefault from './ButtonDefault.vue';
+import { TitleBanner, TextBanner } from '../text/variables';
 
 @Options({
 	props: {
@@ -23,7 +24,8 @@ import ButtonDefault from './ButtonDefault.vue';
 	}
 })
 export default class Banner extends Vue {
-
+	titleBanner = TitleBanner;
+	textBanner = TextBanner;
 }
 </script>
 

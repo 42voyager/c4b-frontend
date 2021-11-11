@@ -1,6 +1,6 @@
 <template>
   <form class="wrapper-form" @submit.prevent="submit">
-    <h3>Dados para contato</h3>
+    <h3>{{ subTitle1Form }}</h3>
     <div class="wrapper-input">
       <input
         type="text"
@@ -25,7 +25,7 @@
         v-model="user.cellphone"
       />
     </div>
-    <h3>Dados da empresa</h3>
+    <h3>{{ subTitle2Form }}</h3>
     <div class="wrapper-input">
       <input
         type="text"
@@ -64,7 +64,7 @@
             messageResponse.Name.lenght != 0
           "
         >
-          {{ messageResponse.Name.join(' ') }}
+          {{ messageResponse.Name.join(" ") }}
         </li>
         <li
           v-if="
@@ -72,7 +72,7 @@
             messageResponse.Email.lenght != 0
           "
         >
-          {{ messageResponse.Email.join(' ') }}
+          {{ messageResponse.Email.join(" ") }}
         </li>
         <li
           v-if="
@@ -80,7 +80,7 @@
             messageResponse.Cellphone.lenght != 0
           "
         >
-          {{ messageResponse.Cellphone.join(' ') }}
+          {{ messageResponse.Cellphone.join(" ") }}
         </li>
         <li
           v-if="
@@ -88,7 +88,7 @@
             messageResponse.Cnpj.lenght != 0
           "
         >
-          {{ messageResponse.Cnpj.join(' ') }}
+          {{ messageResponse.Cnpj.join(" ") }}
         </li>
         <li
           v-if="
@@ -96,7 +96,7 @@
             messageResponse.Company.lenght != 0
           "
         >
-          {{ messageResponse.Company.join(' ') }}
+          {{ messageResponse.Company.join(" ") }}
         </li>
         <li
           v-if="
@@ -104,7 +104,7 @@
             messageResponse.Optin.lenght != 0
           "
         >
-          {{ messageResponse.Optin.join(' ') }}
+          {{ messageResponse.Optin.join(" ") }}
         </li>
         <li
           v-if="
@@ -122,6 +122,7 @@
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import ButtonDefault from "./ButtonDefault.vue";
+import { SubTitle1Form, SubTitle2Form } from "../text/variables";
 
 @Options({
   props: {
@@ -134,6 +135,8 @@ import ButtonDefault from "./ButtonDefault.vue";
   },
 })
 export default class TheForm extends Vue {
+  subTitle1Form = SubTitle1Form;
+  subTitle2Form = SubTitle2Form;
   user = {
     name: "",
     email: "",

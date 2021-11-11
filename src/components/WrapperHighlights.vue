@@ -7,18 +7,18 @@
 			<Highlight
 				imageFileName='img_item_01.jpg'
 				altText='Imagem 1'
-				title='Ponto 1'
-				description='Nunc mattis feugiat ex scelerisque congue.' />
+				:title='titlePonto1'
+				:description='ponto1' />
 			<Highlight
 				imageFileName='img_item_02.jpg'
 				altText='Imagem 2'
-				title='Ponto 2'
-				description='Nunc mattis feugiat ex scelerisque congue.' />
+				:title='titlePonto2'
+				:description='ponto2' />
 			<Highlight
 				imageFileName='img_item_03.jpg'
 				altText='Imagem 3'
-				title='Ponto 3'
-				description='Nunc mattis feugiat ex scelerisque congue.' />
+				:title='titlePonto3'
+				:description='ponto3' />
 		</div>
 	</div>
 </template>
@@ -26,6 +26,7 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import Highlight from './HighlightItem.vue';
+import { TitlePonto1, Ponto1, TitlePonto2, Ponto2, TitlePonto3, Ponto3 } from '../text/variables';
 
 @Options({
 	props: {
@@ -36,7 +37,12 @@ import Highlight from './HighlightItem.vue';
 	}
 })
 export default class WrapperHighlights extends Vue {
-
+	titlePonto1 = TitlePonto1;
+	ponto1 = Ponto1;
+	titlePonto2 = TitlePonto2;
+	ponto2 = Ponto2;
+	titlePonto3 = TitlePonto3;
+	ponto3 = Ponto3;
 }
 </script>
 
