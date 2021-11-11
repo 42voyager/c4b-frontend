@@ -37,12 +37,12 @@ export default class TwoColumnSection extends Vue {
   titleForm = TitleForm;
   enableMessage = false;
   messageResponse = {};
-
-  submitUser(user: IUserData): void {
+  submitUser(user: IUserData, reset: () => void): void {
     new ApiController()
       .postUser(user)
       .then((res) => {
         this.enableMessage = true;
+        reset();
         this.messageResponse = { title: res.statusText };
       })
       .catch((err) => {

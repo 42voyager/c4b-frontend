@@ -134,6 +134,7 @@ import { SubTitle1Form, SubTitle2Form } from "../text/variables";
     ButtonDefault,
   },
 })
+
 export default class TheForm extends Vue {
   subTitle1Form = SubTitle1Form;
   subTitle2Form = SubTitle2Form;
@@ -146,8 +147,7 @@ export default class TheForm extends Vue {
     optin: false,
   };
   submitForm(): void {
-    this.$emit("submitForm", this.user);
-    // this.resetForm();
+    this.$emit("submitForm", this.user, this.resetForm);
   }
   resetForm(): void {
     const emptyUser = {
@@ -215,4 +215,5 @@ export default class TheForm extends Vue {
 .disable {
   display: none;
 }
+
 </style>
