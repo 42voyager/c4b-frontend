@@ -13,6 +13,7 @@
         @submitForm="submitUser"
         :enableMessage="enableMessage"
         :messageResponse="messageResponse"
+        :status="status"
       />
     </div>
   </div>
@@ -37,10 +38,12 @@ export default class TwoColumnSection extends Vue {
   titleForm = TitleForm;
   enableMessage = false;
   messageResponse = {};
+  status = false;
   submitUser(user: IUserData, reset: () => void): void {
     new ApiController()
       .postUser(user)
       .then((res) => {
+        this.status = true;
         this.enableMessage = true;
         reset();
         this.messageResponse = { title: res.statusText };
@@ -48,6 +51,7 @@ export default class TwoColumnSection extends Vue {
       .catch((err) => {
         this.enableMessage = true;
         this.messageResponse = err.response.data.errors;
+        this.status = false;
       });
   }
 }

@@ -53,9 +53,8 @@
       <ButtonDefault msg="Solicitar" @buttonClicked="submitForm()" />
     </div>
     <div
-      class="message-panel"
-      id="message-panel"
-      v-bind:class="{ disable: !enableMessage }"
+      class="message-panel design-panel"
+      v-bind:class="{ disable: !enableMessage, colorRed: !status, colorGreen: status }"
     >
       <ul>
         <li
@@ -128,6 +127,7 @@ import { SubTitle1Form, SubTitle2Form } from "../text/variables";
   props: {
     enableMessage: Boolean,
     messageResponse: Object,
+    status: Boolean
   },
   emit: ["submitForm"],
   components: {
@@ -196,14 +196,13 @@ export default class TheForm extends Vue {
   margin: 20px 0;
   width: 100%;
 }
-#message-panel {
+.design-panel {
   margin-bottom: 15px;
   padding-top: 15px;
   padding-bottom: 15px;
   width: 100%;
   height: 100%;
   background-color: #fff;
-  border: solid 1px red;
 }
 .message-panel ul {
   font-size: 12px;
@@ -215,5 +214,10 @@ export default class TheForm extends Vue {
 .disable {
   display: none;
 }
-
+.colorRed {
+  border: solid 1px red;
+}
+.colorGreen {
+  border: solid 1px green;
+}
 </style>
