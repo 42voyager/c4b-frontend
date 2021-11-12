@@ -11,7 +11,7 @@
     </div>
     <div class="wrapper-input">
       <input
-        type="text"
+        type="email"
         class="input-control"
         placeholder="E-mail"
         v-model="user.email"
@@ -53,7 +53,8 @@
       <ButtonDefault msg="Solicitar" @buttonClicked="submitForm()" />
     </div>
     <div
-      class="message-panel design-panel"
+      class="message-panel"
+      id="message-panel"
       v-bind:class="{ disable: !enableMessage, colorRed: !status, colorGreen: status }"
     >
       <ul>
@@ -196,7 +197,7 @@ export default class TheForm extends Vue {
   margin: 20px 0;
   width: 100%;
 }
-.design-panel {
+#message-panel {
   margin-bottom: 15px;
   padding-top: 15px;
   padding-bottom: 15px;

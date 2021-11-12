@@ -46,7 +46,7 @@ export default class TwoColumnSection extends Vue {
         this.status = true;
         this.enableMessage = true;
         reset();
-        this.messageResponse = { title: res.statusText };
+        this.messageResponse = { title: "Solicitação recebida com sucesso!" };
       })
       .catch((err) => {
         this.enableMessage = true;
