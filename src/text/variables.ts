@@ -13,8 +13,6 @@ export const Ponto3 = "Nunc mattis feugiat ex scelerisque congue.";
 
 //Textos  do form
 export const TitleForm = "Solicite seu crédito";
-export const SubTitle1Form = "Dados para contato";
-export const SubTitle2Form = "Dados da empresa";
 
 //textos de informações
 export const TitleInfo = "Informações sobre o produto";

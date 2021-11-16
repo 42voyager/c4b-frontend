@@ -1,13 +1,18 @@
 <template>
   <form class="wrapper-form" @submit.prevent="submit">
-    <h3>{{ subTitle1Form }}</h3>
     <div class="wrapper-input">
       <input
         type="text"
         class="input-control"
         placeholder="Nome Completo"
         v-model="user.name"
+        v-bind:class="{ invalid: !validInput(messageResponse.Name) }"
       />
+      <div v-if="
+            !validInput(messageResponse.Name)
+          ">
+        <InputError :msg="messageResponse.Name"/>
+      </div>
     </div>
     <div class="wrapper-input">
       <input
@@ -15,7 +20,13 @@
         class="input-control"
         placeholder="E-mail"
         v-model="user.email"
+        v-bind:class="{ invalid: !validInput(messageResponse.Email) }"
       />
+      <div v-if="
+            !validInput(messageResponse.Email)
+          ">
+        <InputError :msg="messageResponse.Email"/>
+      </div>
     </div>
     <div class="wrapper-input">
       <input
@@ -23,16 +34,27 @@
         class="input-control"
         placeholder="Celular"
         v-model="user.cellphone"
+        v-bind:class="{ invalid: !validInput(messageResponse.Cellphone) }"
       />
+      <div v-if="
+            !validInput(messageResponse.Cellphone)
+          ">
+        <InputError :msg="messageResponse.Cellphone"/>
+      </div>
     </div>
-    <h3>{{ subTitle2Form }}</h3>
     <div class="wrapper-input">
       <input
         type="text"
         class="input-control"
         placeholder="CNPJ"
         v-model="user.cnpj"
+        v-bind:class="{ invalid: !validInput(messageResponse.Cnpj) }"
       />
+      <div v-if="
+            !validInput(messageResponse.Cnpj)
+          ">
+        <InputError :msg="messageResponse.Cnpj"/>
+      </div>
     </div>
     <div class="wrapper-input">
       <input
@@ -40,81 +62,47 @@
         class="input-control"
         placeholder="Nome da Empresa"
         v-model="user.company"
+        v-bind:class="{ invalid: !validInput(messageResponse.Company) }"
       />
+      <div v-if="
+            !validInput(messageResponse.Company)
+          ">
+        <InputError :msg="messageResponse.Company"/>
+      </div>
     </div>
     <div class="wrapper-optin">
       <label for="optin" class="label-optin">
         Li e estou de acordo com os
         <a href="termos.html"> termos e condições </a>
+        <input 
+          type="checkbox"
+          class="checkbox-optin"
+          v-model="user.optin"
+          v-bind:class="{ invalid: !validInput(messageResponse.Optin) }"
+          @change="$emit('change', $event.target.checked)"
+          />
+          <span class="checkmark"></span>
       </label>
-      <input type="checkbox" class="checkbox-optin" v-model="user.optin" />
+      <div v-if="
+            !validInput(messageResponse.Optin)
+          ">
+        <InputError :msg="messageResponse.Optin"/>
+      </div>
     </div>
     <div class="wrapper-button">
       <ButtonDefault msg="Solicitar" @buttonClicked="submitForm()" />
     </div>
     <div
-      class="message-panel"
       id="message-panel"
-      v-bind:class="{ disable: !enableMessage, colorRed: !status, colorGreen: status }"
+      v-bind:class="{ disable: !status }"
     >
-      <ul>
-        <li
-          v-if="
-            messageResponse.Name != undefined &&
-            messageResponse.Name.lenght != 0
-          "
-        >
-          {{ messageResponse.Name.join(" ") }}
-        </li>
-        <li
-          v-if="
-            messageResponse.Email != undefined &&
-            messageResponse.Email.lenght != 0
-          "
-        >
-          {{ messageResponse.Email.join(" ") }}
-        </li>
-        <li
-          v-if="
-            messageResponse.Cellphone != undefined &&
-            messageResponse.Cellphone.lenght != 0
-          "
-        >
-          {{ messageResponse.Cellphone.join(" ") }}
-        </li>
-        <li
-          v-if="
-            messageResponse.Cnpj != undefined &&
-            messageResponse.Cnpj.lenght != 0
-          "
-        >
-          {{ messageResponse.Cnpj.join(" ") }}
-        </li>
-        <li
-          v-if="
-            messageResponse.Company != undefined &&
-            messageResponse.Company.lenght != 0
-          "
-        >
-          {{ messageResponse.Company.join(" ") }}
-        </li>
-        <li
-          v-if="
-            messageResponse.Optin != undefined &&
-            messageResponse.Optin.lenght != 0
-          "
-        >
-          {{ messageResponse.Optin.join(" ") }}
-        </li>
-        <li
-          v-if="
-            messageResponse.title != undefined &&
-            messageResponse.title.lenght != 0
-          "
-        >
-          {{ messageResponse.title }}
-        </li>
-      </ul>
+      <p
+            v-if="
+              !validInput(messageResponse.title)
+            "
+          >
+            {{ messageResponse.title }}
+      </p>
     </div>
   </form>
 </template>
@@ -122,7 +110,7 @@
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import ButtonDefault from "./ButtonDefault.vue";
-import { SubTitle1Form, SubTitle2Form } from "../text/variables";
+import InputError from "./InputError.vue";
 
 @Options({
   props: {
@@ -133,12 +121,11 @@ import { SubTitle1Form, SubTitle2Form } from "../text/variables";
   emit: ["submitForm"],
   components: {
     ButtonDefault,
+    InputError
   },
 })
 
 export default class TheForm extends Vue {
-  subTitle1Form = SubTitle1Form;
-  subTitle2Form = SubTitle2Form;
   user = {
     name: "",
     email: "",
@@ -161,6 +148,13 @@ export default class TheForm extends Vue {
     };
     this.user = emptyUser;
   }
+  validInput(data: Array<string>)
+  {
+    if (data != undefined && data.length != 0)
+      return false;
+    else
+      return true;
+  }
 }
 </script>
 
@@ -177,19 +171,62 @@ export default class TheForm extends Vue {
   font-size: 18px;
 }
 .wrapper-optin {
-  text-align: center;
   margin: 10px 0;
-  position: relative;
   width: 100%;
-}
-.checkbox-optin {
-  position: absolute;
-  right: 15px;
-  bottom: 10px;
 }
 .label-optin {
   display: block;
-  margin: 0px 50px;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 15px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.checkbox-optin {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+
+}
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: white;
+  border: solid 1px #b29475;
+}
+.label-optin:hover input ~ .checkmark {
+  background-color: #b29475;
+}
+.label-optin input:checked ~ .checkmark {
+  background-color: #b29475;
+}
+.checkmark::after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.label-optin input:checked ~ .checkmark::after {
+  display: block;
+}
+.label-optin .checkmark::after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
 }
 .wrapper-button {
   display: flex;
@@ -199,26 +236,19 @@ export default class TheForm extends Vue {
 }
 #message-panel {
   margin-bottom: 15px;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   width: 100%;
   height: 100%;
   background-color: #fff;
-}
-.message-panel ul {
-  font-size: 12px;
-  margin-bottom: 0;
-}
-.message-panel li {
-  margin-bottom: 10px;
+  text-align: center;
+  border: solid 1px green;
 }
 .disable {
   display: none;
 }
-.colorRed {
+.invalid {
   border: solid 1px red;
-}
-.colorGreen {
-  border: solid 1px green;
+  margin-bottom: 0;
 }
 </style>
