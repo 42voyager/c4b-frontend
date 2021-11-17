@@ -8,6 +8,7 @@
     imageFileName2="info-img3.jpg"
     imageFileName3="info-img4.jpg"
   />
+  <FaqSection :faqs="faqs"/>
   <TheFooter/>
 </template>
 
@@ -19,7 +20,8 @@ import WrapperHighlights from './components/WrapperHighlights.vue';
 import TwoColumnSection from './components/TwoColumnSection.vue';
 import InformationSection from './components/InformationSection.vue';
 import TheFooter from './components/TheFooter.vue';
-import { TitlePontoForte } from './text/variables';
+import FaqSection from './components/FaqSection.vue';
+import { TitlePontoForte, Faqs } from './text/variables';
 
 @Options({
   components: {
@@ -28,11 +30,13 @@ import { TitlePontoForte } from './text/variables';
     WrapperHighlights,
     TwoColumnSection,
     InformationSection,
-    TheFooter
+    TheFooter,
+    FaqSection
   },
 })
 export default class App extends Vue {
   titlePontoForte = TitlePontoForte;
+  faqs = Faqs;
 }
 </script>
 

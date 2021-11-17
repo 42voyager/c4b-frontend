@@ -74,7 +74,8 @@
       <label for="optin" class="label-optin">
         Li e estou de acordo com os
         <a href="termos.html"> termos e condições </a>
-        <input 
+        <input
+          id="optin" 
           type="checkbox"
           class="checkbox-optin"
           v-model="user.optin"
@@ -83,9 +84,9 @@
           />
           <span class="checkmark"></span>
       </label>
-      <div v-if="
-            !validInput(messageResponse.Optin)
-          ">
+      <div 
+        v-if="!validInput(messageResponse.Optin)"
+        >
         <InputError :msg="messageResponse.Optin"/>
       </div>
     </div>
@@ -204,7 +205,10 @@ export default class TheForm extends Vue {
   border: solid 1px #b29475;
 }
 .label-optin:hover input ~ .checkmark {
-  background-color: #b29475;
+  border-color: #977f66;
+}
+.label-optin:hover input:checked ~ .checkmark {
+  border-color: #b29475;
 }
 .label-optin input:checked ~ .checkmark {
   background-color: #b29475;

@@ -3,7 +3,7 @@
     <li class="wrraper-logo"><a href="#"><img src="../assets/logo-abc.png" alt="Logo Banco ABC"></a></li>
     <li><a class="active" href="#two-column-section">Solicitar</a></li>
     <li><a href="#information-section">Informações</a></li>
-    <li><a href="#">FAQ</a></li>
+    <li><a href="#faq-section">FAQ</a></li>
   </ul>
 </template>
 

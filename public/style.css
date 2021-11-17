@@ -3,6 +3,15 @@ body {
 	padding: 0;
 	margin: 0;
 }
+h1, h2, h3 {
+	margin: 0;
+}
+h2 {
+	margin-bottom: 40px;
+    font-size: 32px;
+    font-weight: 400;
+    text-align: center;
+}
 .container {
 	padding-left: 60px;
 	padding-right: 60px;

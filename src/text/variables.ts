@@ -36,3 +36,9 @@ export const Info3 = " Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 					"diam gravida sit amet. Quisque pharetra luctus dui non varius."+
 					"Phasellus tempus mauris turpis, et mattis orci gravida eget. Sed"+
 					"vestibulum massa et ante sollicitudin pellentesque.";
+
+export const Faqs = [
+	{ question: "Objetivo:", answer: "Automatizar análises crédito com dados de parceiros"},
+	{ question: "Qual o core business?", answer: "Análise de crédito."},
+	{ question: "É seguro?", answer: "Atraves do c2s o Seller pode obter crédito de forma mais simples, rápida e segura."},
+]

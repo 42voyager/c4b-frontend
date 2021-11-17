@@ -36,11 +36,10 @@ export default class TheFooter extends Vue {
 <style scoped>
 .wrapper-footer {
 	width: calc(100% - 60px);
-	padding: 10px 30px 10px 30px;
+	padding: 40px 30px 10px 30px;
 	background-color: #070708;
 	margin-left: 0;
 	margin-right: 0;
-	margin-top: 60px;
 	color: white;
 	display: flex;
 	text-align: left;
