@@ -31,6 +31,7 @@ export default class Highlight extends Vue {
 	margin-left: 30px;
 	margin-right: 30px;
 	margin-bottom: 40px;
+	width: 100%;
 }
 .wrapper-img {
 	border-radius: 50%;
@@ -43,5 +44,10 @@ export default class Highlight extends Vue {
 .wrapper-img img {
 	width: 100%;
 	height: auto;
+}
+@media (min-width: 768px) {
+	.highlight-item {
+		width: auto;
+	}
 }
 </style>

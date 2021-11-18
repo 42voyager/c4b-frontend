@@ -1,15 +1,15 @@
 //Textos do Banner
-export const TitleBanner = "Lorem ipsum dolor sit amet, consectetur adipiscing";
-export const TextBanner = "Lorem ipsum dolor sit amet, consectetur adipiscing";
+export const TitleBanner = "Crédito para seu negôcio";
+export const TextBanner = "Simples, fácil é com resposta rápida";
 
 //textos dos pontos forte
-export const TitlePontoForte = "Pontos Fortes do Produto";
-export const TitlePonto1 = "Ponto 1"
-export const Ponto1 = "Nunc mattis feugiat ex scelerisque congue.";
-export const TitlePonto2 = "Ponto 2"
-export const Ponto2 = "Nunc mattis feugiat ex scelerisque congue.";
-export const TitlePonto3 = "Ponto 3"
-export const Ponto3 = "Nunc mattis feugiat ex scelerisque congue.";
+export const TitlePontoForte = "Por que C4B é melhor?";
+export const TitlePonto1 = "Liquidez"
+export const Ponto1 = "Brinda liquidez para seu negôcio.";
+export const TitlePonto2 = "Facil de solicitar"
+export const Ponto2 = "Você pode solicitar agora mesmo.";
+export const TitlePonto3 = "Facilita planejamento"
+export const Ponto3 = "Receba uma resposta rápida para planejar melhor.";
 
 //Textos  do form
 export const TitleForm = "Solicite seu crédito";

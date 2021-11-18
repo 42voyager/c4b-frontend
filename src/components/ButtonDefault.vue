@@ -21,10 +21,10 @@ export default class ButtonDefault extends Vue {
 <style scoped>
 button {
 	color: #b29475;
-	padding: 15px 40px;
+	padding: 7px 30px;
 	background-color: #fff;
 	border-radius: 2px;
-	font-size: 18px;
+	font-size: 15px;
 	cursor: pointer;
 	border: 1px solid #b29475;
 }
@@ -32,5 +32,11 @@ button {
 button:hover {
 	color: #fff;
 	background-color: #b29475;
+}
+@media (min-width: 768px) {
+	button {
+		padding: 15px 40px;
+		font-size: 18px;
+	}
 }
 </style>

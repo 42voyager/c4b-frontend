@@ -32,14 +32,15 @@ export default class FaqSection extends Vue {
 <style scoped>
 
 .faq-section {
+	margin-top: 1px;
 	background-color: #e9e1d8;
 }
 
 .wrapper-faq {
-	width: calc(100% - 200px);
+	width: calc(100% - 60px);
 	max-width: 900px;
 	margin: 0 auto;
-	padding: 30px;
+	padding: 1px 30px 30px;
 }
 
 .wrapper-faq h2 {
@@ -49,5 +50,10 @@ export default class FaqSection extends Vue {
 .faq {
 	margin: 20px 0px;
 }
-
+@media (min-width: 768px) {
+	.wrapper-faq {
+		width: calc(100% - 200px);
+		padding-top: 30px;
+	}
+}
 </style>

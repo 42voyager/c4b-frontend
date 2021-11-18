@@ -1,5 +1,5 @@
 <template>
-  <form class="wrapper-form" @submit.prevent="submit">
+  <form id="form-request" class="wrapper-form" @submit.prevent="submit">
     <div class="wrapper-input">
       <input
         type="text"
@@ -75,7 +75,7 @@
         Li e estou de acordo com os
         <a href="termos.html"> termos e condições </a>
         <input
-          id="optin" 
+          id="optin"
           type="checkbox"
           class="checkbox-optin"
           v-model="user.optin"
@@ -84,7 +84,7 @@
           />
           <span class="checkmark"></span>
       </label>
-      <div 
+      <div
         v-if="!validInput(messageResponse.Optin)"
         >
         <InputError :msg="messageResponse.Optin"/>

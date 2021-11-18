@@ -62,24 +62,34 @@ export default class TwoColumnSection extends Vue {
   display: flex;
   width: 100%;
   background-color: #b2937548;
+  flex-direction: column;
 }
 .column {
-  width: 50%;
+  width: calc(100% - 40px);
 }
 .column-one {
   overflow: hidden;
-  height: 700px;
+  width: 100%;
 }
 .column-two {
   padding: 0 20px;
   align-self: center;
 }
-.column-two h2 {
-  font-size: 28px;
-  font-weight: 400;
-  text-align: center;
-}
 .side-img {
   width: 100%;
+}
+@media (min-width: 768px) {
+	.two-column-section {
+		flex-direction: row;
+	}
+	.column {
+		width: 50%;
+	}
+	.column-one {
+		height: 700px;
+	}
+	.column-two {
+	padding: 0 20px;
+	}
 }
 </style>

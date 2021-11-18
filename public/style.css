@@ -1,3 +1,6 @@
+#app {
+	position: relative;
+}
 body {
 	font-family: 'Open Sans', sans-serif;
 	padding: 0;
@@ -7,12 +10,29 @@ h1, h2, h3 {
 	margin: 0;
 }
 h2 {
+	margin-top: 30px;
 	margin-bottom: 40px;
-    font-size: 32px;
+	margin-left: 20px;
+	margin-right: 20px;
+    font-size: 28px;
     font-weight: 400;
     text-align: center;
+}
+a {
+	color: grey;
+	text-decoration: none;
+}
+p {
+	margin-top: 0;
 }
 .container {
 	padding-left: 60px;
 	padding-right: 60px;
+}
+@media (min-width: 768px) {
+	h2 {
+		font-size: 32px;
+		margin-top: 0;
+		margin-bottom: 10px;
+	}
 }

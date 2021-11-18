@@ -16,7 +16,7 @@
 		</div>
 		<div class="footer-col">
 			<h3>Localização</h3>
-			<p>Avenida Cidade Jardim, 803 – 2º andar Itaim Bibi – 
+			<p>Avenida Cidade Jardim, 803 – 2º andar Itaim Bibi –
 				São Paulo-SP – 01453-000 CNPJ: 28.195.667/0001-06</p>
 		</div>
 	</div>
@@ -43,12 +43,13 @@ export default class TheFooter extends Vue {
 	color: white;
 	display: flex;
 	text-align: left;
+	flex-direction: column;
 }
-
 .footer-col {
-	width: 25%;
+	width: 100%;
+	text-align: center;
+	margin-bottom: 20px;
 }
-
 p {
 	font-size: 14px;
 	font-weight: 300;
@@ -61,5 +62,14 @@ a {
 
 p:hover {
 	text-decoration: underline;
+}
+@media (min-width: 768px) {
+	.wrapper-footer {
+		flex-direction: row;
+	}
+	.footer-col {
+		width: 25%;
+		text-align: left;
+	}
 }
 </style>

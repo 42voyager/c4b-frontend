@@ -47,14 +47,8 @@ export default class WrapperHighlights extends Vue {
 </script>
 
 <style scoped>
-h2 {
-	font-size: 32px;
-	font-weight: 400;
-	text-align: center;
-}
 .highlights {
-	padding-top: 60px;
-	padding-bottom: 60px;
+	padding-bottom: 30px;
 }
 .wrapper-title {
 	width: 100%;
@@ -63,5 +57,15 @@ h2 {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	flex-direction: column;
+}
+@media (min-width: 768px) {
+	.wrapper-highlights {
+		flex-direction: row;
+	}
+	.highlights {
+		padding-top: 60px;
+		padding-bottom: 60px;
+	}
 }
 </style>

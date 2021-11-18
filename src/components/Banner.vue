@@ -34,6 +34,9 @@ export default class Banner extends Vue {
 .banner {
 	position: relative;
 	z-index: 1;
+	margin-top: 65px;
+	height: calc(100vh - 65px);
+	overflow: hidden;
 }
 
 .banner-overlay {
@@ -52,17 +55,43 @@ export default class Banner extends Vue {
 .text-banner {
 	color: white;
 	position: absolute;
-	left: 90px;
-	bottom: 90px;
+	left: 0;
+	bottom: 20px;
 	max-width: 500px;
 	text-align: left;
-	font-size: 23px;
+	font-size: 13px;
 	z-index: 10;
+	text-align: center;
+	width: 100%;
 }
 
 .banner img {
-	max-width: 100%;
+	width: auto;
+	height: calc(100vh - 65px);
+	transform: translateX(-50%);
 }
 
+@media (min-width: 768px) {
+	.banner {
+		margin-top: 75px;
+		height: calc(100vh - 75px);
+	}
+	.text-banner {
+		font-size: 23px;
+		left: 90px;
+		bottom: 90px;
+		text-align: left;
+		width: auto;
+	}
+	.banner img {
+		transform: translateX(0);
+	}
+}
+@media (min-width: 1200px) {
+	.banner img {
+		max-width: 100%;
+		height: auto;
+	}
+}
 
 </style>

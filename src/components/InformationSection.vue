@@ -2,14 +2,14 @@
   <div class="information-section" id="information-section">
     <h2>{{ titleInfo }}</h2>
     <div class="wrapper-item">
-      <div class="column wrapper-img">
+      <div class="column-info wrapper-img">
         <img
           :src="require('@/assets/info/' + imageFileName1)"
           alt=""
           class="image-information"
         />
       </div>
-      <div class="column wrapper-text-information">
+      <div class="column-info wrapper-text-information">
         <p>
           {{ info1 }}
         </p>
@@ -17,14 +17,14 @@
     </div>
 
     <div class="wrapper-item">
-      <div class="column wrapper-img">
+      <div class="column-info wrapper-img">
         <img
           :src="require('@/assets/info/' + imageFileName2)"
           alt=""
           class="image-information"
         />
       </div>
-      <div class="column wrapper-text-information">
+      <div class="column-info wrapper-text-information">
         <p>
           {{ info2 }}
         </p>
@@ -32,14 +32,14 @@
     </div>
 
     <div class="wrapper-item">
-      <div class="column wrapper-img">
+      <div class="column-info wrapper-img">
         <img
           :src="require('@/assets/info/' + imageFileName3)"
           alt=""
           class="image-information"
         />
       </div>
-      <div class="column wrapper-text-information">
+      <div class="column-info wrapper-text-information">
         <p>
           {{ info3 }}
         </p>
@@ -68,15 +68,8 @@ export default class InformationSection extends Vue {
 </script>
 
 <style scoped>
-.information-section {
-  padding-left: 10px;
-  padding-top: 50px;
-}
 .information-section h2 {
   margin-bottom: 40px;
-  font-size: 32px;
-  font-weight: 400;
-  text-align: center;
 }
 .wrapper-item {
   display: flex;
@@ -85,9 +78,7 @@ export default class InformationSection extends Vue {
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 40px;
-}
-.wrapper-item:nth-child(even) {
-  flex-direction: row-reverse;
+  flex-direction: column;
 }
 .image-information {
   width: 100%;
@@ -95,7 +86,24 @@ export default class InformationSection extends Vue {
 .wrapper-text-information p {
   padding: 0 40px;
 }
-.column {
-  width: calc(50% - 60px);
+.column-info {
+  width: calc(100%);
+  margin-bottom: 30px;
+}
+@media (min-width: 768px) {
+  .information-section {
+    padding-left: 10px;
+    padding-top: 50px;
+  }
+  .wrapper-item {
+    flex-direction: row;
+  }
+  .wrapper-item:nth-child(even) {
+    flex-direction: row-reverse;
+  }
+  .column-info {
+    width: calc(50% - 60px);
+	margin-bottom: 30px;
+  }
 }
 </style>
