@@ -9,20 +9,25 @@
     </div>
     <div class="column column-two">
       <h2>{{ titleForm }}</h2>
-      <TheForm
+  <form id="form-request" class="wrapper-form" @submit.prevent="submit">
+      
+      <TheFormCreditData v-if="!nextStep" @nextStepClicked="goNextStep"/>
+      <TheFormUserData v-else
         @submitForm="submitUser"
         :enableMessage="enableMessage"
         :messageResponse="messageResponse"
         :status="status"
       />
+  </form>
     </div>
   </div>
 </template>
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import TheForm from "./TheForm.vue";
+import TheFormUserData from "./TheFormUserData.vue";
 import ApiController from "../api/controller";
 import IUserData from "../types/user";
+import TheFormCreditData from "./TheFormCreditData.vue";
 import { TitleForm } from "../text/variables";
 
 @Options({
@@ -31,7 +36,8 @@ import { TitleForm } from "../text/variables";
     altText: String,
   },
   components: {
-    TheForm,
+    TheFormUserData,
+    TheFormCreditData
   },
 })
 export default class TwoColumnSection extends Vue {
@@ -39,7 +45,12 @@ export default class TwoColumnSection extends Vue {
   enableMessage = false;
   messageResponse = {};
   status = false;
+  nextStep = false;
+  installment = "6x";
+  limit = "10k";
   submitUser(user: IUserData, reset: () => void): void {
+    user.limit = this.limit;
+    user.installment = this.installment;
     new ApiController()
       .postUser(user)
       .then((res) => {
@@ -54,6 +65,13 @@ export default class TwoColumnSection extends Vue {
         this.status = false;
       });
   }
+  goNextStep(limit: string, installment: string): void {
+    console.log("FINAL", limit, installment);
+    this.nextStep = true;
+    this.limit = limit;
+    this.installment = installment;
+  }
+
 }
 </script>
 

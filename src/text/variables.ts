@@ -42,3 +42,17 @@ export const Faqs = [
 	{ question: "Qual o core business?", answer: "Análise de crédito."},
 	{ question: "É seguro?", answer: "Atraves do c2s o Seller pode obter crédito de forma mais simples, rápida e segura."},
 ]
+
+export const CreditLimits = [
+	{id: "10k", name: "creditLimit", label: "Até R$10.000"},
+	{id: "50k", name: "creditLimit", label: "Até R$50.000"},
+	{id: "100k", name: "creditLimit", label: "Até R$100.000"},
+	{id: "over150k", name: "creditLimit", label: "mais de R$150.000"}
+]
+
+export const CreditInstallments = [
+	{id: "6x", name: "installments", label: "6x"},
+	{id: "12x", name: "installments", label: "12x"},
+	{id: "24x", name: "installments", label: "24x"},
+	{id: "36x", name: "installments", label: "36x"}
+]

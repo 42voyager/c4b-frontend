@@ -1,5 +1,5 @@
 <template>
-  <form id="form-request" class="wrapper-form" @submit.prevent="submit">
+  <div id="div-form-request" class="wrapper-form" @submit.prevent="submit">
     <div class="wrapper-input">
       <input
         type="text"
@@ -105,7 +105,7 @@
             {{ messageResponse.title }}
       </p>
     </div>
-  </form>
+  </div>
 </template>
 
 <script lang="ts">
@@ -126,7 +126,7 @@ import InputError from "./InputError.vue";
   },
 })
 
-export default class TheForm extends Vue {
+export default class TheFormUserData extends Vue {
   user = {
     name: "",
     email: "",
@@ -134,6 +134,8 @@ export default class TheForm extends Vue {
     cnpj: "",
     company: "",
     optin: false,
+    limit: "10k",
+    installment: "6x"
   };
   submitForm(): void {
     this.$emit("submitForm", this.user, this.resetForm);
@@ -146,6 +148,8 @@ export default class TheForm extends Vue {
       cnpj: "",
       company: "",
       optin: false,
+      limit: "10k",
+      installment: "6x"
     };
     this.user = emptyUser;
   }
