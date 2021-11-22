@@ -7,7 +7,10 @@ import { Options, Vue } from 'vue-class-component';
 
 @Options({
 	props: {
-		msg: String
+		msg: {
+			type: String,
+			default: "Submit"
+		}
 	},
 	emit: ['buttonClicked']
 })

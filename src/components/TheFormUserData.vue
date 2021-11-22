@@ -8,10 +8,8 @@
         v-model="user.name"
         v-bind:class="{ invalid: !validInput(messageResponse.Name) }"
       />
-      <div v-if="
-            !validInput(messageResponse.Name)
-          ">
-        <InputError :msg="messageResponse.Name"/>
+      <div v-if="!validInput(messageResponse.Name)">
+        <InputError :msg="messageResponse.Name" />
       </div>
     </div>
     <div class="wrapper-input">
@@ -22,10 +20,8 @@
         v-model="user.email"
         v-bind:class="{ invalid: !validInput(messageResponse.Email) }"
       />
-      <div v-if="
-            !validInput(messageResponse.Email)
-          ">
-        <InputError :msg="messageResponse.Email"/>
+      <div v-if="!validInput(messageResponse.Email)">
+        <InputError :msg="messageResponse.Email" />
       </div>
     </div>
     <div class="wrapper-input">
@@ -36,10 +32,8 @@
         v-model="user.cellphone"
         v-bind:class="{ invalid: !validInput(messageResponse.Cellphone) }"
       />
-      <div v-if="
-            !validInput(messageResponse.Cellphone)
-          ">
-        <InputError :msg="messageResponse.Cellphone"/>
+      <div v-if="!validInput(messageResponse.Cellphone)">
+        <InputError :msg="messageResponse.Cellphone" />
       </div>
     </div>
     <div class="wrapper-input">
@@ -50,10 +44,8 @@
         v-model="user.cnpj"
         v-bind:class="{ invalid: !validInput(messageResponse.Cnpj) }"
       />
-      <div v-if="
-            !validInput(messageResponse.Cnpj)
-          ">
-        <InputError :msg="messageResponse.Cnpj"/>
+      <div v-if="!validInput(messageResponse.Cnpj)">
+        <InputError :msg="messageResponse.Cnpj" />
       </div>
     </div>
     <div class="wrapper-input">
@@ -64,10 +56,8 @@
         v-model="user.company"
         v-bind:class="{ invalid: !validInput(messageResponse.Company) }"
       />
-      <div v-if="
-            !validInput(messageResponse.Company)
-          ">
-        <InputError :msg="messageResponse.Company"/>
+      <div v-if="!validInput(messageResponse.Company)">
+        <InputError :msg="messageResponse.Company" />
       </div>
     </div>
     <div class="wrapper-optin">
@@ -81,29 +71,20 @@
           v-model="user.optin"
           v-bind:class="{ invalid: !validInput(messageResponse.Optin) }"
           @change="$emit('change', $event.target.checked)"
-          />
-          <span class="checkmark"></span>
+        />
+        <span class="checkmark"></span>
       </label>
-      <div
-        v-if="!validInput(messageResponse.Optin)"
-        >
-        <InputError :msg="messageResponse.Optin"/>
+      <div v-if="!validInput(messageResponse.Optin)">
+        <InputError :msg="messageResponse.Optin" />
       </div>
     </div>
     <div class="wrapper-button">
-      <ButtonDefault msg="Back" @buttonClicked="backStep()"/>
+      <ButtonDefault msg="Back" @buttonClicked="backStep()" />
       <ButtonDefault msg="Solicitar" @buttonClicked="submitForm()" />
     </div>
-    <div
-      id="message-panel"
-      v-bind:class="{ disable: !status }"
-    >
-      <p
-            v-if="
-              !validInput(messageResponse.title)
-            "
-          >
-            {{ messageResponse.title }}
+    <div id="message-panel" v-bind:class="{ disable: !status }">
+      <p v-if="!validInput(messageResponse.title)">
+        {{ messageResponse.title }}
       </p>
     </div>
   </div>
@@ -118,15 +99,14 @@ import InputError from "./InputError.vue";
   props: {
     enableMessage: Boolean,
     messageResponse: Object,
-    status: Boolean
+    status: Boolean,
   },
   emit: ["submitForm", "backStep"],
   components: {
     ButtonDefault,
-    InputError
+    InputError,
   },
 })
-
 export default class TheFormUserData extends Vue {
   user = {
     name: "",
@@ -136,7 +116,7 @@ export default class TheFormUserData extends Vue {
     company: "",
     optin: false,
     limit: "10k",
-    installment: "6x"
+    installment: "6x",
   };
   submitForm(): void {
     this.$emit("submitForm", this.user, this.resetForm);
@@ -153,16 +133,13 @@ export default class TheFormUserData extends Vue {
       company: "",
       optin: false,
       limit: "10k",
-      installment: "6x"
+      installment: "6x",
     };
     this.user = emptyUser;
   }
-  validInput(data: Array<string>)
-  {
-    if (data != undefined && data.length != 0)
-      return false;
-    else
-      return true;
+  validInput(data: Array<string>) {
+    if (data != undefined && data.length != 0) return false;
+    else return true;
   }
 }
 </script>
@@ -201,7 +178,6 @@ export default class TheFormUserData extends Vue {
   cursor: pointer;
   height: 0;
   width: 0;
-
 }
 .checkmark {
   position: absolute;

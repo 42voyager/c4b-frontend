@@ -9,17 +9,23 @@
     </div>
     <div class="column column-two">
       <h2>{{ titleForm }}</h2>
-  <form id="form-request" class="wrapper-form" @submit.prevent="submit">
-      
-      <TheFormCreditData v-if="!nextStep" @nextStepClicked="goNextStep"/>
-      <TheFormUserData v-else
-        @submitForm="submitUser"
-        @backStep="backStepClicked"
-        :enableMessage="enableMessage"
-        :messageResponse="messageResponse"
-        :status="status"
-      />
-  </form>
+      <form id="form-request" class="wrapper-form" @submit.prevent="submit">
+        <TheFormCreditData 
+          v-if="!nextStep" 
+          @nextStepClicked="goNextStep"
+          @valueChanged="creditDataChanged"
+          :limit="limit"
+          :installment="installment" 
+        />
+        <TheFormUserData
+          v-else
+          @submitForm="submitUser"
+          @backStep="backStepClicked"
+          :enableMessage="enableMessage"
+          :messageResponse="messageResponse"
+          :status="status"
+        />
+      </form>
     </div>
   </div>
 </template>
@@ -38,7 +44,7 @@ import { TitleForm } from "../text/variables";
   },
   components: {
     TheFormUserData,
-    TheFormCreditData
+    TheFormCreditData,
   },
 })
 export default class TwoColumnSection extends Vue {
@@ -49,6 +55,7 @@ export default class TwoColumnSection extends Vue {
   nextStep = false;
   installment = "6x";
   limit = "10k";
+  
   submitUser(user: IUserData, reset: () => void): void {
     user.limit = this.limit;
     user.installment = this.installment;
@@ -69,13 +76,17 @@ export default class TwoColumnSection extends Vue {
   goNextStep(limit: string, installment: string): void {
     console.log("FINAL", limit, installment);
     this.nextStep = true;
-    this.limit = limit;
-    this.installment = installment;
   }
   backStepClicked(): void {
     this.nextStep = false;
   }
-
+  creditDataChanged(limit: string | null, installment: string | null): void {
+    // console.log("Credit data", limit, installment)
+    if (limit != null) 
+      this.limit = limit;
+    if (installment != null) 
+      this.installment = installment;
+  }
 }
 </script>
 
@@ -97,21 +108,36 @@ export default class TwoColumnSection extends Vue {
   padding: 0 20px;
   align-self: center;
 }
+.column-two h2 {
+  margin-top: 10px;
+}
 .side-img {
-  width: 100%;
+  height: 100%;
 }
 @media (min-width: 768px) {
-	.two-column-section {
-		flex-direction: row;
-	}
-	.column {
-		width: 50%;
-	}
-	.column-one {
-		height: 700px;
-	}
-	.column-two {
-	padding: 0 20px;
-	}
+  .two-column-section {
+    flex-direction: row;
+  }
+  .column {
+    width: 50%;
+  }
+  .column-one {
+    height: 700px;
+  }
+  .column-two {
+    padding: 0 20px;
+  }
+}
+@media (min-width: 992px) {
+  .side-img {
+    width: 100%;
+    height: auto;
+  }
+}
+@media (min-width: 1200px) {
+  .side-img {
+    transform: translateY(-50%);
+    margin-top: 50%;
+  }
 }
 </style>

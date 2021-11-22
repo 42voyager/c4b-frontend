@@ -23,7 +23,10 @@
 export default {
   name: "Caret",
   props: {
-    color: String,
+    color: {
+      type: String,
+      default: "black"
+    },
     height: String,
     width: String,
     isCollapsed: Boolean

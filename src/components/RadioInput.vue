@@ -6,6 +6,7 @@
 			:id="id" 
 			:name="name" 
 			:value="id"
+			:checked="isChecked"
 			@change="$emit('change', $event.target.checked)"
 				>
 		<label class="label-radio" :for="id">{{ label }}</label>
@@ -20,7 +21,8 @@ import { Options, Vue } from 'vue-class-component';
 		label: String,
 		id: String,
 		name: String,
-		value: String
+		value: String,
+		isChecked: Boolean
 	},
 	emit: ["radioClicked"]
 })
@@ -35,7 +37,7 @@ export default class RadioInput extends Vue {
 .label-radio {
 	background-color: #b29475;
 	color: white;
-	padding: 25px 0;
+	padding: 15px 0;
 	margin: 10px;
 	width: 100%;
 	text-align: center;

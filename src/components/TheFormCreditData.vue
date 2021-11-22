@@ -5,24 +5,30 @@
 				De quanto seu negócio precisa
 			</p>
 			<div class="radio-group">
-				<RadioInput v-for="(creditLimit, id) of creditLimits" :key="id"
+				<RadioInput 
+					v-for="(creditLimit, id) of creditLimits" 
+					:key="id"
 					:id="creditLimit.id"
 					:name="creditLimit.name"
 					:label="creditLimit.label"
 					:value="limit"
-					@radioClicked="handleInput(creditLimit.id, installment)"
+					:isChecked="creditLimit.id == limit ? true : false"
+					@radioClicked="handleInput(creditLimit.id, null)"
 					/>
 			</div>
 			<p class="creditLabel">
 				Em quantas vezes você quer pagar?
 			</p>
 			<div class="radio-group">
-				<RadioInput v-for="(creditInstallment, id) of creditInstallments" :key="id"
+				<RadioInput 
+					v-for="(creditInstallment, id) of creditInstallments" 
+					:key="id"
 					:id="creditInstallment.id"
 					:name="creditInstallment.name"
 					:label="creditInstallment.label"
 					:value="installment"
-					@radioClicked="handleInput(limit, creditInstallment.id)"
+					:isChecked="creditInstallment.id == installment ? true : false"
+					@radioClicked="handleInput(null, creditInstallment.id)"
 					/>
 			</div>
 			<div class="btn-next">
@@ -39,7 +45,11 @@ import ButtonDefault from "./ButtonDefault.vue";
 import { CreditInstallments, CreditLimits } from '../text/variables';
 
 @Options({
-	emits: ["nextStepClicked"],
+	props: {
+		limit: String,
+		installment: String
+	},
+	emits: ["nextStepClicked", "valueChanged"],
 	components: {
 		RadioInput,
 		ButtonDefault
@@ -48,16 +58,15 @@ import { CreditInstallments, CreditLimits } from '../text/variables';
 export default class TheFromCreditData extends Vue {
 	creditLimits = CreditLimits;
 	creditInstallments = CreditInstallments;
-	limit = "10k";
-	installment = "6x";
+	
 	nextStepClicked(): void {
-		console.log(this.limit, this.installment)
-		this.$emit("nextStepClicked", this.limit, this.installment)
+		// console.log(this.limit, this.installment)
+		this.$emit("nextStepClicked")
 	}
-	handleInput(limit: string, installment: string): void {
-		console.log("FOI", limit, installment)
-		this.limit = limit;
-		this.installment = installment;
+	/** No momento que o radio input e clickado, handle input triggers */
+	handleInput(limit: string | null, installment: string | null): void {
+		// console.log("FOI", limit, installment)
+		this.$emit("valueChanged", limit, installment)
 	}
 
 }
