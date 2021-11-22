@@ -91,6 +91,7 @@
       </div>
     </div>
     <div class="wrapper-button">
+      <ButtonDefault msg="Back" @buttonClicked="backStep()"/>
       <ButtonDefault msg="Solicitar" @buttonClicked="submitForm()" />
     </div>
     <div
@@ -119,7 +120,7 @@ import InputError from "./InputError.vue";
     messageResponse: Object,
     status: Boolean
   },
-  emit: ["submitForm"],
+  emit: ["submitForm", "backStep"],
   components: {
     ButtonDefault,
     InputError
@@ -139,6 +140,9 @@ export default class TheFormUserData extends Vue {
   };
   submitForm(): void {
     this.$emit("submitForm", this.user, this.resetForm);
+  }
+  backStep(): void {
+    this.$emit("backStep");
   }
   resetForm(): void {
     const emptyUser = {
@@ -238,7 +242,7 @@ export default class TheFormUserData extends Vue {
 }
 .wrapper-button {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   margin: 20px 0;
   width: 100%;
 }

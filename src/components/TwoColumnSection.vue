@@ -14,6 +14,7 @@
       <TheFormCreditData v-if="!nextStep" @nextStepClicked="goNextStep"/>
       <TheFormUserData v-else
         @submitForm="submitUser"
+        @backStep="backStepClicked"
         :enableMessage="enableMessage"
         :messageResponse="messageResponse"
         :status="status"
@@ -70,6 +71,9 @@ export default class TwoColumnSection extends Vue {
     this.nextStep = true;
     this.limit = limit;
     this.installment = installment;
+  }
+  backStepClicked(): void {
+    this.nextStep = false;
   }
 
 }

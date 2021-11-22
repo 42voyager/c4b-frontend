@@ -1,9 +1,9 @@
 <template>
 	<div class="container-credit">
-		<p class="creditLabel">
-			De quanto seu negócio precisa
-		</p>
 		<div class="form-credit" >
+			<p class="creditLabel">
+				De quanto seu negócio precisa
+			</p>
 			<div class="radio-group">
 				<RadioInput v-for="(creditLimit, id) of creditLimits" :key="id"
 					:id="creditLimit.id"
@@ -25,7 +25,7 @@
 					@radioClicked="handleInput(limit, creditInstallment.id)"
 					/>
 			</div>
-			<div>
+			<div class="btn-next">
 				<ButtonDefault msg="Next" @buttonClicked="nextStepClicked()"/>
 			</div>
 		</div>
@@ -75,5 +75,14 @@ export default class TheFromCreditData extends Vue {
 .radio-input {
 	display: flex;
 	flex: 2 0 50%;
+}
+.btn-next {
+	margin: 40px 20px;
+	text-align: right;
+}
+.creditLabel {
+	margin: 25px 0;
+	text-align: center;
+	font-size: 20px;
 }
 </style>
