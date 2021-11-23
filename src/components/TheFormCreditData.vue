@@ -5,8 +5,8 @@
 				De quanto seu negócio precisa
 			</p>
 			<div class="radio-group">
-				<RadioInput 
-					v-for="(creditLimit, id) of creditLimits" 
+				<RadioInput
+					v-for="(creditLimit, id) of creditLimits"
 					:key="id"
 					:id="creditLimit.id"
 					:name="creditLimit.name"
@@ -20,8 +20,8 @@
 				Em quantas vezes você quer pagar?
 			</p>
 			<div class="radio-group">
-				<RadioInput 
-					v-for="(creditInstallment, id) of creditInstallments" 
+				<RadioInput
+					v-for="(creditInstallment, id) of creditInstallments"
 					:key="id"
 					:id="creditInstallment.id"
 					:name="creditInstallment.name"
@@ -32,7 +32,7 @@
 					/>
 			</div>
 			<div class="btn-next">
-				<ButtonDefault msg="Next" @buttonClicked="nextStepClicked()"/>
+				<ButtonDefault msg="Próximo" @buttonClicked="nextStepClicked()"/>
 			</div>
 		</div>
 	</div>
@@ -58,7 +58,7 @@ import { CreditInstallments, CreditLimits } from '../text/variables';
 export default class TheFromCreditData extends Vue {
 	creditLimits = CreditLimits;
 	creditInstallments = CreditInstallments;
-	
+
 	nextStepClicked(): void {
 		// console.log(this.limit, this.installment)
 		this.$emit("nextStepClicked")

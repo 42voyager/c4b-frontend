@@ -10,12 +10,12 @@
     <div class="column column-two">
       <h2>{{ titleForm }}</h2>
       <form id="form-request" class="wrapper-form" @submit.prevent="submit">
-        <TheFormCreditData 
-          v-if="!nextStep" 
+        <TheFormCreditData
+          v-if="!nextStep"
           @nextStepClicked="goNextStep"
           @valueChanged="creditDataChanged"
           :limit="limit"
-          :installment="installment" 
+          :installment="installment"
         />
         <TheFormUserData
           v-else
@@ -44,7 +44,7 @@ import { TitleForm } from "../text/variables";
   },
   components: {
     TheFormUserData,
-    TheFormCreditData,
+    TheFormCreditData
   },
 })
 export default class TwoColumnSection extends Vue {
@@ -55,7 +55,7 @@ export default class TwoColumnSection extends Vue {
   nextStep = false;
   installment = "6x";
   limit = "10k";
-  
+
   submitUser(user: IUserData, reset: () => void): void {
     user.limit = this.limit;
     user.installment = this.installment;
@@ -74,7 +74,6 @@ export default class TwoColumnSection extends Vue {
       });
   }
   goNextStep(limit: string, installment: string): void {
-    console.log("FINAL", limit, installment);
     this.nextStep = true;
   }
   backStepClicked(): void {
@@ -82,10 +81,8 @@ export default class TwoColumnSection extends Vue {
   }
   creditDataChanged(limit: string | null, installment: string | null): void {
     // console.log("Credit data", limit, installment)
-    if (limit != null) 
-      this.limit = limit;
-    if (installment != null) 
-      this.installment = installment;
+    if (limit != null) this.limit = limit;
+    if (installment != null) this.installment = installment;
   }
 }
 </script>

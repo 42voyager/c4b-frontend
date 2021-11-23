@@ -33,6 +33,9 @@ export default class Highlight extends Vue {
 	margin-bottom: 40px;
 	width: 100%;
 }
+.highlight-item h3 {
+	margin-top: 20px;
+}
 .wrapper-img {
 	border-radius: 50%;
 	overflow: hidden;
