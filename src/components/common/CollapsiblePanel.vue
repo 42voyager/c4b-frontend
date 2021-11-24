@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import Caret from "./icons/Caret.vue";
+import Caret from "@/components/icons/Caret.vue";
 
 @Options({
   props: {
@@ -37,7 +37,7 @@ import Caret from "./icons/Caret.vue";
 export default class CollapsiblePanel extends Vue {
   isCollapsed = true;
 
-  onHeaderClicked() {
+  onHeaderClicked(): void {
     this.isCollapsed = this.isCollapsed ? false : true;
   }
 }

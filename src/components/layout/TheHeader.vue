@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <div class="wrapper-logo">
-      <a href="#"><img src="../assets/logo-abc.png" alt="Logo Banco ABC" /></a>
+      <a href="#"><img src="@/assets/logo-abc.png" alt="Logo Banco ABC" /></a>
     </div>
     <button class="toggle-menu" v-on:click="onClicked()">
       <MenuButton />
@@ -16,16 +16,16 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import MenuButton from "./icons/MenuButton.vue";
+import MenuButton from "@/components/icons/MenuButton.vue";
 
 @Options({
   props: {},
   components: { MenuButton },
 })
-export default class NavBar extends Vue {
+export default class TheHeader extends Vue {
   isCollapsed = true;
 
-  onClicked() {
+  onClicked(): void {
     this.isCollapsed = this.isCollapsed ? false : true;
   }
 }

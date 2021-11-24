@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component"
-import CollapsiblePanel  from "./CollapsiblePanel.vue"
+import CollapsiblePanel  from "@/components/common/CollapsiblePanel.vue"
 
 @Options({
 	props: {

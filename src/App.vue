@@ -1,5 +1,5 @@
 <template>
-  <NavBar />
+  <TheHeader />
   <Banner />
   <WrapperHighlights :title="titlePontoForte" />
   <TwoColumnSection imageFileName="side-img.jpg" />
@@ -14,18 +14,18 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import NavBar from "./components/TheNavbar.vue";
-import Banner from "./components/Banner.vue";
-import WrapperHighlights from "./components/WrapperHighlights.vue";
-import TwoColumnSection from "./components/TwoColumnSection.vue";
-import InformationSection from "./components/InformationSection.vue";
-import TheFooter from "./components/TheFooter.vue";
-import FaqSection from "./components/FaqSection.vue";
-import { TitlePontoForte, Faqs } from "./text/variables";
+import TheHeader from "@/components/layout/TheHeader.vue";
+import Banner from "@/pages/LandingPage/Banner.vue";
+import WrapperHighlights from "@/pages/LandingPage/WrapperHighlights.vue";
+import TwoColumnSection from "@/pages/LandingPage/TwoColumnSection.vue";
+import InformationSection from "@/pages/LandingPage/InformationSection.vue";
+import TheFooter from "@/components/layout/TheFooter.vue";
+import FaqSection from "@/pages/LandingPage/FaqSection.vue";
+import { TitlePontoForte, Faqs } from "./config/variables";
 
 @Options({
   components: {
-    NavBar,
+    TheHeader,
     Banner,
     WrapperHighlights,
     TwoColumnSection,

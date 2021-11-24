@@ -108,10 +108,10 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import ButtonDefault from "./ButtonDefault.vue";
-import InputError from "./InputError.vue";
-import Modal from "./Modal.vue";
-import { Terms } from "../text/variables";
+import ButtonDefault from "@/components/ui/ButtonDefault.vue";
+import InputError from "@/components/ui/InputError.vue";
+import Modal from "@/components/ui/Modal.vue";
+import { Terms } from "@/config/variables";
 
 @Options({
   props: {
@@ -161,7 +161,7 @@ export default class TheFormUserData extends Vue {
     };
     this.user = emptyUser;
   }
-  validInput(data: Array<string>) {
+  validInput(data: Array<string>): boolean {
     if (data != undefined && data.length != 0) return false;
     else return true;
   }

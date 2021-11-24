@@ -1,6 +1,6 @@
 <template>
 	<div class="banner">
-		<img src="../assets/banner/banner2.png" alt="">
+		<img src="@/assets/banner/banner2.png" alt="">
 		<div class="text-banner">
 			<h1>{{ titleBanner }}</h1>
 			<p>{{ textBanner }}</p>
@@ -12,8 +12,8 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import ButtonDefault from './ButtonDefault.vue';
-import { TitleBanner, TextBanner } from '../text/variables';
+import ButtonDefault from '@/components/ui/ButtonDefault.vue';
+import { TitleBanner, TextBanner } from '@/config/variables';
 
 @Options({
 	components: {

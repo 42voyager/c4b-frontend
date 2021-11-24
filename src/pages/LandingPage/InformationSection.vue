@@ -50,7 +50,7 @@
 
 <script>
 import { Options, Vue } from "vue-class-component";
-import { TitleInfo, Info1, Info2, Info3 } from "../text/variables";
+import { TitleInfo, Info1, Info2, Info3 } from "@/config/variables";
 
 @Options({
   props: {

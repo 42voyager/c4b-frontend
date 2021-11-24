@@ -40,9 +40,9 @@
 
 <script lang="ts">
 import { Options, Vue} from 'vue-class-component';
-import RadioInput from './RadioInput.vue';
-import ButtonDefault from "./ButtonDefault.vue";
-import { CreditInstallments, CreditLimits } from '../text/variables';
+import RadioInput from '@/components/ui/RadioInput.vue';
+import ButtonDefault from "@/components/ui/ButtonDefault.vue";
+import { CreditInstallments, CreditLimits } from '@/config/variables';
 
 @Options({
 	props: {

@@ -25,8 +25,8 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import Highlight from './HighlightItem.vue';
-import { TitlePonto1, Ponto1, TitlePonto2, Ponto2, TitlePonto3, Ponto3 } from '../text/variables';
+import Highlight from '@/components/common/HighlightItem.vue';
+import { TitlePonto1, Ponto1, TitlePonto2, Ponto2, TitlePonto3, Ponto3 } from '@/config/variables';
 
 @Options({
 	props: {

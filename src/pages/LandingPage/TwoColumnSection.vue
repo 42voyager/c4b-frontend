@@ -32,10 +32,10 @@
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import TheFormUserData from "./TheFormUserData.vue";
-import ApiController from "../api/controller";
-import IUserData from "../types/user";
+import ApiController from "@/api/controller";
+import IUserData from "@/types/user";
 import TheFormCreditData from "./TheFormCreditData.vue";
-import { TitleForm } from "../text/variables";
+import { TitleForm } from "@/config/variables";
 
 @Options({
   props: {
@@ -61,7 +61,7 @@ export default class TwoColumnSection extends Vue {
     user.installment = this.installment;
     new ApiController()
       .postUser(user)
-      .then((res) => {
+      .then(() => {
         this.status = true;
         this.enableMessage = true;
         reset();
@@ -73,7 +73,7 @@ export default class TwoColumnSection extends Vue {
         this.status = false;
       });
   }
-  goNextStep(limit: string, installment: string): void {
+  goNextStep(): void {
     this.nextStep = true;
   }
   backStepClicked(): void {
