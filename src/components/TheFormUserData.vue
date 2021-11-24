@@ -94,8 +94,6 @@
       <div class="modal-body">
         <div class="header">
           <p>Informação de uso publico</p>
-          <img src="img/logo-abc.png" alt="Logo ABC" />
-          <p><a href="index.html#two-column-section">Voltar</a></p>
           <h1>Autorização</h1>
         </div>
         <div class="content">
@@ -118,7 +116,10 @@ import { Terms } from "../text/variables";
 @Options({
   props: {
     enableMessage: Boolean,
-    messageResponse: Object,
+    messageResponse: {
+      type: Object,
+      default: {}
+      },
     status: Boolean,
   },
   emit: ["submitForm", "backStep"],

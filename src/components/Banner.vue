@@ -16,9 +16,6 @@ import ButtonDefault from './ButtonDefault.vue';
 import { TitleBanner, TextBanner } from '../text/variables';
 
 @Options({
-	props: {
-
-	},
 	components: {
 		ButtonDefault
 	}
@@ -30,7 +27,6 @@ export default class Banner extends Vue {
 </script>
 
 <style scoped>
-
 .banner {
 	position: relative;
 	z-index: 1;
@@ -50,7 +46,6 @@ export default class Banner extends Vue {
 	z-index: 9;
 	opacity: 0.5;
 }
-
 
 .text-banner {
 	color: white;
@@ -87,11 +82,11 @@ export default class Banner extends Vue {
 		transform: translateX(0);
 	}
 }
+
 @media (min-width: 1200px) {
 	.banner img {
 		max-width: 100%;
 		height: auto;
 	}
 }
-
 </style>

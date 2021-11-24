@@ -40,16 +40,14 @@ export default class Modal extends Vue {
 	}
 	.modal-wrapper {
 		position: absolute;
-		top: calc(50% - 30px);
+		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
 		background-color: #ffffff;
 		padding: 20px 30px 50px;
 		border-radius: 15px;
 		width: calc(100% - 40px);
-		height: calc(100% - 60px);
-		margin-top: 30px;
-		margin-bottom: 30px;
+		height: calc(100% - 180px);
 	}
 	button {
 		position: absolute;
