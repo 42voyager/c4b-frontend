@@ -18,13 +18,17 @@
           :installment="installment"
         />
         <TheFormUserData
-          v-else
+          v-if="nextStep && messageResponse.title == undefined"
           @submitForm="submitUser"
           @backStep="backStepClicked"
           :enableMessage="enableMessage"
           :messageResponse="messageResponse"
           :status="status"
         />
+        <TheSuccessForm 
+          v-if="messageResponse.title != undefined"
+          message="Solicitação recebida com sucesso!"
+          @newRequestClicked="newRequestClicked" />
       </form>
     </div>
   </div>
@@ -35,6 +39,7 @@ import TheFormUserData from "./TheFormUserData.vue";
 import ApiController from "@/api/controller";
 import IUserData from "@/types/user";
 import TheFormCreditData from "./TheFormCreditData.vue";
+import TheSuccessForm from "./TheSuccessForm.vue";
 import { TitleForm } from "@/config/variables";
 
 @Options({
@@ -44,7 +49,8 @@ import { TitleForm } from "@/config/variables";
   },
   components: {
     TheFormUserData,
-    TheFormCreditData
+    TheFormCreditData,
+    TheSuccessForm
   },
 })
 export default class TwoColumnSection extends Vue {
@@ -83,6 +89,11 @@ export default class TwoColumnSection extends Vue {
     // console.log("Credit data", limit, installment)
     if (limit != null) this.limit = limit;
     if (installment != null) this.installment = installment;
+  }
+  newRequestClicked(): void {
+    this.nextStep = false;
+    this.messageResponse = {};
+    this.status = false
   }
 }
 </script>
