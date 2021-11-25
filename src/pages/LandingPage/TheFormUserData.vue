@@ -29,6 +29,7 @@
         type="text"
         class="input-control"
         placeholder="Celular"
+        v-maska="'(##) #####-####'"
         v-model="user.cellphone"
         v-bind:class="{ invalid: !validInput(messageResponse.Cellphone) }"
       />
@@ -41,6 +42,7 @@
         type="text"
         class="input-control"
         placeholder="CNPJ"
+        v-maska="'##.###.###/####-##'"
         v-model="user.cnpj"
         v-bind:class="{ invalid: !validInput(messageResponse.Cnpj) }"
       />
