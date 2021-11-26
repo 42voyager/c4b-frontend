@@ -8,7 +8,7 @@
       />
     </div>
     <div class="column column-two">
-      <h2>{{ titleForm }}</h2>
+      <h2 v-if="messageResponse.title == undefined">{{ titleForm }}</h2>
       <form id="form-request" class="wrapper-form" @submit.prevent="submit">
         <TheFormCreditData
           v-if="!nextStep"

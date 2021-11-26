@@ -45,14 +45,16 @@ export default TheSuccessForm;
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 250px;
 }
 
 #message-panel {
-  margin-bottom: 15px;
+  margin-bottom: 80px;
   padding-top: 5px;
   padding-bottom: 5px;
-  width: 50%;
-  height: 100%;
+  width: 80%;
+  max-width: 250px;
+  height: 45px;
   background-color: #fff;
   text-align: center;
   border: solid 1px green;
