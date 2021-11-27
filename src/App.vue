@@ -3,11 +3,7 @@
   <Banner />
   <WrapperHighlights :title="titlePontoForte" />
   <TwoColumnSection imageFileName="side-img.jpg" />
-  <InformationSection
-    imageFileName1="info-img1.jpg"
-    imageFileName2="info-img3.jpg"
-    imageFileName3="info-img4.jpg"
-  />
+  <InformationSection/>
   <FaqSection :faqs="faqs" />
   <TheFooter />
 </template>

@@ -16,26 +16,29 @@ export const TitleForm = "Solicite seu crédito em 2 passos";
 
 //textos de informações
 export const TitleInfo = "Informações sobre o produto";
-export const Info1 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam dapibus"+
-					"tempor massa eu sodales. Aenean scelerisque justo lorem, ut semper"+
-					"velit commodo convallis. Quisque auctor arcu augue, facilisis luctus"+
-					"diam gravida sit amet. Quisque pharetra luctus dui non varius."+
-					"Phasellus tempus mauris turpis, et mattis orci gravida eget. Sed"+
-					"vestibulum massa et ante sollicitudin pellentesque.";
-
-export const Info2 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam dapibus"+
-					"tempor massa eu sodales. Aenean scelerisque justo lorem, ut semper"+
-					"velit commodo convallis. Quisque auctor arcu augue, facilisis luctus"+
-					"diam gravida sit amet. Quisque pharetra luctus dui non varius."+
-					"Phasellus tempus mauris turpis, et mattis orci gravida eget. Sed"+
-					"vestibulum massa et ante sollicitudin pellentesque.";
-
-export const Info3 = " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam dapibus"+
-					"tempor massa eu sodales. Aenean scelerisque justo lorem, ut semper"+
-					"velit commodo convallis. Quisque auctor arcu augue, facilisis luctus"+
-					"diam gravida sit amet. Quisque pharetra luctus dui non varius."+
-					"Phasellus tempus mauris turpis, et mattis orci gravida eget. Sed"+
-					"vestibulum massa et ante sollicitudin pellentesque.";
+export const Infos = [
+    {text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam dapibus"+
+        "tempor massa eu sodales. Aenean scelerisque justo lorem, ut semper"+
+        "velit commodo convallis. Quisque auctor arcu augue, facilisis luctus"+
+        "diam gravida sit amet. Quisque pharetra luctus dui non varius."+
+        "Phasellus tempus mauris turpis, et mattis orci gravida eget. Sed"+
+        "vestibulum massa et ante sollicitudin pellentesque.",
+        img: "info-img1.jpg"},
+    {text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam dapibus"+
+    "tempor massa eu sodales. Aenean scelerisque justo lorem, ut semper"+
+    "velit commodo convallis. Quisque auctor arcu augue, facilisis luctus"+
+    "diam gravida sit amet. Quisque pharetra luctus dui non varius."+
+    "Phasellus tempus mauris turpis, et mattis orci gravida eget. Sed"+
+    "vestibulum massa et ante sollicitudin pellentesque.",
+        img: "info-img3.jpg"},
+    {text: " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam dapibus"+
+    "tempor massa eu sodales. Aenean scelerisque justo lorem, ut semper"+
+    "velit commodo convallis. Quisque auctor arcu augue, facilisis luctus"+
+    "diam gravida sit amet. Quisque pharetra luctus dui non varius."+
+    "Phasellus tempus mauris turpis, et mattis orci gravida eget. Sed"+
+    "vestibulum massa et ante sollicitudin pellentesque.",
+        img: "info-img4.jpg"}
+];
 
 // Array of questions and answer
 export const Faqs = [
