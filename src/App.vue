@@ -4,8 +4,8 @@
   <WrapperHighlights :title="titlePontoForte" />
   <TwoColumnSection imageFileName="side-img.jpg" />
   <InformationSection
-    infos="infos"
-    titleInfo="titleInfo"
+    :infos="infos"
+    :titleInfo="titleInfo"
   />
   <FaqSection :faqs="faqs" />
   <TheFooter />
