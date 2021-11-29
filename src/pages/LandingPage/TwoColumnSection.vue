@@ -8,7 +8,7 @@
       />
     </div>
     <div class="column column-two">
-      <h2 v-if="messageResponse.title == undefined">{{ titleForm }}</h2>
+      <h2 v-if="requestSucceeded == false">{{ titleForm }}</h2>
       <form id="form-request" class="wrapper-form" @submit.prevent="submit">
         <TheFormCreditData
           v-if="!nextStep"
@@ -18,14 +18,14 @@
           :installment="installment"
         />
         <TheFormUserData
-          v-if="nextStep && messageResponse.title == undefined"
+          v-if="nextStep && requestSucceeded == false"
           @submitForm="submitUser"
           @backStep="backStepClicked"
           :enableMessage="enableMessage"
           :messageResponse="messageResponse"
-          :status="status"
+          :status="requestSucceeded"
         />
-        <TheSuccessForm 
+        <TheSuccessForm
           v-if="messageResponse.title != undefined"
           message="Solicitação recebida com sucesso!"
           @newRequestClicked="newRequestClicked" />
@@ -57,7 +57,7 @@ export default class TwoColumnSection extends Vue {
   titleForm = TitleForm;
   enableMessage = false;
   messageResponse = {};
-  status = false;
+  requestSucceeded = false;
   nextStep = false;
   installment = "6x";
   limit = "10k";
@@ -68,7 +68,7 @@ export default class TwoColumnSection extends Vue {
     new ApiController()
       .postUser(user)
       .then(() => {
-        this.status = true;
+        this.requestSucceeded = true;
         this.enableMessage = true;
         reset();
         this.messageResponse = { title: "Solicitação recebida com sucesso!" };
@@ -76,7 +76,7 @@ export default class TwoColumnSection extends Vue {
       .catch((err) => {
         this.enableMessage = true;
         this.messageResponse = err.response.data.errors;
-        this.status = false;
+        this.requestSucceeded = false;
       });
   }
   goNextStep(): void {
@@ -93,7 +93,7 @@ export default class TwoColumnSection extends Vue {
   newRequestClicked(): void {
     this.nextStep = false;
     this.messageResponse = {};
-    this.status = false
+    this.requestSucceeded = false
   }
 }
 </script>
