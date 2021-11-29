@@ -20,13 +20,16 @@
 
 <script lang="ts">
 import { defineComponent} from "vue";
-import { TitleInfo, Infos } from "@/config/variables";
 
 const InformationSection = defineComponent({
-  setup() {
-    return {
-      titleInfo: TitleInfo,
-      infos: Infos
+  props: {
+    infos: {
+      type: Array,
+      required: true
+    },
+    titleInfo: {
+      type: String,
+      required: true
     }
   }
 });
