@@ -1,70 +1,43 @@
 <template>
   <div class="information-section" id="information-section">
     <h2>{{ titleInfo }}</h2>
-    <div class="wrapper-item">
+    <div class="wrapper-item" v-for="(info, index) of infos" :key="index">
       <div class="column-info wrapper-img">
         <img
-          :src="require('@/assets/info/' + imageFileName1)"
+          :src="require('@/assets/info/' + info.img)"
           alt=""
           class="image-information"
         />
       </div>
       <div class="column-info wrapper-text-information">
         <p>
-          {{ info1 }}
-        </p>
-      </div>
-    </div>
-
-    <div class="wrapper-item">
-      <div class="column-info wrapper-img">
-        <img
-          :src="require('@/assets/info/' + imageFileName2)"
-          alt=""
-          class="image-information"
-        />
-      </div>
-      <div class="column-info wrapper-text-information">
-        <p>
-          {{ info2 }}
-        </p>
-      </div>
-    </div>
-
-    <div class="wrapper-item">
-      <div class="column-info wrapper-img">
-        <img
-          :src="require('@/assets/info/' + imageFileName3)"
-          alt=""
-          class="image-information"
-        />
-      </div>
-      <div class="column-info wrapper-text-information">
-        <p>
-          {{ info3 }}
+          {{ info.text }}
         </p>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-import { Options, Vue } from "vue-class-component";
-import { TitleInfo, Info1, Info2, Info3 } from "@/config/variables";
+<script lang="ts">
+import { defineComponent, PropType} from "vue";
+  interface Information {
+    text: string,
+    img: string
+  }
 
-@Options({
+const InformationSection = defineComponent({
   props: {
-    imageFileName1: String,
-    imageFileName2: String,
-    imageFileName3: String,
-  },
-})
-export default class InformationSection extends Vue {
-  titleInfo = TitleInfo;
-  info1 = Info1;
-  info2 = Info2;
-  info3 = Info3;
-}
+    infos: {
+      type: Array as PropType<Information[]>,
+      required: true
+    },
+    titleInfo: {
+      type: String,
+      required: true
+    }
+  }
+});
+export default InformationSection;
 </script>
 
 <style scoped>
