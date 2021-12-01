@@ -1,35 +1,36 @@
 <template>
   <div class="wrapper-success">
     <div id="message-panel">
-      <p> 
+      <Sucess height="60" width="60" color="#b29475"/>
+      <p v-for="(message, index) of messages" :key="index"> 
         {{ message }}
       </p>
     </div>
-    <ButtonDefault msg="Voltar" @buttonClicked="handleOkButtonClicked()"/>
+    <ButtonDefault msg="Fazer nova solicitação" @buttonClicked="handleOkButtonClicked()"/>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 import ButtonDefault from "@/components/ui/ButtonDefault.vue";
+import Sucess from "@/components/icons/Sucess.vue";
 
 const TheSuccessForm = defineComponent({
   props: {
-    message: {
-      type: String,
-      default: "Succeso!",
+    messages: {
+      type: Array as PropType<string[]>,
       required: true
     },
   },
   emits: ["newRequestClicked"],
   components: {
-    ButtonDefault
+    ButtonDefault,
+    Sucess
   },
   setup(props, context) {
     const handleOkButtonClicked = () => {
       context.emit("newRequestClicked")
     }
-
     return {
       handleOkButtonClicked
     }
@@ -41,22 +42,30 @@ export default TheSuccessForm;
 </script>
 
 <style scoped>
+p {
+  margin-bottom: 5px;
+}
 .wrapper-success {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 250px;
 }
-
 #message-panel {
-  margin-bottom: 80px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  margin-bottom: 30px;
   width: 80%;
-  max-width: 250px;
-  height: 45px;
-  background-color: #fff;
+  max-width: 300px;
   text-align: center;
-  border: solid 1px green;
+}
+.wrapper-success button {
+  padding: 5px 15px;
+  border-radius: 15px;
+  font-size: 14px;
+}
+@media (min-width: 768px)
+{
+  #message-panel {
+    font-size: 26px;
+    margin-bottom: 30px;
+  }
 }
 </style>
