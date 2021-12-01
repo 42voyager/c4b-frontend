@@ -9,7 +9,7 @@
     </div>
     <div class="column column-two">
       <h2 v-if="requestSucceeded == false">{{ titleForm }}</h2>
-      <form id="form-request" class="wrapper-form" @submit.prevent="submit">
+      <form id="form-request" class="wrapper-form" @submit.prevent="submit" ref="div-1">
         <TheFormCreditData
           v-if="!nextStep"
           @nextStepClicked="goNextStep"
@@ -27,7 +27,7 @@
         />
         <TheSuccessForm
           v-if="messageResponse.title != undefined"
-          message="Solicitação recebida com sucesso!"
+          :messages="sucessMessage"
           @newRequestClicked="newRequestClicked" />
       </form>
     </div>
@@ -40,7 +40,7 @@ import ApiController from "@/api/controller";
 import IUserData from "@/types/user";
 import TheFormCreditData from "./TheFormCreditData.vue";
 import TheSuccessForm from "./TheSuccessForm.vue";
-import { TitleForm } from "@/config/variables";
+import { TitleForm, SucessMessage } from "@/config/variables";
 
 @Options({
   props: {
@@ -55,6 +55,7 @@ import { TitleForm } from "@/config/variables";
 })
 export default class TwoColumnSection extends Vue {
   titleForm = TitleForm;
+  sucessMessage = SucessMessage
   enableMessage = false;
   messageResponse = {};
   requestSucceeded = false;
@@ -115,6 +116,10 @@ export default class TwoColumnSection extends Vue {
 .column-two {
   padding: 0 20px;
   align-self: center;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  height: 100vh;
 }
 .column-two h2 {
   margin-top: 10px;
@@ -134,6 +139,7 @@ export default class TwoColumnSection extends Vue {
   }
   .column-two {
     padding: 0 20px;
+    height: auto;
   }
 }
 @media (min-width: 992px) {

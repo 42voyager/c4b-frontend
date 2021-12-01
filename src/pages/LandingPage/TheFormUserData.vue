@@ -64,7 +64,7 @@
     </div>
     <div class="wrapper-optin">
       <label for="optin" class="label-optin">
-        Li e estou de acordo com os
+        Li e aceito os <a v-on:click.prevent="openModal()" href="#"> termos e condições </a> de relacionamento com o Banco ABC. Autorizo a consulta de SRC e da Agenda de recebíveis da empresa.
         <input
           id="optin"
           type="checkbox"
@@ -75,7 +75,6 @@
         />
         <span class="checkmark"></span>
       </label>
-      <a v-on:click.prevent="openModal()" href="#"> termos e condições </a>
       <div v-if="!validInput(messageResponse.Optin)">
         <InputError :msg="messageResponse.Optin" />
       </div>
@@ -176,15 +175,17 @@ export default class TheFormUserData extends Vue {
 
 <style scoped>
 .wrapper-form {
-  max-width: 300px;
+  max-width: 330px;
   margin-left: auto;
   margin-right: auto;
 }
 .input-control {
-  width: 100%;
+  width: calc(100% - 30px);
   margin: 10px 0;
-  padding: 5px;
+  padding: 15px;
   font-size: 18px;
+  border: none;
+  border-radius: 10px;
 }
 .wrapper-optin {
   margin: 10px 0;
@@ -196,7 +197,7 @@ export default class TheFormUserData extends Vue {
   padding-left: 35px;
   margin-bottom: 12px;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 13px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;

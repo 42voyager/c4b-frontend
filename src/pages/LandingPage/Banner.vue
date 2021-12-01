@@ -4,29 +4,43 @@
 		<div class="text-banner">
 			<h1>{{ titleBanner }}</h1>
 			<p>{{ textBanner }}</p>
-			<ButtonDefault msg="Solicitar"/>
+			<ButtonDefault msg="Solicite seu crédito" @buttonClicked="goToElement('form-request')"/>
 		</div>
 		<div class="banner-overlay"></div>
 	</div>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
+import { defineComponent } from 'vue';
 import ButtonDefault from '@/components/ui/ButtonDefault.vue';
 import { TitleBanner, TextBanner } from '@/config/variables';
 
-@Options({
+const Banner = defineComponent({
 	components: {
 		ButtonDefault
+	},
+	setup() {
+		const goToElement = (id: string): void => {
+			document.getElementById(id)!.scrollIntoView({
+				behavior: "smooth"
+			});
+		}
+		return {
+			titleBanner: TitleBanner,
+			textBanner: TextBanner,
+			goToElement
+		}
 	}
 })
-export default class Banner extends Vue {
-	titleBanner = TitleBanner;
-	textBanner = TextBanner;
-}
+
+export default Banner;
+
 </script>
 
 <style scoped>
+button {
+	padding: 20px 25px;
+}
 .banner {
 	position: relative;
 	z-index: 1;
