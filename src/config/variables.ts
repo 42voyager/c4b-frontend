@@ -1,5 +1,5 @@
 //Textos do Banner
-export const TitleBanner = "Crédito para seu negôcio";
+export const TitleBanner = "Crédito para seu negócio";
 export const TextBanner = "Simples, fácil é com resposta rápida";
 
 //textos dos pontos forte
@@ -108,4 +108,10 @@ export const Terms = [
 		"adquirir ou receber em garantia, ou que manifestem interesse em"+
 		"adquirir ou receber em garantia, total ou parcialmente, a presente"+
 		"operação de crédito."}
+]
+
+// Sucess form
+export const SucessMessage = [
+	"Recebemos sua solicitação, obrigado pelo seu interesse!",
+	"Em breve entraremos em contato!!"
 ]

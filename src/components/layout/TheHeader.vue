@@ -72,7 +72,7 @@ li {
 }
 
 li a {
-  padding: 10px;
+  padding: 15px;
 }
 
 a:hover {
@@ -82,7 +82,7 @@ a:hover {
 .active:hover {
   background-color: #b29475;
   color: white;
-  border-radius: 2px;
+  border-radius: 10px;
 }
 
 .active {

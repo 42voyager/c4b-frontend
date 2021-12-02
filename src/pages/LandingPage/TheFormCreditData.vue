@@ -32,7 +32,7 @@
 					/>
 			</div>
 			<div class="btn-next">
-				<ButtonDefault msg="Próximo" @buttonClicked="nextStepClicked()"/>
+				<ButtonDefault msg="Continuar" @buttonClicked="nextStepClicked()"/>
 			</div>
 		</div>
 	</div>

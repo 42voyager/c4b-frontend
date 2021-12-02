@@ -26,7 +26,7 @@ button {
 	color: #b29475;
 	padding: 7px 30px;
 	background-color: #fff;
-	border-radius: 2px;
+	border-radius: 10px;
 	font-size: 15px;
 	cursor: pointer;
 	border: 1px solid #b29475;
