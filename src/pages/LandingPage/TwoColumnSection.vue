@@ -19,7 +19,7 @@
         />
         <TheFormUserData
           v-if="nextStep && requestSucceeded == false"
-          @submitForm="submitUser"
+          @submitForm="reca"
           @backStep="backStepClicked"
           :enableMessage="enableMessage"
           :messageResponse="messageResponse"
@@ -34,15 +34,17 @@
   </div>
 </template>
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { defineComponent, ref } from "vue";
+import { useReCaptcha } from 'vue-recaptcha-v3'
 import TheFormUserData from "./TheFormUserData.vue";
 import ApiController from "@/api/controller";
+import CaptchaApi from "@/api/captchaApi";
 import IUserData from "@/types/user";
 import TheFormCreditData from "./TheFormCreditData.vue";
 import TheSuccessForm from "./TheSuccessForm.vue";
 import { TitleForm, SucessMessage } from "@/config/variables";
 
-@Options({
+const TwoColumnSection = defineComponent({
   props: {
     imageFileName: String,
     altText: String,
@@ -52,51 +54,84 @@ import { TitleForm, SucessMessage } from "@/config/variables";
     TheFormCreditData,
     TheSuccessForm
   },
-})
-export default class TwoColumnSection extends Vue {
-  titleForm = TitleForm;
-  sucessMessage = SucessMessage
-  enableMessage = false;
-  messageResponse = {};
-  requestSucceeded = false;
-  nextStep = false;
-  installment = "6x";
-  limit = "10k";
+  setup() {
+    const { executeRecaptcha, recaptchaLoaded } = useReCaptcha()!
+    const titleForm = TitleForm;
+    const sucessMessage = SucessMessage
+    const enableMessage = false;
+    const messageResponse = {};
+    const requestSucceeded = false;
+    const nextStep = ref(false);
+    const installment = "6x";
+    const limit = "10k";
 
-  submitUser(user: IUserData, reset: () => void): void {
-    user.limit = this.limit;
-    user.installment = this.installment;
-    new ApiController()
-      .postUser(user)
-      .then(() => {
-        this.requestSucceeded = true;
-        this.enableMessage = true;
-        reset();
-        this.messageResponse = { title: "Solicitação recebida com sucesso!" };
-      })
-      .catch((err) => {
-        this.enableMessage = true;
-        this.messageResponse = err.response.data.errors;
-        this.requestSucceeded = false;
-      });
-  }
-  goNextStep(): void {
-    this.nextStep = true;
-  }
-  backStepClicked(): void {
-    this.nextStep = false;
-  }
-  creditDataChanged(limit: string | null, installment: string | null): void {
-    // console.log("Credit data", limit, installment)
-    if (limit != null) this.limit = limit;
-    if (installment != null) this.installment = installment;
-  }
-  newRequestClicked(): void {
-    this.nextStep = false;
-    this.messageResponse = {};
-    this.requestSucceeded = false
-  }
-}
+    const reca = async () => {
+      console.log('aaa')
+      await recaptchaLoaded()
+      const token = await executeRecaptcha('login');
+      console.log('Recaptcha token', token);
+      const res = await new CaptchaApi().postToken(token)
+      console.log(res)
+    }
+    const fun = () => {
+      console.log('fun')
+    }
+    const goNextStep = () => {
+      nextStep.value = true;
+    }
+    
+    return {
+      reca,
+      fun,
+      goNextStep,
+      nextStep,
+      titleForm,
+      sucessMessage,
+      enableMessage,
+      messageResponse,
+      requestSucceeded,
+      installment,
+      limit
+    }
+  },
+  // async submitUser(user: IUserData, reset: () => void): Promise<void> {
+
+  //   user.limit = this.limit;
+  //   user.installment = this.installment;
+  //   new ApiController()
+  //     .postUser(user)
+  //     .then(() => {
+  //       this.requestSucceeded = true;
+  //       this.enableMessage = true;
+  //       reset();
+  //       this.messageResponse = { title: "Solicitação recebida com sucesso!" };
+  //     })
+  //     .catch((err) => {
+  //       this.enableMessage = true;
+  //       this.messageResponse = err.response.data.errors;
+  //       this.requestSucceeded = false;
+  //     });
+  // },
+  // goNextStep(): void {
+  //   this.nextStep = true;
+  // },
+  // backStepClicked(): void {
+  //   this.nextStep = false;
+  // },
+  // creditDataChanged(limit: string | null, installment: string | null): void {
+  //   // console.log("Credit data", limit, installment)
+  //   if (limit != null) this.limit = limit;
+  //   if (installment != null) this.installment = installment;
+  // },
+  // newRequestClicked(): void {
+  //   this.nextStep = false;
+  //   this.messageResponse = {};
+  //   this.requestSucceeded = false
+  // }
+})
+
+export default TwoColumnSection;
+
 </script>
 
 <style scoped>
