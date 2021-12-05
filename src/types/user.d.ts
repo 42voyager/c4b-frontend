@@ -6,5 +6,8 @@ export default interface IUserData {
 	company: string;
 	optin: boolean;
 	limit: string;
-	installment: string
+	installment: string;
+	ip: string;
+	os: string;
+	timestamp: int;
 }

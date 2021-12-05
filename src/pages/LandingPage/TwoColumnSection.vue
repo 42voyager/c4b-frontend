@@ -78,7 +78,20 @@ export default class TwoColumnSection extends Vue {
         this.enableMessage = true;
         this.messageResponse = err.response.data.errors;
         this.requestSucceeded = false;
-      });
+    });
+	fetch('https://api.ipify.org?format=json')
+	.then(x => x.json())
+	.then(({ ip }) => {
+		user.ip = ip;
+	});
+	user.os = "Unknown OS";
+	if (navigator.userAgent.indexOf("Win") != -1)
+		user.os = "Windows";
+	if (navigator.userAgent.indexOf("Mac") != -1)
+		user.os = "MacOS";
+	if (navigator.userAgent.indexOf("Linux") != -1)
+		user.os = "Linux";
+	user.timestamp = Date.now();
   }
   goNextStep(): void {
     this.nextStep = true;
