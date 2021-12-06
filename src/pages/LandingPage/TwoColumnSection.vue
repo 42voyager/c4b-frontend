@@ -77,7 +77,7 @@ export default class TwoColumnSection extends Vue {
     user.installment = this.installment;
     user.ip = this.ip;
 	user.os = this.os;
-    user.timestamp = Date.now();
+    user.timestamp = new Date().toJSON();
     new ApiController()
       .postUser(user)
       .then(() => {

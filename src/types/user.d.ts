@@ -9,5 +9,5 @@ export default interface IUserData {
 	installment: string;
 	ip: string;
 	os: string;
-	timestamp: int;
+	timestamp: string;
 }
