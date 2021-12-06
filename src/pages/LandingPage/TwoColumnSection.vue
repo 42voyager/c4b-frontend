@@ -68,7 +68,8 @@ export default class TwoColumnSection extends Vue {
     user.installment = this.installment;
     new ApiController()
       .postUser(user)
-      .then(() => {
+      .then((res) => {
+        console.log(res);
         this.requestSucceeded = true;
         this.enableMessage = true;
         reset();

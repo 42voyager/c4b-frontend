@@ -115,3 +115,9 @@ export const SucessMessage = [
 	"Recebemos sua solicitação, obrigado pelo seu interesse!",
 	"Em breve entraremos em contato!!"
 ]
+
+//feedback form
+export const Feedback = {
+	title: "Feedaback",
+
+}
