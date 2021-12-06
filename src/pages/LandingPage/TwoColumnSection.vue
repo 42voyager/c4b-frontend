@@ -9,7 +9,12 @@
     </div>
     <div class="column column-two">
       <h2 v-if="requestSucceeded == false">{{ titleForm }}</h2>
-      <form id="form-request" class="wrapper-form" @submit.prevent="submit" ref="div-1">
+      <form
+        id="form-request"
+        class="wrapper-form"
+        @submit.prevent="submit"
+        ref="div-1"
+      >
         <TheFormCreditData
           v-if="!nextStep"
           @nextStepClicked="goNextStep"
@@ -28,7 +33,8 @@
         <TheSuccessForm
           v-if="messageResponse.title != undefined"
           :messages="sucessMessage"
-          @newRequestClicked="newRequestClicked" />
+          @newRequestClicked="newRequestClicked"
+        />
       </form>
     </div>
   </div>
@@ -41,6 +47,7 @@ import IUserData from "@/types/user";
 import TheFormCreditData from "./TheFormCreditData.vue";
 import TheSuccessForm from "./TheSuccessForm.vue";
 import { TitleForm, SucessMessage } from "@/config/variables";
+import GetIPApi from "@/api/getIpApi";
 
 @Options({
   props: {
@@ -50,22 +57,27 @@ import { TitleForm, SucessMessage } from "@/config/variables";
   components: {
     TheFormUserData,
     TheFormCreditData,
-    TheSuccessForm
+    TheSuccessForm,
   },
 })
 export default class TwoColumnSection extends Vue {
   titleForm = TitleForm;
-  sucessMessage = SucessMessage
+  sucessMessage = SucessMessage;
   enableMessage = false;
   messageResponse = {};
   requestSucceeded = false;
   nextStep = false;
   installment = "6x";
   limit = "10k";
+  ip = "";
+  os = "Unknown OS";
 
   submitUser(user: IUserData, reset: () => void): void {
     user.limit = this.limit;
     user.installment = this.installment;
+    user.ip = this.ip;
+	user.os = this.os;
+    user.timestamp = Date.now();
     new ApiController()
       .postUser(user)
       .then(() => {
@@ -78,20 +90,8 @@ export default class TwoColumnSection extends Vue {
         this.enableMessage = true;
         this.messageResponse = err.response.data.errors;
         this.requestSucceeded = false;
-    });
-	fetch('https://api.ipify.org?format=json')
-	.then(x => x.json())
-	.then(({ ip }) => {
-		user.ip = ip;
-	});
-	user.os = "Unknown OS";
-	if (navigator.userAgent.indexOf("Win") != -1)
-		user.os = "Windows";
-	if (navigator.userAgent.indexOf("Mac") != -1)
-		user.os = "MacOS";
-	if (navigator.userAgent.indexOf("Linux") != -1)
-		user.os = "Linux";
-	user.timestamp = Date.now();
+      });
+    console.log(user);
   }
   goNextStep(): void {
     this.nextStep = true;
@@ -107,7 +107,18 @@ export default class TwoColumnSection extends Vue {
   newRequestClicked(): void {
     this.nextStep = false;
     this.messageResponse = {};
-    this.requestSucceeded = false
+    this.requestSucceeded = false;
+  }
+  getOS(): void {
+    if (navigator.userAgent.indexOf("Win") != -1) this.os = "Windows";
+    if (navigator.userAgent.indexOf("Mac") != -1) this.os = "MacOS";
+    if (navigator.userAgent.indexOf("Linux") != -1) this.os = "Linux";
+  }
+  mounted(): void {
+    new GetIPApi().getIP().then((res) => {
+      this.ip = res.data.ip;
+    });
+	this.getOS();
   }
 }
 </script>
