@@ -1,36 +1,18 @@
 <template>
 	<div class="wrapper-feedback">
-		<h2>Feedback</h2>
+		<h2>{{ feedback.title }}</h2>
 		<div v-if="!success">
 			<form id="form-feedback" class="form-feedback" @submit.prevent="submit">
-				<div class="wrapper-input">
-					<input
-					type="text"
-					name="nome"
-					placeholder="Nome Completo"
-					required
-					class="input-feedback"
-					v-bind:class="{ invalid: vName, invalid: !validInput(messageResponse.Name)}"
-					v-model="userFeedBack.name"
-					/>
-				</div>
-				<div v-show="vName | !validInput(messageResponse.Name)">
-					<InputError :msg="Errors[0]"/>
-				</div>
-				<div class="wrapper-input">
-					<input
-					type="email"
-					name="email"
-					placeholder="E-mail"
-					required
-					class="input-feedback"
-					v-bind:class="{ invalid: vEmail, invalid: !validInput(messageResponse.Email)}"
-					v-model="userFeedBack.email"
-					/>
-				</div>
-				<div v-show="vEmail | !validInput(messageResponse.Email)">
-					<InputError :msg="Errors[1]"/>
-				</div>
+				<FormTextInput
+					v-for="(item, index) of inputsInfo" :key="index"
+					@input="model"
+					:type="item.type"
+					:name="item.name"
+					:placeholder="item.placeholder"
+					:messageResponse="messageResponse[item.name]"
+					:isLocalInvalid="item.isLocalInvalid()"
+					:error="item.error"
+				/>
 				<div class="wrapper-input">
 					<label for="feedback" class="label-message">feedback/dúvida</label>
 					<textarea 
@@ -38,22 +20,22 @@
 					placeholder="Mensagem"
 					id="feedback"
 					class="textarea-input"
-					v-bind:class="{ invalid: vMessage, invalid: !validInput(messageResponse.Message) }"
+					v-bind:class="{ invalid: validLocalTextArea() || !validInput(messageResponse.message) }"
 					cols="40" 
 					rows="10" 
 					required
 					v-model="userFeedBack.message"
 					/>
 				</div>
-				<div v-show="vMessage | !validInput(messageResponse.Message)">
-					<InputError :msg="Errors[2]"/>
+				<div v-show=" validLocalTextArea() || !validInput(messageResponse.message)">
+					<InputError :msg="feedback.errorTextArea"/>
 				</div>
 				<ButtonDefault @buttonClicked="submitFeedBack()"/>
 			</form>
 		</div>
 		<TheSuccessForm 
 			v-show="success"
-			:messages="successMessage"
+			:messages="feedback.success"
 			@newRequestClicked="newFeedback()"
 		/>
 	</div>
@@ -61,51 +43,57 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import ApiController from "@/api/controller";
+import FormTextInput from "@/components/ui/FormTextInput.vue";
+import ApiController from "@/api/C4bApi";
 import ButtonDefault from "@/components/ui/ButtonDefault.vue";
 import InputError from "@/components/ui/InputError.vue";
 import TheSuccessForm from "@/pages/LandingPage/TheSuccessForm.vue";
 import IUserFeedBack from "@/types/userFeedBack"
-import { SucessMessage } from "@/config/variables";
+import { Feedback } from "@/config/variables";
 
+enum Validity {
+	Valid,
+	Invalid,
+	Undefined
+}
 
 const TheFormFeedback = defineComponent({
 components: {
 		ButtonDefault,
 		InputError,
-		TheSuccessForm
+		TheSuccessForm,
+		FormTextInput
 	},
 	setup() {
+		let feedback = Feedback;
 		let success = ref(false);
-		let successMessage = ref(SucessMessage);
-		let vName = ref(false);
-		let vEmail = ref(false);
-		let vMessage = ref(false);
-		let Errors = ref([["Wrong Name"], ["Wrong Email"], ["Wrong Message"]]);
-		let messageResponse = ref([]);
+		let inputValidationStatus = ref({name: Validity.Undefined, email: Validity.Undefined, message: Validity.Undefined});
+		let messageResponse = ref({name: [], email: [], message: []});
 		let userFeedBack = ref({
 					name: "",
 					email: "",
 					message: ""
 				});
-
 		const submitFeedBack = () => {
-			//console.log("DADOS",	userFeedBack)
+			// Function that will validity the form at frontend
 			if (!validForm(userFeedBack.value))
 				return
 			new ApiController()
 				.postUserFeedback(userFeedBack.value)
 				.then((res) => {
-					console.log(res);
-					vName.value = false;
-					vEmail.value = false;
-					vMessage.value = false;
-					success.value = true;
 					resetFeedBack()
+					console.log(res);
+					inputValidationStatus.value = {name: Validity.Valid, email: Validity.Valid, message: Validity.Valid};
+					success.value = true;
 				})
 				.catch((err) => {
 					console.log("Error:  ", err)
-					messageResponse = err.response.data.errors
+					messageResponse.value = 
+						{
+							name: err.response.data.errors.Name,
+							email: err.response.data.errors.Email,
+							message: err.response.data.errors.Message
+						}
 				})
 		}
 		const resetFeedBack = () => {
@@ -118,47 +106,88 @@ components: {
 		}
 		const validForm = (userFeedBack: IUserFeedBack) =>
 		{
+			const newStatus = {...inputValidationStatus.value};
 			if (userFeedBack.name.length < 2)
-				vName.value = true;
+				newStatus.name = Validity.Invalid;
 			else
-				vName.value = false;
+				newStatus.name = Validity.Valid;
 			if (userFeedBack.email.length < 11)
-				vEmail.value = true;
+				newStatus.email = Validity.Invalid;
 			else
-				vEmail.value = false;
+				newStatus.email = Validity.Valid;
 			if (userFeedBack.message.length < 10)
-				vMessage.value = true;
+				newStatus.message = Validity.Invalid;
 			else
-				vMessage.value = false;
-			if 	(vName.value ||	vEmail.value ||	vMessage.value)
-				return (false)
-			else
+				newStatus.message = Validity.Valid;
+			inputValidationStatus.value = newStatus;
+			if (inputValidationStatus.value.name == Validity.Valid
+					&& inputValidationStatus.value.email == Validity.Valid
+					&& inputValidationStatus.value.message == Validity.Valid)
 				return (true)
+			else
+				return (false)
 		}
-		const validInput = (data: Array<string>) => {
-			if (data != undefined && data.length != 0) return false;
-			else return true;
+
+		const validLocalTextArea = () => {
+			if (inputValidationStatus.value.message == Validity.Invalid)
+				return true
+			else
+				return false
 		}
 		const newFeedback = () => {
 			success.value = false;
 		}
+		const  createList = ()  => {
+			
+			let inputsInfo = [
+				{
+					type: "text",
+					name: "name",
+					placeholder: feedback.list[0].placeholder,
+					isLocalInvalid: () => inputValidationStatus.value.name == Validity.Invalid,
+					error: feedback.list[0].error,
+				},
+				{
+					type: "email",
+					name: "email",
+					placeholder: feedback.list[1].placeholder, 
+					isLocalInvalid: () =>inputValidationStatus.value.email == Validity.Invalid,
+					error: feedback.list[1].error,
+				},
+			];
+			return inputsInfo;
+		}
 
+		const model = (value: string, name: string) => {
+			const newUserFeedback = {...userFeedBack.value};
+
+			if (name == "name")
+				newUserFeedback.name = value;
+			else if (name == "email")
+				newUserFeedback.email = value;
+			newUserFeedback.message = userFeedBack.value.message;
+			userFeedBack.value = newUserFeedback;
+		}
 		return {
 			success,
-			successMessage,
-			vName,
-			vEmail,
-			vMessage,
-			Errors,
+			feedback,
+			inputValidationStatus,
 			messageResponse,
 			userFeedBack,
+			inputsInfo: createList(),
 			submitFeedBack,
 			validInput,
-			newFeedback
+			newFeedback,
+			validLocalTextArea,
+			model
 		}
+
 	}
 })
-
+function validInput(data: Array<string>): boolean {
+	if (data != undefined && data.length != 0) return false;
+	else return true;
+}
 export default TheFormFeedback;
 
 </script>
@@ -174,14 +203,7 @@ export default TheFormFeedback;
 	background-color: #e9e1d8;
 	text-align: center;
 }
-.input-feedback {
-	width: calc(100% - 15px);
-	padding: 15px;
-	font-size: 18px;
-	margin: 10px 0;
-	border-radius: 5px;
-	border: none;
-}
+
 .textarea-input {
 	border: none;
 	margin: 10px 0;

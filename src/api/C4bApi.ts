@@ -5,9 +5,8 @@ import axios from 'axios'
 const API_URL_USER = '/Customer/'
 const API_URL_FEEDBACK = '/Feedback/'
 
-export default class ApiController {
+export default class C4bApi {
     postUser(user: IUserData): Promise<any> {
-        console.log(user.name, user.email)
         return axios.post(API_URL_USER, user)
     }
 
@@ -15,3 +14,4 @@ export default class ApiController {
         return axios.post(API_URL_FEEDBACK, feedback);
     }
 }
+
