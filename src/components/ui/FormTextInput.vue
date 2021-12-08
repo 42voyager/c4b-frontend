@@ -56,10 +56,10 @@ const FormTextInput = defineComponent({
 			required: true
 		},
 	},
+	emits: ["inputModel"],
 	setup(props, context) {
 		function onInput(event: any) {
-			console.log("emit");
-			context.emit('input', event.target.value, props.name)
+			context.emit("inputModel", event.target.value)
 		}
 		return {
 			checkErrorsReturn,

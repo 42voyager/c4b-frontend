@@ -5,7 +5,7 @@
 			<form id="form-Feedback" class="form-Feedback" @submit.prevent>
 				<FormTextInput
 					v-for="(item, index) of inputsInfo" :key="index"
-					@input="(value) => { handleInputChange(value, item.name )}"
+					@inputModel="(value) => { handleInputChange(value, item.name )}"
 					:type="item.type"
 					:name="item.name"
 					:placeholder="item.placeholder"
@@ -189,9 +189,6 @@ function  createList(): Array<InputsInfo> {
 function handleInputChange(value: string, name: string): void {
 	const newUserFeedback = {...userFeedBack.value};
 
-	const string = "";
-	if ((typeof value) != (typeof string))
-		return ;
 	if (name == "name")
 		newUserFeedback.name = value;
 	if (name == "email")
