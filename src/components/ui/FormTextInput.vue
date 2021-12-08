@@ -6,10 +6,10 @@
 		:placeholder="placeholder"
 		required
 		class="input-feedback"
-		v-bind:class="{ invalid: isLocalInvalid || !validInput(messageResponse[name])}"
+		v-bind:class="{ invalid: isLocalInvalid || !checkErrorsReturn(FormResponseError[name])}"
 		@input="onInput"
 		/>
-		<div v-show=" isLocalInvalid || !validInput(messageResponse[name])">
+		<div v-show=" isLocalInvalid || !checkErrorsReturn(FormResponseError[name])">
 			<InputError :msg="error"/>
 		</div>
 	</div>
@@ -18,8 +18,9 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import InputError from "@/components/ui/InputError.vue";
+import { checkErrorsReturn } from "@/use/validInput";
 
-interface response {
+interface FormResponseError {
 	name: [],
 	email: [],
 	message: []
@@ -42,8 +43,8 @@ const FormTextInput = defineComponent({
 			type: String,
 			required: true
 		},
-		messageResponse: {
-			type: Object as PropType<response>,
+		FormResponseError: {
+			type: Object as PropType<FormResponseError>,
 			required: true
 		},
 		isLocalInvalid: {
@@ -57,19 +58,15 @@ const FormTextInput = defineComponent({
 	},
 	setup(props, context) {
 		function onInput(event: any) {
+			console.log("emit");
 			context.emit('input', event.target.value, props.name)
 		}
 		return {
-			validInput,
+			checkErrorsReturn,
 			onInput
 		}
 	},
 });
-
-function validInput(data: Array<string>): boolean {
-	if (data != undefined && data.length != 0) return false;
-	else return true;
-}
 
 export default FormTextInput;
 </script>

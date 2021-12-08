@@ -124,7 +124,7 @@ export const Feedback = {
 		"Em breve entraremos em contato!!"
 	],
 	errorTextArea: [["A mensagem precisa ser maior que 10 caracteres"]],
-	list: [
+	formInputInfolist: [
 		{
 			placeholder: "Nome completo",
 			error: ["O nome deve ter entre 2 e 150 caracteres!"]
