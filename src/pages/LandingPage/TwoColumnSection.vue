@@ -36,7 +36,7 @@
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import TheFormUserData from "./TheFormUserData.vue";
-import ApiController from "@/api/controller";
+import ApiController from "@/api/C4bApi";
 import IUserData from "@/types/user";
 import TheFormCreditData from "./TheFormCreditData.vue";
 import TheSuccessForm from "./TheSuccessForm.vue";
@@ -68,7 +68,8 @@ export default class TwoColumnSection extends Vue {
     user.installment = this.installment;
     new ApiController()
       .postUser(user)
-      .then(() => {
+      .then((res) => {
+        console.log(res);
         this.requestSucceeded = true;
         this.enableMessage = true;
         reset();
