@@ -9,12 +9,7 @@
     </div>
     <div class="column column-two">
       <h2 v-if="requestSucceeded == false">{{ titleForm }}</h2>
-      <form
-        id="form-request"
-        class="wrapper-form"
-        @submit.prevent
-        ref="div-1"
-      >
+      <form id="form-request" class="wrapper-form" @submit.prevent ref="div-1">
         <TheFormCreditData
           v-if="!nextStep"
           @nextStepClicked="goNextStep"
@@ -40,7 +35,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import { useReCaptcha } from "vue-recaptcha-v3";
 import TheFormUserData from "./TheFormUserData.vue";
 import ApiController from "@/api/C4bApi";
@@ -48,6 +43,7 @@ import IUserData from "@/types/user";
 import TheFormCreditData from "./TheFormCreditData.vue";
 import TheSuccessForm from "./TheSuccessForm.vue";
 import { TitleForm, SucessMessage } from "@/config/variables";
+import GetIPApi from "@/api/getIpApi";
 
 const TwoColumnSection = defineComponent({
   props: {
@@ -69,6 +65,8 @@ const TwoColumnSection = defineComponent({
     const nextStep = ref(false);
     const installment = ref("6x");
     const limit = ref("10k");
+    const userIP = ref("");
+    const userOS = ref("Unknown OS");
 
     const goNextStep = () => {
       nextStep.value = true;
@@ -88,15 +86,28 @@ const TwoColumnSection = defineComponent({
       messageResponse.value = { title: "" };
       requestSucceeded.value = false;
     };
+    const getOS = () => {
+      if (navigator.userAgent.indexOf("Win") != -1) userOS.value = "Windows";
+      if (navigator.userAgent.indexOf("Mac") != -1) userOS.value = "MacOS";
+      if (navigator.userAgent.indexOf("Linux") != -1) userOS.value = "Linux";
+    };
+    onMounted(() => {
+      new GetIPApi().getIP().then((res) => {
+        userIP.value = res.data.ip;
+      });
+      getOS();
+    });
     const submitUser = async (user: IUserData, reset: () => void) => {
       user.limit = limit.value;
       user.installment = installment.value;
-
+      user.timestamp = new Date().toJSON();
+      user.ip = userIP.value;
+      user.os = userOS.value;
       try {
         // ReCaptcha 3 handling
         await recaptchaLoaded();
         const token = await executeRecaptcha("login");
-        user.recaptchaToken = token
+        user.recaptchaToken = token;
 
         // Submit user handling
         await new ApiController().postUser(user);
@@ -109,6 +120,7 @@ const TwoColumnSection = defineComponent({
         messageResponse.value = err.response.data.errors;
         requestSucceeded.value = false;
       }
+      console.log(user);
     };
 
     return {
@@ -125,6 +137,8 @@ const TwoColumnSection = defineComponent({
       requestSucceeded,
       installment,
       limit,
+      userOS,
+      userIP,
     };
   },
 });
