@@ -118,7 +118,7 @@ export const SucessMessage = [
 
 //feedback form
 export const Feedback = {
-	title: "Feedaback",
+	title: "Você tem alguma dúvida ou sugestão?",
 	success: [
 		"Recebemos seu feedback, obrigado pelo seu interesse!",
 		"Em breve entraremos em contato!!"

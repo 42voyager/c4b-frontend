@@ -23,7 +23,7 @@
           :installment="installment"
         />
         <TheFormUserData
-          v-if="nextStep && requestSucceeded == false"
+          v-show="nextStep && requestSucceeded == false"
           @submitForm="submitUser"
           @backStep="backStepClicked"
           :enableMessage="enableMessage"
