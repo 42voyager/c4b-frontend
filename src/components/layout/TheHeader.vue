@@ -7,7 +7,7 @@
       <MenuButton />
     </button>
     <ul id="menu" class="nav-bar" v-bind:class="{ hidden: isCollapsed }">
-      <li><a class="active" href="#form-request">Solicitar</a></li>
+      <li><a class="active" href="#form-request">Solicite seu crédito</a></li>
       <li><a href="#information-section">Informações</a></li>
       <li><a href="#faq-section">FAQ</a></li>
     </ul>

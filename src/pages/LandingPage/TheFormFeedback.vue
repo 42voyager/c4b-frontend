@@ -1,7 +1,7 @@
 <template>
 	<div class="wrapper-Feedback">
-		<h2>{{ Feedback.title }}</h2>
 		<div v-if="!success">
+			<h2 class="feedback-title">{{ Feedback.title }}</h2>
 			<form id="form-Feedback" class="form-Feedback" @submit.prevent>
 				<FormTextInput
 					v-for="(item, index) of inputsInfo" :key="index"
@@ -14,7 +14,6 @@
 					:error="item.error"
 				/>
 				<div class="wrapper-input">
-					<label for="Feedback" class="label-message">Feedback/dúvida</label>
 					<textarea 
 					name="Feedback" 
 					placeholder="Mensagem"
@@ -201,6 +200,12 @@ export default TheFormFeedback;
 </script>
 
 <style scoped>
+
+.feedback-title {
+	padding-top: 50px;
+	padding-bottom: 15px;
+	
+}
 .form-Feedback {
 	max-width: 350px;
 	margin-left: auto;
@@ -208,22 +213,37 @@ export default TheFormFeedback;
 }
 .wrapper-Feedback {
 	padding: 15px;
-	background-color: #e9e1d8;
 	text-align: center;
 }
 
 .textarea-input {
-	border: none;
+	border: solid 1px #b29475;
 	margin: 10px 0;
-	width: calc(100% - 15px);
+	max-width: 100%;
+	width: calc(100% - 30px);
 	border-radius: 5px;
 	padding: 15px;
+	font-family: inherit;
 }
 .wrapper-input {
 	text-align: left;
 }
-.invalid::placeholder {
-	color: red;
-	opacity: 1;
+.textarea-input::placeholder {
+	font-size: 16px;
 }
+
+.form-Feedback button {
+	margin-bottom: 50px;
+}
+
+@media (max-width: 576px)
+{
+	.wrapper-Feedback {
+		height: 100vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
+
 </style>

@@ -7,8 +7,8 @@
     :infos="infos"
     :titleInfo="titleInfo"
   />
-  <TheFormFeedback/>
   <FaqSection :faqs="faqs" />
+  <TheFormFeedback/>
   <TheFooter />
 </template>
 

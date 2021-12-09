@@ -73,11 +73,12 @@ export default FormTextInput;
 
 <style scoped>
 .input-feedback {
-	width: calc(100% - 15px);
+	max-width: 100%;
+	width: calc(100% - 30px);
 	padding: 15px;
 	font-size: 18px;
 	margin: 10px 0;
 	border-radius: 5px;
-	border: none;
+	border: solid 1px #b29475;
 }
 </style>

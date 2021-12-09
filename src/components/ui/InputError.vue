@@ -24,5 +24,6 @@ p {
 	max-width: 300px;
 	width: 100%;
 	margin-top: 0;
+	text-align: left;
 }
 </style>
