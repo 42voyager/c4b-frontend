@@ -9,7 +9,12 @@
     </div>
     <div class="column column-two">
       <h2 v-if="requestSucceeded == false">{{ titleForm }}</h2>
-      <form id="form-request" class="wrapper-form" @submit.prevent="submit" ref="div-1">
+      <form
+        id="form-request"
+        class="wrapper-form"
+        @submit.prevent
+        ref="div-1"
+      >
         <TheFormCreditData
           v-if="!nextStep"
           @nextStepClicked="goNextStep"
@@ -26,23 +31,25 @@
           :status="requestSucceeded"
         />
         <TheSuccessForm
-          v-if="messageResponse.title != undefined"
+          v-if="requestSucceeded === true"
           :messages="sucessMessage"
-          @newRequestClicked="newRequestClicked" />
+          @newRequestClicked="newRequestClicked"
+        />
       </form>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { defineComponent, ref } from "vue";
+import { useReCaptcha } from "vue-recaptcha-v3";
 import TheFormUserData from "./TheFormUserData.vue";
-import ApiController from "@/api/controller";
+import ApiController from "@/api/C4bApi";
 import IUserData from "@/types/user";
 import TheFormCreditData from "./TheFormCreditData.vue";
 import TheSuccessForm from "./TheSuccessForm.vue";
 import { TitleForm, SucessMessage } from "@/config/variables";
 
-@Options({
+const TwoColumnSection = defineComponent({
   props: {
     imageFileName: String,
     altText: String,
@@ -50,53 +57,79 @@ import { TitleForm, SucessMessage } from "@/config/variables";
   components: {
     TheFormUserData,
     TheFormCreditData,
-    TheSuccessForm
+    TheSuccessForm,
   },
-})
-export default class TwoColumnSection extends Vue {
-  titleForm = TitleForm;
-  sucessMessage = SucessMessage
-  enableMessage = false;
-  messageResponse = {};
-  requestSucceeded = false;
-  nextStep = false;
-  installment = "6x";
-  limit = "10k";
+  setup() {
+    const { executeRecaptcha, recaptchaLoaded } = useReCaptcha()!;
+    const titleForm = TitleForm;
+    const sucessMessage = SucessMessage;
+    const enableMessage = ref(false);
+    const messageResponse = ref({ title: "" });
+    const requestSucceeded = ref(false);
+    const nextStep = ref(false);
+    const installment = ref("6x");
+    const limit = ref("10k");
 
-  submitUser(user: IUserData, reset: () => void): void {
-    user.limit = this.limit;
-    user.installment = this.installment;
-    new ApiController()
-      .postUser(user)
-      .then(() => {
-        this.requestSucceeded = true;
-        this.enableMessage = true;
+    const goNextStep = () => {
+      nextStep.value = true;
+    };
+    const backStepClicked = () => {
+      nextStep.value = false;
+    };
+    const creditDataChanged = (
+      newLimit: string | null,
+      newInstallment: string | null
+    ) => {
+      if (newLimit != null) limit.value = newLimit;
+      if (newInstallment != null) installment.value = newInstallment;
+    };
+    const newRequestClicked = () => {
+      nextStep.value = false;
+      messageResponse.value = { title: "" };
+      requestSucceeded.value = false;
+    };
+    const submitUser = async (user: IUserData, reset: () => void) => {
+      user.limit = limit.value;
+      user.installment = installment.value;
+
+      try {
+        // ReCaptcha 3 handling
+        await recaptchaLoaded();
+        const token = await executeRecaptcha("login");
+        user.recaptchaToken = token
+
+        // Submit user handling
+        await new ApiController().postUser(user);
+        requestSucceeded.value = true;
+        enableMessage.value = true;
+        messageResponse.value = { title: "Solicitação recebida com sucesso!" };
         reset();
-        this.messageResponse = { title: "Solicitação recebida com sucesso!" };
-      })
-      .catch((err) => {
-        this.enableMessage = true;
-        this.messageResponse = err.response.data.errors;
-        this.requestSucceeded = false;
-      });
-  }
-  goNextStep(): void {
-    this.nextStep = true;
-  }
-  backStepClicked(): void {
-    this.nextStep = false;
-  }
-  creditDataChanged(limit: string | null, installment: string | null): void {
-    // console.log("Credit data", limit, installment)
-    if (limit != null) this.limit = limit;
-    if (installment != null) this.installment = installment;
-  }
-  newRequestClicked(): void {
-    this.nextStep = false;
-    this.messageResponse = {};
-    this.requestSucceeded = false
-  }
-}
+      } catch (err: any) {
+        enableMessage.value = true;
+        messageResponse.value = err.response.data.errors;
+        requestSucceeded.value = false;
+      }
+    };
+
+    return {
+      submitUser,
+      goNextStep,
+      backStepClicked,
+      creditDataChanged,
+      newRequestClicked,
+      nextStep,
+      titleForm,
+      sucessMessage,
+      enableMessage,
+      messageResponse,
+      requestSucceeded,
+      installment,
+      limit,
+    };
+  },
+});
+
+export default TwoColumnSection;
 </script>
 
 <style scoped>
