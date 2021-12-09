@@ -10,4 +10,5 @@ export default interface IUserData {
 	ip: string;
 	os: string;
 	timestamp: string;
+	recaptchaToken: string
 }

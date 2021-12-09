@@ -115,3 +115,24 @@ export const SucessMessage = [
 	"Recebemos sua solicitação, obrigado pelo seu interesse!",
 	"Em breve entraremos em contato!!"
 ]
+
+//feedback form
+export const Feedback = {
+	title: "Você tem alguma dúvida ou sugestão?",
+	success: [
+		"Recebemos seu feedback, obrigado pelo seu interesse!",
+		"Em breve entraremos em contato!!"
+	],
+	errorTextArea: [["A mensagem precisa ser maior que 10 caracteres"]],
+	formInputInfolist: [
+		{
+			placeholder: "Nome completo",
+			error: ["O nome deve ter entre 2 e 150 caracteres!"]
+		},
+		{
+			placeholder: "E-mail",
+			error: ["O email é inválido!"],
+		},
+
+	]
+}

@@ -9,12 +9,7 @@
     </div>
     <div class="column column-two">
       <h2 v-if="requestSucceeded == false">{{ titleForm }}</h2>
-      <form
-        id="form-request"
-        class="wrapper-form"
-        @submit.prevent="submit"
-        ref="div-1"
-      >
+      <form id="form-request" class="wrapper-form" @submit.prevent ref="div-1">
         <TheFormCreditData
           v-if="!nextStep"
           @nextStepClicked="goNextStep"
@@ -23,7 +18,7 @@
           :installment="installment"
         />
         <TheFormUserData
-          v-if="nextStep && requestSucceeded == false"
+          v-show="nextStep && requestSucceeded == false"
           @submitForm="submitUser"
           @backStep="backStepClicked"
           :enableMessage="enableMessage"
@@ -31,7 +26,7 @@
           :status="requestSucceeded"
         />
         <TheSuccessForm
-          v-if="messageResponse.title != undefined"
+          v-if="requestSucceeded === true"
           :messages="sucessMessage"
           @newRequestClicked="newRequestClicked"
         />
@@ -40,16 +35,17 @@
   </div>
 </template>
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { defineComponent, onMounted, ref } from "vue";
+import { useReCaptcha } from "vue-recaptcha-v3";
 import TheFormUserData from "./TheFormUserData.vue";
-import ApiController from "@/api/controller";
+import ApiController from "@/api/C4bApi";
 import IUserData from "@/types/user";
 import TheFormCreditData from "./TheFormCreditData.vue";
 import TheSuccessForm from "./TheSuccessForm.vue";
 import { TitleForm, SucessMessage } from "@/config/variables";
 import GetIPApi from "@/api/getIpApi";
 
-@Options({
+const TwoColumnSection = defineComponent({
   props: {
     imageFileName: String,
     altText: String,
@@ -59,68 +55,95 @@ import GetIPApi from "@/api/getIpApi";
     TheFormCreditData,
     TheSuccessForm,
   },
-})
-export default class TwoColumnSection extends Vue {
-  titleForm = TitleForm;
-  sucessMessage = SucessMessage;
-  enableMessage = false;
-  messageResponse = {};
-  requestSucceeded = false;
-  nextStep = false;
-  installment = "6x";
-  limit = "10k";
-  ip = "";
-  os = "Unknown OS";
+  setup() {
+    const { executeRecaptcha, recaptchaLoaded } = useReCaptcha()!;
+    const titleForm = TitleForm;
+    const sucessMessage = SucessMessage;
+    const enableMessage = ref(false);
+    const messageResponse = ref({ title: "" });
+    const requestSucceeded = ref(false);
+    const nextStep = ref(false);
+    const installment = ref("6x");
+    const limit = ref("10k");
+    const userIP = ref("");
+    const userOS = ref("Unknown OS");
 
-  submitUser(user: IUserData, reset: () => void): void {
-    user.limit = this.limit;
-    user.installment = this.installment;
-    user.ip = this.ip;
-	user.os = this.os;
-    user.timestamp = new Date().toJSON();
-    new ApiController()
-      .postUser(user)
-      .then(() => {
-        this.requestSucceeded = true;
-        this.enableMessage = true;
-        reset();
-        this.messageResponse = { title: "Solicitação recebida com sucesso!" };
-      })
-      .catch((err) => {
-        this.enableMessage = true;
-        this.messageResponse = err.response.data.errors;
-        this.requestSucceeded = false;
+    const goNextStep = () => {
+      nextStep.value = true;
+    };
+    const backStepClicked = () => {
+      nextStep.value = false;
+    };
+    const creditDataChanged = (
+      newLimit: string | null,
+      newInstallment: string | null
+    ) => {
+      if (newLimit != null) limit.value = newLimit;
+      if (newInstallment != null) installment.value = newInstallment;
+    };
+    const newRequestClicked = () => {
+      nextStep.value = false;
+      messageResponse.value = { title: "" };
+      requestSucceeded.value = false;
+    };
+    const getOS = () => {
+      if (navigator.userAgent.indexOf("Win") != -1) userOS.value = "Windows";
+      if (navigator.userAgent.indexOf("Mac") != -1) userOS.value = "MacOS";
+      if (navigator.userAgent.indexOf("Linux") != -1) userOS.value = "Linux";
+    };
+    onMounted(() => {
+      new GetIPApi().getIP().then((res) => {
+        userIP.value = res.data.ip;
       });
-    console.log(user);
-  }
-  goNextStep(): void {
-    this.nextStep = true;
-  }
-  backStepClicked(): void {
-    this.nextStep = false;
-  }
-  creditDataChanged(limit: string | null, installment: string | null): void {
-    // console.log("Credit data", limit, installment)
-    if (limit != null) this.limit = limit;
-    if (installment != null) this.installment = installment;
-  }
-  newRequestClicked(): void {
-    this.nextStep = false;
-    this.messageResponse = {};
-    this.requestSucceeded = false;
-  }
-  getOS(): void {
-    if (navigator.userAgent.indexOf("Win") != -1) this.os = "Windows";
-    if (navigator.userAgent.indexOf("Mac") != -1) this.os = "MacOS";
-    if (navigator.userAgent.indexOf("Linux") != -1) this.os = "Linux";
-  }
-  mounted(): void {
-    new GetIPApi().getIP().then((res) => {
-      this.ip = res.data.ip;
+      getOS();
     });
-	this.getOS();
-  }
-}
+    const submitUser = async (user: IUserData, reset: () => void) => {
+      user.limit = limit.value;
+      user.installment = installment.value;
+      user.timestamp = new Date().toJSON();
+      user.ip = userIP.value;
+      user.os = userOS.value;
+      try {
+        // ReCaptcha 3 handling
+        await recaptchaLoaded();
+        const token = await executeRecaptcha("login");
+        user.recaptchaToken = token;
+
+        // Submit user handling
+        await new ApiController().postUser(user);
+        requestSucceeded.value = true;
+        enableMessage.value = true;
+        messageResponse.value = { title: "Solicitação recebida com sucesso!" };
+        reset();
+      } catch (err: any) {
+        enableMessage.value = true;
+        messageResponse.value = err.response.data.errors;
+        requestSucceeded.value = false;
+      }
+      console.log(user);
+    };
+
+    return {
+      submitUser,
+      goNextStep,
+      backStepClicked,
+      creditDataChanged,
+      newRequestClicked,
+      nextStep,
+      titleForm,
+      sucessMessage,
+      enableMessage,
+      messageResponse,
+      requestSucceeded,
+      installment,
+      limit,
+      userOS,
+      userIP,
+    };
+  },
+});
+
+export default TwoColumnSection;
 </script>
 
 <style scoped>

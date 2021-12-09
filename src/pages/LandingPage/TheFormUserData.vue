@@ -1,5 +1,5 @@
 <template>
-  <div id="div-form-request" class="wrapper-form" @submit.prevent="submit">
+  <div id="div-form-request" class="wrapper-form">
     <div class="wrapper-input">
       <input
         type="text"
