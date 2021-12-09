@@ -43,7 +43,7 @@
 import { defineComponent, ref } from "vue";
 import { useReCaptcha } from "vue-recaptcha-v3";
 import TheFormUserData from "./TheFormUserData.vue";
-import ApiController from "@/api/controller";
+import ApiController from "@/api/C4bApi";
 import IUserData from "@/types/user";
 import TheFormCreditData from "./TheFormCreditData.vue";
 import TheSuccessForm from "./TheSuccessForm.vue";
