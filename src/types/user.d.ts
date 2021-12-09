@@ -7,5 +7,5 @@ export default interface IUserData {
 	optin: boolean;
 	limit: string;
 	installment: string
-};
-
+	recaptchaToken: string
+}
