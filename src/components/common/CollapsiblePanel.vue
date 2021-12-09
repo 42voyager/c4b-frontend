@@ -16,7 +16,9 @@
       />
     </div>
     <div class="content" v-bind:class="{ hidden: isCollapsed }">
-      {{ content }}
+      <div class="content-inner">
+        {{ content }}
+      </div>
     </div>
   </div>
 </template>
@@ -62,18 +64,30 @@ export default class CollapsiblePanel extends Vue {
   cursor: pointer;
   background-color: #070708;
 }
+.header-panel svg {
+	transition: all .25s linear;
+}
 .content {
+  height: auto;
+  transition: all .25s linear;
+  overflow: hidden;
   border-bottom: 1px solid #b29475;
   border-left: 1px solid #b29475;
   border-right: 1px solid #b29475;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
+  opacity: 1;
+}
+.content-inner {
   padding: 15px 30px;
 }
 .title {
   padding: 5px;
 }
 .hidden {
-  display: none;
+  height: 0;
+  padding: 0;
+  opacity: 0;
+  border: none;
 }
-</style> 
+</style>
