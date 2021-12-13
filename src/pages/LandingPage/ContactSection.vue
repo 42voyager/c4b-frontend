@@ -1,17 +1,16 @@
 <template>
 	<div class="wrapper-Feedback">
 		<div v-if="!success">
-			<h2 class="feedback-title">{{ Feedback.title }}</h2>
+			<h2 class="feedback-title">{{ FeedbackConfiguration.text.title }}</h2>
 			<form id="form-Feedback" class="form-Feedback" @submit.prevent>
 				<FormTextInput
 					v-for="(item, index) of inputsInfo" :key="index"
-					@inputModel="(value) => { handleInputChange(value, item.name )}"
+					@inputEvent="(value) => { handleInputChange(value, item.name )}"
 					:type="item.type"
 					:name="item.name"
 					:placeholder="item.placeholder"
-					:FormResponseError="messageResponse[item.name]"
-					:isLocalInvalid="item.isLocalInvalid()"
-					:error="item.error"
+					:isValid="item.isValid()"
+					:errorsFront="item.error"
 				/>
 				<div class="wrapper-input">
 					<textarea 
@@ -19,22 +18,22 @@
 					placeholder="Mensagem"
 					id="Feedback"
 					class="textarea-input"
-					v-bind:class="{ invalid: validLocalTextArea() || !checkErrorsReturn(messageResponse.message) }"
+					v-bind:class="{ invalid: validLocalTextArea()}"
 					cols="40" 
 					rows="10" 
 					required
 					v-model="userFeedBack.message"
 					/>
 				</div>
-				<div v-show=" validLocalTextArea() || !checkErrorsReturn(messageResponse.message)">
-					<InputError :msg="Feedback.errorTextArea"/>
+				<div v-show=" validLocalTextArea()">
+					<InputError :msg="FeedbackConfiguration.text.errorTextArea"/>
 				</div>
 				<ButtonDefault @buttonClicked="submitFeedBack()"/>
 			</form>
 		</div>
 		<TheSuccessForm 
 			v-show="success"
-			:messages="Feedback.success"
+			:messages="FeedbackConfiguration.text.success"
 			@newRequestClicked="newFeedback()"
 		/>
 	</div>
@@ -48,14 +47,14 @@ import ButtonDefault from "@/components/ui/ButtonDefault.vue";
 import InputError from "@/components/ui/InputError.vue";
 import TheSuccessForm from "@/pages/LandingPage/TheSuccessForm.vue";
 import IUserFeedBack from "@/types/userFeedBack"
-import { Feedback } from "@/config/variables";
+import { FeedbackConfiguration } from "@/config/variables";
 import { checkErrorsReturn } from "@/use/validInput";
 
 interface InputsInfo {
 	type: string,
 	name: string,
 	placeholder: string,
-	isLocalInvalid: () => boolean,
+	isValid: () => boolean,
 	error: string[]
 }
 enum Validity {
@@ -66,14 +65,15 @@ enum Validity {
 
 const success = ref(false);
 const inputValidationStatus = ref({name: Validity.Undefined, email: Validity.Undefined, message: Validity.Undefined});
-const messageResponse = ref({name: [], email: [], message: []});
 const userFeedBack = ref({
 			name: "",
 			email: "",
 			message: ""
 		});
-
-const TheFormFeedback = defineComponent({
+/**
+ * Component para criação do formulário de contato.
+ */
+export default defineComponent({
 components: {
 		ButtonDefault,
 		InputError,
@@ -83,9 +83,8 @@ components: {
 	setup() {
 		return {
 			success,
-			Feedback,
+			FeedbackConfiguration,
 			inputValidationStatus,
-			messageResponse,
 			userFeedBack,
 			inputsInfo: createList(),
 			submitFeedBack,
@@ -94,12 +93,13 @@ components: {
 			validLocalTextArea,
 			handleInputChange
 		}
-
 	}
 })
 
+/**
+ * Função utilizada para gerar uma requisição para a API C4B
+ */
 function submitFeedBack(): void {
-	// Function that will validity the form at frontend
 	if (!validFormVue(userFeedBack.value))
 		return
 	new ApiController()
@@ -112,15 +112,20 @@ function submitFeedBack(): void {
 		})
 		.catch((err) => {
 			console.log("Error:  ", err)
-			messageResponse.value = 
-				{
-					name: err.response.data.errors.Name,
-					email: err.response.data.errors.Email,
-					message: err.response.data.errors.Message
-				}
+			const newStatus = {...inputValidationStatus.value};
+			if (!checkErrorsReturn(err.response.data.errors.Name))
+				newStatus.name = Validity.Invalid;
+			if (!checkErrorsReturn(err.response.data.errors.Email))
+				newStatus.email = Validity.Invalid;
+			if (!checkErrorsReturn(err.response.data.errors.Message))
+				newStatus.message = Validity.Invalid;
+			inputValidationStatus.value = newStatus;
 		})
 }
 
+/**
+ * Função utilizada para limpar todos os campos do formulário
+ */
 function resetFeedBack(): void {
 	const emptyUserFeedBack: IUserFeedBack = {
 		name: "",
@@ -130,6 +135,14 @@ function resetFeedBack(): void {
 	userFeedBack.value = emptyUserFeedBack 
 }
 
+/**
+ * Função utilizada para validar o formulário
+ * @param {IUserFeedBack} userFeedBack - Objeto que contem os dados dos inputs
+ * O nome não pode ser menor que 2 caracteres
+ * O email precisa ser válido
+ * A mensagem precisa ser maior que 10 caracteres
+ * @returns {boolean} - False se algum campo for inválido caso contrário retorna true
+ */
 function validFormVue(userFeedBack: IUserFeedBack): boolean {
 	const newStatus = {...inputValidationStatus.value};
 	if (userFeedBack.name.length < 2)
@@ -153,6 +166,10 @@ function validFormVue(userFeedBack: IUserFeedBack): boolean {
 		return (false)
 }
 
+/**
+ * Válida o campo da mensagem
+ * @returns {boolean} - True se a mensagem for válida caso contrário retorna false
+ */
 function validLocalTextArea(): boolean {
 	if (inputValidationStatus.value.message == Validity.Invalid)
 		return true
@@ -160,31 +177,46 @@ function validLocalTextArea(): boolean {
 		return false
 }
 
+/**
+ * Função chamada quando o usuário deseja fazer uma nova solicitação
+ * Ela altera o valor da variável que mostra a mensagem de succeso para false
+ * Assim aparece um novo form com os campos limpos
+ */
 function newFeedback(): void {
 	success.value = false;
 }
 
+/**
+ * Função utilizada para criar um array contendo todos os dados  
+ * necessário para gerar os inputs
+ * @returns {Array<InputsInfo>} - Um array com todos os dados utilizados nos inputs
+ */
 function  createList(): Array<InputsInfo> {
 	
 	let inputsInfo = [
 		{
 			type: "text",
 			name: "name",
-			placeholder: Feedback.formInputInfolist[0].placeholder,
-			isLocalInvalid: () => inputValidationStatus.value.name == Validity.Invalid,
-			error: Feedback.formInputInfolist[0].error,
+			placeholder: FeedbackConfiguration.text.formInputInfolist[0].placeholder,
+			isValid: () => inputValidationStatus.value.name == Validity.Invalid,
+			error: FeedbackConfiguration.text.formInputInfolist[0].error,
 		},
 		{
 			type: "email",
 			name: "email",
-			placeholder: Feedback.formInputInfolist[1].placeholder, 
-			isLocalInvalid: () => inputValidationStatus.value.email == Validity.Invalid,
-			error: Feedback.formInputInfolist[1].error,
+			placeholder: FeedbackConfiguration.text.formInputInfolist[1].placeholder, 
+			isValid: () => inputValidationStatus.value.email == Validity.Invalid,
+			error: FeedbackConfiguration.text.formInputInfolist[1].error,
 		},
 	];
 	return inputsInfo;
 }
 
+/**
+ * Função utilizada para guardar os dados escritos nos inputs
+ * @param {string} value - Valor recebido pelo input
+ * @param {string} name - Nome do input
+ */
 function handleInputChange(value: string, name: string): void {
 	const newUserFeedback = {...userFeedBack.value};
 
@@ -195,7 +227,6 @@ function handleInputChange(value: string, name: string): void {
 	newUserFeedback.message = userFeedBack.value.message;
 	userFeedBack.value = newUserFeedback;
 }
-export default TheFormFeedback;
 
 </script>
 

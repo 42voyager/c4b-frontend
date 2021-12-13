@@ -6,11 +6,11 @@
 		:placeholder="placeholder"
 		required
 		class="input-feedback"
-		v-bind:class="{ invalid: isLocalInvalid || !checkErrorsReturn(FormResponseError[name])}"
+		v-bind:class="{ invalid: isValid}"
 		@input="onInput"
 		/>
-		<div v-show=" isLocalInvalid || !checkErrorsReturn(FormResponseError[name])">
-			<InputError :msg="error"/>
+		<div v-show=" isValid">
+			<InputError :msg="errorsFront"/>
 		</div>
 	</div>
 </template>
@@ -20,13 +20,16 @@ import { defineComponent, PropType } from 'vue';
 import InputError from "@/components/ui/InputError.vue";
 import { checkErrorsReturn } from "@/use/validInput";
 
-interface FormResponseError {
-	name: [],
-	email: [],
-	message: []
-}
-
-const FormTextInput = defineComponent({
+/**
+ * Component utilizado para input
+ * @prop {String} type - tipo do input
+ * @prop {String} name - Nome do input
+ * @prop {String} placeholder - Placeholder a ser utilizado no input
+ * @prop {Boolean} isValid - Condição para verficar se o input é válido
+ * @prop {Array<String>} errorsFront - Array de string contendo todos as mensagens de erros
+ * @event inputEvent - Evento para quando algo é escrito no input
+*/
+export default defineComponent({
 	components: {
 		InputError
 	},
@@ -43,23 +46,23 @@ const FormTextInput = defineComponent({
 			type: String,
 			required: true
 		},
-		FormResponseError: {
-			type: Object as PropType<FormResponseError>,
-			required: true
-		},
-		isLocalInvalid: {
+		isValid: {
 			type: Boolean,
 			required: true
 		},
-		error: {
+		errorsFront: {
 			type: Array as PropType<string[]>,
 			required: true
 		},
 	},
-	emits: ["inputModel"],
+	emits: ["inputEvent"],
 	setup(props, context) {
+		/**
+		 * Função chamada para emitir um evento quando algo é escrito no input
+		 * @param {any} event - dados do evento recebido pelo input
+		 */
 		function onInput(event: any) {
-			context.emit("inputModel", event.target.value)
+			context.emit("inputEvent", event.target.value)
 		}
 		return {
 			checkErrorsReturn,
@@ -68,7 +71,6 @@ const FormTextInput = defineComponent({
 	},
 });
 
-export default FormTextInput;
 </script>
 
 <style scoped>
