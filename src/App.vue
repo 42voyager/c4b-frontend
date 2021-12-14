@@ -8,7 +8,7 @@
     :titleInfo="titleInfo"
   />
   <FaqSection :faqs="faqs" />
-  <TheFormFeedback/>
+  <ContactForm/>
   <TheFooter />
 </template>
 
@@ -21,7 +21,7 @@ import TwoColumnSection from "@/pages/LandingPage/TwoColumnSection.vue";
 import InformationSection from "@/pages/LandingPage/InformationSection.vue";
 import TheFooter from "@/components/layout/TheFooter.vue";
 import FaqSection from "@/pages/LandingPage/FaqSection.vue";
-import TheFormFeedback from "@/pages/LandingPage/TheFormFeedback.vue";
+import ContactForm from "@/pages/LandingPage/ContactSection.vue";
 import { TitlePontoForte, Faqs, Infos, TitleInfo } from "./config/variables";
 
 @Options({
@@ -33,7 +33,7 @@ import { TitlePontoForte, Faqs, Infos, TitleInfo } from "./config/variables";
     InformationSection,
     TheFooter,
     FaqSection,
-    TheFormFeedback
+    ContactForm
   },
 })
 export default class App extends Vue {
