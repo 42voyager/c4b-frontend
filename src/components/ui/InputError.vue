@@ -3,17 +3,20 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component'
+import { defineComponent, PropType } from 'vue';
 
-@Options({
+/**
+ * Component utilizado para mostrar os erros dos inputs
+ * @prop {Array<String>} msg - Um array de strings contendo todas as mensagens de erro
+ */
+export default defineComponent({
 	props: {
-		msg: Array
-	}
-})
-
-export default class InputError extends Vue{
-		
-}
+			msg: {
+				type: Array as PropType<string[]>,
+				required: true
+			}
+		}
+});
 </script>
 
 <style scoped>
