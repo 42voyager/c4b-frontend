@@ -11,6 +11,11 @@ export const Ponto2 = "Você pode solicitar agora mesmo.";
 export const TitlePonto3 = "Facilita planejamento"
 export const Ponto3 = "Receba uma resposta rápida para planejar melhor.";
 
+// Textos do error
+export const errorMsgs = {
+	tooManyRequests: "Por favor, tente de novo mais tarde",
+}
+
 //Textos  do form
 export const TitleForm = "Solicite seu crédito em 2 passos";
 

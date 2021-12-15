@@ -23,7 +23,6 @@
           @backStep="backStepClicked"
           :enableMessage="enableMessage"
           :messageResponse="messageResponse"
-          :status="requestSucceeded"
         />
         <TheSuccessForm
           v-if="requestSucceeded === true"
@@ -42,7 +41,7 @@ import ApiController from "@/api/C4bApi";
 import IUserData from "@/types/user";
 import TheFormCreditData from "./TheFormCreditData.vue";
 import TheSuccessForm from "./TheSuccessForm.vue";
-import { TitleForm, SucessMessage } from "@/config/variables";
+import { TitleForm, SucessMessage, errorMsgs } from "@/config/variables";
 import GetIPApi from "@/api/getIpApi";
 
 const TwoColumnSection = defineComponent({
@@ -116,11 +115,15 @@ const TwoColumnSection = defineComponent({
         messageResponse.value = { title: "Solicitação recebida com sucesso!" };
         reset();
       } catch (err: any) {
-        enableMessage.value = true;
-        messageResponse.value = err.response.data.errors;
         requestSucceeded.value = false;
+        enableMessage.value = true;
+        if (err.response && err.response.data.status == 429) {
+          messageResponse.value = { title: errorMsgs.tooManyRequests };
+          reset();
+        } else {
+          messageResponse.value = err.response.data.errors;
+        }
       }
-      console.log(user);
     };
 
     return {

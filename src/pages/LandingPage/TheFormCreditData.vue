@@ -60,12 +60,10 @@ export default class TheFromCreditData extends Vue {
 	creditInstallments = CreditInstallments;
 
 	nextStepClicked(): void {
-		// console.log(this.limit, this.installment)
 		this.$emit("nextStepClicked")
 	}
 	/** No momento que o radio input e clickado, handle input triggers */
 	handleInput(limit: string | null, installment: string | null): void {
-		// console.log("FOI", limit, installment)
 		this.$emit("valueChanged", limit, installment)
 	}
 

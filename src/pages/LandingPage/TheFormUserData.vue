@@ -83,8 +83,8 @@
       <ButtonDefault msg="Voltar" @buttonClicked="backStep()" />
       <ButtonDefault msg="Solicitar" @buttonClicked="submitForm()" />
     </div>
-    <div id="message-panel" v-bind:class="{ disable: !status }">
-      <p v-if="!validInput(messageResponse.title)">
+    <div id="message-panel" v-if="!validInput(messageResponse.title)">
+      <p>
         {{ messageResponse.title }}
       </p>
     </div>
@@ -120,8 +120,7 @@ import { Terms } from "@/config/variables";
     messageResponse: {
       type: Object,
       default: {}
-      },
-    status: Boolean,
+      }
   },
   emit: ["submitForm", "backStep"],
   components: {
