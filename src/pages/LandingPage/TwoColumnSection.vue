@@ -10,13 +10,7 @@
     <div class="column column-two">
       <h2 v-if="requestSucceeded == false">{{ titleForm }}</h2>
       <form id="form-request" class="wrapper-form" @submit.prevent ref="div-1">
-        <TheFormCreditData
-          v-if="!nextStep"
-          @nextStepClicked="goNextStep"
-          @valueChanged="creditDataChanged"
-          :limit="limit"
-          :installment="installment"
-        />
+        <TheFormCreditData2/>
         <TheFormUserData
           v-show="nextStep && requestSucceeded == false"
           @submitForm="submitUser"
@@ -40,6 +34,7 @@ import TheFormUserData from "./TheFormUserData.vue";
 import ApiController from "@/api/C4bApi";
 import IUserData from "@/types/user";
 import TheFormCreditData from "./TheFormCreditData.vue";
+import TheFormCreditData2 from "./TheFormCreditData2.vue";
 import TheSuccessForm from "./TheSuccessForm.vue";
 import { TitleForm, SucessMessage, errorMsgs } from "@/config/variables";
 import GetIPApi from "@/api/getIpApi";
@@ -53,6 +48,7 @@ const TwoColumnSection = defineComponent({
     TheFormUserData,
     TheFormCreditData,
     TheSuccessForm,
+    TheFormCreditData2
   },
   setup() {
     const { executeRecaptcha, recaptchaLoaded } = useReCaptcha()!;
