@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Excluir o container
-#sudo docker stop id-do-container
+sudo docker stop voyager-front-container
 
 # deleta image antiga
 docker rmi voyager-front
