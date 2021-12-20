@@ -10,7 +10,7 @@
 					:name="item.name"
 					:placeholder="item.placeholder"
 					:isValid="item.isValid()"
-					:errorsFront="item.error"
+					:errors="item.error"
 				/>
 				<div class="wrapper-input">
 					<textarea 

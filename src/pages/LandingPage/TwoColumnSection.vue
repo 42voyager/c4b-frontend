@@ -46,7 +46,7 @@ const TwoColumnSection = defineComponent({
   },
   components: {
     TheFormUserData,
-    TheFormCreditData,
+    // TheFormCreditData,
     TheSuccessForm,
     TheFormCreditData2
   },
