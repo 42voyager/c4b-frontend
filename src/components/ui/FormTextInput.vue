@@ -38,6 +38,7 @@ export default defineComponent({
 		},
 	},
 	emits: ["inputEvent"],
+	inheritAttrs: false,
 	setup(props, context) {
 		/**
 		 * Função chamada para emitir um evento quando algo é escrito no input

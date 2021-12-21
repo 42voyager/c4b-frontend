@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, PropType, watch } from "vue";
 import { useCurrencyInput, CurrencyInputOptions } from "vue-currency-input";
 import InputError from "@/components/ui/InputError.vue";
 import { checkErrorsReturn } from "@/use/validInput";
@@ -43,12 +43,23 @@ export default defineComponent({
       type: Object as PropType<CurrencyInputOptions>,
       required: true,
     },
+    modelValue: {
+      type: Number,
+      required: true
+    }
   },
   emits: ["inputEvent"],
+  inheritAttrs: false,
   setup(props, context) {
-    const { inputRef, formattedValue } = useCurrencyInput(
+    const { inputRef, formattedValue, setValue } = useCurrencyInput(
       props.currencyOptions
     );
+    watch(
+      () => props.modelValue, 
+      (value) => {
+        setValue(value)
+      }
+    )
     /**
      * Função chamada para emitir um evento quando algo é escrito no input
      * @param {any} event - dados do evento recebido pelo input
@@ -74,7 +85,6 @@ export default defineComponent({
   font-size: 18px;
   margin: 10px 0;
   border-radius: 5px;
-  border: solid 1px #b29475;
 }
 .btn-next {
   margin: 40px 20px;

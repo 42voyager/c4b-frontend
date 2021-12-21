@@ -5,8 +5,8 @@ export default interface IUserData {
 	cnpj: string;
 	company: string;
 	optin: boolean;
-	limit: string;
-	installment: string;
+	limit: number;
+	installment: number;
 	ip: string;
 	os: string;
 	timestamp: string;

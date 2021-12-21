@@ -1,16 +1,18 @@
 <template>
   <div class="two-column-section" id="two-column-section">
     <div class="column column-one">
-      <img
-        class="side-img"
-        :src="require('@/assets/' + imageFileName)"
-        :alt="altText"
-      />
+      <img class="side-img" :src="require('@/assets/' + imageFileName)" :alt="altText" />
     </div>
     <div class="column column-two">
       <h2 v-if="requestSucceeded == false">{{ titleForm }}</h2>
       <form id="form-request" class="wrapper-form" @submit.prevent ref="div-1">
-        <TheFormCreditData2/>
+        <TheFormCreditData2
+          v-if="!nextStep"
+          @formButtonClicked="goNextStep"
+          @valuesChanged="creditDataChanged"
+          :limit="limit"
+          :installment="installment"
+        />
         <TheFormUserData
           v-show="nextStep && requestSucceeded == false"
           @submitForm="submitUser"
@@ -28,16 +30,16 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
-import { useReCaptcha } from "vue-recaptcha-v3";
-import TheFormUserData from "./TheFormUserData.vue";
-import ApiController from "@/api/C4bApi";
-import IUserData from "@/types/user";
-import TheFormCreditData from "./TheFormCreditData.vue";
-import TheFormCreditData2 from "./TheFormCreditData2.vue";
-import TheSuccessForm from "./TheSuccessForm.vue";
-import { TitleForm, SucessMessage, errorMsgs } from "@/config/variables";
-import GetIPApi from "@/api/getIpApi";
+import { defineComponent, onMounted, ref } from 'vue'
+import { useReCaptcha } from 'vue-recaptcha-v3'
+import TheFormUserData from './TheFormUserData.vue'
+import ApiController from '@/api/C4bApi'
+import IUserData from '@/types/user'
+import TheFormCreditData from './TheFormCreditData.vue'
+import TheFormCreditData2 from './TheFormCreditData2.vue'
+import TheSuccessForm from './TheSuccessForm.vue'
+import { TitleForm, SucessMessage, errorMsgs } from '@/config/variables'
+import GetIPApi from '@/api/getIpApi'
 
 const TwoColumnSection = defineComponent({
   props: {
@@ -48,79 +50,77 @@ const TwoColumnSection = defineComponent({
     TheFormUserData,
     // TheFormCreditData,
     TheSuccessForm,
-    TheFormCreditData2
+    TheFormCreditData2,
   },
   setup() {
-    const { executeRecaptcha, recaptchaLoaded } = useReCaptcha()!;
-    const titleForm = TitleForm;
-    const sucessMessage = SucessMessage;
-    const enableMessage = ref(false);
-    const messageResponse = ref({ title: "" });
-    const requestSucceeded = ref(false);
-    const nextStep = ref(false);
-    const installment = ref("6x");
-    const limit = ref("10k");
-    const userIP = ref("");
-    const userOS = ref("Unknown OS");
+    const { executeRecaptcha, recaptchaLoaded } = useReCaptcha()!
+    const titleForm = TitleForm
+    const sucessMessage = SucessMessage
+    const enableMessage = ref(false)
+    const messageResponse = ref({ title: '' })
+    const requestSucceeded = ref(false)
+    const nextStep = ref(false)
+    const installment = ref(0)
+    const limit = ref(0)
+    const userIP = ref('')
+    const userOS = ref('Unknown OS')
 
     const goNextStep = () => {
-      nextStep.value = true;
-    };
+      nextStep.value = true
+    }
     const backStepClicked = () => {
-      nextStep.value = false;
-    };
-    const creditDataChanged = (
-      newLimit: string | null,
-      newInstallment: string | null
-    ) => {
-      if (newLimit != null) limit.value = newLimit;
-      if (newInstallment != null) installment.value = newInstallment;
-    };
+      nextStep.value = false
+    }
+    const creditDataChanged = (newLimit: number | null, newInstallment: number | null) => {
+      console.log('DATAS', newLimit, newInstallment)
+      if (newLimit != null && Number(newLimit) != 0) limit.value = newLimit
+      if (newInstallment != null && Number(newInstallment) != 0) installment.value = newInstallment
+    }
     const newRequestClicked = () => {
-      nextStep.value = false;
-      messageResponse.value = { title: "" };
-      requestSucceeded.value = false;
-    };
+      nextStep.value = false
+      messageResponse.value = { title: '' }
+      requestSucceeded.value = false
+    }
     const getOS = () => {
-      if (navigator.userAgent.indexOf("Win") != -1) userOS.value = "Windows";
-      if (navigator.userAgent.indexOf("Mac") != -1) userOS.value = "MacOS";
-      if (navigator.userAgent.indexOf("Linux") != -1) userOS.value = "Linux";
-    };
+      if (navigator.userAgent.indexOf('Win') != -1) userOS.value = 'Windows'
+      if (navigator.userAgent.indexOf('Mac') != -1) userOS.value = 'MacOS'
+      if (navigator.userAgent.indexOf('Linux') != -1) userOS.value = 'Linux'
+    }
     onMounted(() => {
       new GetIPApi().getIP().then((res) => {
-        userIP.value = res.data.ip;
-      });
-      getOS();
-    });
+        userIP.value = res.data.ip
+      })
+      getOS()
+    })
     const submitUser = async (user: IUserData, reset: () => void) => {
-      user.limit = limit.value;
-      user.installment = installment.value;
-      user.timestamp = new Date().toJSON();
-      user.ip = userIP.value;
-      user.os = userOS.value;
+      user.limit = limit.value
+      user.installment = installment.value
+      user.timestamp = new Date().toJSON()
+      user.ip = userIP.value
+      user.os = userOS.value
       try {
         // ReCaptcha 3 handling
-        await recaptchaLoaded();
-        const token = await executeRecaptcha("login");
-        user.recaptchaToken = token;
+        await recaptchaLoaded()
+        const token = await executeRecaptcha('login')
+        user.recaptchaToken = token
 
         // Submit user handling
-        await new ApiController().postUser(user);
-        requestSucceeded.value = true;
-        enableMessage.value = true;
-        messageResponse.value = { title: "Solicitação recebida com sucesso!" };
-        reset();
+        await new ApiController().postUser(user)
+        requestSucceeded.value = true
+        enableMessage.value = true
+        messageResponse.value = { title: 'Solicitação recebida com sucesso!' }
+        reset()
       } catch (err: any) {
-        requestSucceeded.value = false;
-        enableMessage.value = true;
+        requestSucceeded.value = false
+        enableMessage.value = true
         if (err.response && err.response.data.status == 429) {
-          messageResponse.value = { title: errorMsgs.tooManyRequests };
-          reset();
+          messageResponse.value = { title: errorMsgs.tooManyRequests }
+          reset()
         } else {
-          messageResponse.value = err.response.data.errors;
+          messageResponse.value = err.response.data.errors
         }
       }
-    };
+    }
 
     return {
       submitUser,
@@ -138,11 +138,11 @@ const TwoColumnSection = defineComponent({
       limit,
       userOS,
       userIP,
-    };
+    }
   },
-});
+})
 
-export default TwoColumnSection;
+export default TwoColumnSection
 </script>
 
 <style scoped>
