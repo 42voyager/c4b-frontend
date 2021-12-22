@@ -1,15 +1,15 @@
 //Textos do Banner
-export const TitleBanner = "Crédito para seu negócio";
-export const TextBanner = "Simples, fácil é com resposta rápida";
+export const TitleBanner = "Solicite um crédito para seu negócio";
+export const TextBanner = "Rápido, simples, sem burocracia";
 
 //textos dos pontos forte
-export const TitlePontoForte = "Por que C4B é melhor?";
+export const TitlePontoForte = "Por que C4B é diferente?";
 export const TitlePonto1 = "Liquidez"
-export const Ponto1 = "Brinda liquidez para seu negôcio.";
+export const Ponto1 = "Cristalize os planos para fazer crescer seu negócio.";
 export const TitlePonto2 = "Facil de solicitar"
-export const Ponto2 = "Você pode solicitar agora mesmo.";
-export const TitlePonto3 = "Facilita planejamento"
-export const Ponto3 = "Receba uma resposta rápida para planejar melhor.";
+export const Ponto2 = "O processo é online, e você recebe a resposta no seu e-mail.";
+export const TitlePonto3 = "Faça crescer seu negócio"
+export const Ponto3 = "A rapidez de resposta ajuda você planejar melhor.";
 
 // Textos do error
 export const errorMsgs = {
@@ -20,43 +20,39 @@ export const errorMsgs = {
 export const TitleForm = "Solicite seu crédito em 2 passos";
 
 //textos de informações
-export const TitleInfo = "Informações sobre o produto";
+export const TitleInfo = "C4B é a resposta para sua necessidade de crédito";
 export const Infos = [
-    {text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam dapibus"+
-        "tempor massa eu sodales. Aenean scelerisque justo lorem, ut semper"+
-        "velit commodo convallis. Quisque auctor arcu augue, facilisis luctus"+
-        "diam gravida sit amet. Quisque pharetra luctus dui non varius."+
-        "Phasellus tempus mauris turpis, et mattis orci gravida eget. Sed"+
-        "vestibulum massa et ante sollicitudin pellentesque.",
+    {text: "O processo de solicitação é simples e sem burocracia, você só precisa" +
+	"preencher o formulário e esperar a resposta por e-mail. C4B foi desenhado para" +
+	"você não precisar se deslocar.",
         img: "info-img1.jpg"},
-    {text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam dapibus"+
-    "tempor massa eu sodales. Aenean scelerisque justo lorem, ut semper"+
-    "velit commodo convallis. Quisque auctor arcu augue, facilisis luctus"+
-    "diam gravida sit amet. Quisque pharetra luctus dui non varius."+
-    "Phasellus tempus mauris turpis, et mattis orci gravida eget. Sed"+
-    "vestibulum massa et ante sollicitudin pellentesque.",
+    {text: "Crédito a medida de sua empresa. C4B permite calcular com antecipação" +
+	"a quantidade solicitada para que esteja dentro das possibilidades do seu negócio." +
+	"Você pode decidir as parcelas e organizar melhor suas finanzas.",
         img: "info-img3.jpg"},
-    {text: " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam dapibus"+
-    "tempor massa eu sodales. Aenean scelerisque justo lorem, ut semper"+
-    "velit commodo convallis. Quisque auctor arcu augue, facilisis luctus"+
-    "diam gravida sit amet. Quisque pharetra luctus dui non varius."+
-    "Phasellus tempus mauris turpis, et mattis orci gravida eget. Sed"+
-    "vestibulum massa et ante sollicitudin pellentesque.",
+    {text: "O processo é digitalizado para facilitar o envío de informações, " +
+	"esqueça de ter que agendar visitas ao banco ou de perder tempo em trámites" +
+	"burocráticos. Você faz a solicitação desde seu computador e recebe a resposta " +
+	"no seu computador",
         img: "info-img4.jpg"}
 ];
 
 // Array of questions and answer
 export const Faqs = [
-	{ question: "Objetivo:", answer: "Automatizar análises crédito com dados de parceiros"},
-	{ question: "Qual o core business?", answer: "Análise de crédito."},
-	{ question: "É seguro?", answer: "Atraves do c2s o Seller pode obter crédito de forma mais simples, rápida e segura."},
+	{ question: "Preciso comprovar faturamento?", answer: "Sim, porém, nosso processo " +
+	"permite solicitar um crédito a medida de seu faturamento."},
+	{ question: "Existe algúm processo além de preencher o formulário?", answer: "Não, " +
+	"você só precisa preencher o fomrulário e C4B faz o trabalho. Você faz a solicitação desde" +
+	"seu computador e recebe a resposta no seu computador."},
+	{ question: "É seguro?", answer: "Todo o processo garante segurança e transparência. " +
+	"São solicitadas o mínimo de informações necessárias para tramitar o crédito."},
 ]
 
 export const CreditLimits = [
-	{id: "10k", name: "creditLimit", label: "Até R$10.000"},
-	{id: "50k", name: "creditLimit", label: "Até R$50.000"},
-	{id: "100k", name: "creditLimit", label: "Até R$100.000"},
-	{id: "over150k", name: "creditLimit", label: "mais de R$150.000"}
+	{id: "10k", name: "creditLimit", label: "R$10.000 - R$100.000"},
+	{id: "500k", name: "creditLimit", label: "R$100.001 - R$500.000"},
+	{id: "1m", name: "creditLimit", label: "R$500.001 - R$1.000.000"},
+	{id: "over1m", name: "creditLimit", label: "R$1.000.001 - R$5.000.000"}
 ]
 
 export const CreditInstallments = [
@@ -118,7 +114,7 @@ export const Terms = [
 // Sucess form
 export const SucessMessage = [
 	"Recebemos sua solicitação, obrigado pelo seu interesse!",
-	"Em breve entraremos em contato!!"
+	"Em breve entraremos em contato!"
 ]
 
 //feedback form
@@ -126,8 +122,8 @@ export const FeedbackConfiguration = {
 	text: {
 		title: "Você tem alguma dúvida ou sugestão?",
 		success: [
-			"Recebemos seu feedback, obrigado pelo seu interesse!",
-			"Em breve entraremos em contato!!"
+			"Recebemos seus comentários, obrigado pelo seu interesse!",
+			"Em breve entraremos em contato!"
 		],
 		errorTextArea: [["A mensagem precisa ser maior que 10 caracteres"]],
 		formInputInfolist: [
