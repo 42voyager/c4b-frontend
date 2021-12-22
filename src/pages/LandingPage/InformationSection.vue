@@ -50,7 +50,6 @@ export default InformationSection;
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 40px;
   flex-direction: column;
 }
 .image-information {
@@ -70,6 +69,7 @@ export default InformationSection;
   }
   .wrapper-item {
     flex-direction: row;
+	margin-bottom: 40px;
   }
   .wrapper-item:nth-child(even) {
     flex-direction: row-reverse;
@@ -77,6 +77,8 @@ export default InformationSection;
   .column-info {
     width: calc(50% - 60px);
 	margin-bottom: 30px;
+	display: flex;
+	align-items: center;
   }
 }
 </style>

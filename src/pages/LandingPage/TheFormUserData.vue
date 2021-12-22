@@ -190,6 +190,13 @@ export default class TheFormUserData extends Vue {
   margin: 10px 0;
   width: 100%;
 }
+.wrapper-optin a {
+	color: #977f66;
+	text-decoration: underline;
+}
+.wrapper-optin a:hover {
+	text-decoration: none;
+}
 .label-optin {
   display: block;
   position: relative;
