@@ -7,8 +7,8 @@ export default interface IUserData {
 	optin: boolean;
 	limit: number;
 	installment: number;
-	ip: string;
-	os: string;
+	ipAddress: string;
+	operatingSystem: string;
 	timestamp: string;
 	recaptchaToken: string
 }

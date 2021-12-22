@@ -60,8 +60,8 @@ const TwoColumnSection = defineComponent({
     const messageResponse = ref({ title: '' })
     const requestSucceeded = ref(false)
     const nextStep = ref(false)
-    const installment = ref(0)
-    const limit = ref(0)
+    const installment = ref(6)
+    const limit = ref(10000)
     const userIP = ref('')
     const userOS = ref('Unknown OS')
 
@@ -96,8 +96,8 @@ const TwoColumnSection = defineComponent({
       user.limit = limit.value
       user.installment = installment.value
       user.timestamp = new Date().toJSON()
-      user.ip = userIP.value
-      user.os = userOS.value
+      user.ipAddress = userIP.value
+      user.operatingSystem = userOS.value
       try {
         // ReCaptcha 3 handling
         await recaptchaLoaded()

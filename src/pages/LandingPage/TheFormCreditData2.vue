@@ -1,36 +1,26 @@
 <template>
   <div class="container-credit">
     <p class="creditLabel">De quanto seu negócio precisa</p>
-    <FormCurrencyInput
-      class="creditInput"
-      placeholder="R$ 0,00"
-      is-valid="true"
-      :errors="[]"
+    <SliderInput
+      :min="minCredit"
+      :max="maxCredit"
+      :minLabel="'R$' + currencyFormatBR(minCredit)"
+      :maxLabel="'R$' + currencyFormatBR(maxCredit)"
+      step="1000"
       v-model="credit"
-      :currencyOptions="currencyOptions"
-      @inputEvent="
-        (value) => {
-          handleCreditChange(value)
-        }
-      "
-    />
+      />
+      <b class="current-value" > R$ {{ creditFormatted }} </b>
     <p class="creditLabel">Em quantas vezes você quer pagar?</p>
-    <FormTextInput
-      class="installmentInput"
-      type="number"
-      min="6"
-      max="36"
-      placeholder="Quantos meses"
-      is-valid="true"
-      :errors="[]"
-      :value="installment.toString()"
-      @inputEvent="
-        (value) => {
-          handleInstallmentsChange(value)
-        }
-      "
-    />
-    <InfoBox>
+    <SliderInput
+      :min="6"
+      :max="36"
+      :minLabel="'6 Meses'"
+      :maxLabel="'35 Meses'"
+      step="2"
+      v-model="installments"
+      />
+      <b class="current-value"> {{ installments }} Meses </b>
+    <InfoBox class="info-box">
       <p>
         Faturamento mensual recomendado seria: <b> R$ {{ minIncome }} </b>
       </p>
@@ -45,18 +35,9 @@
 import { defineComponent, ref, computed } from 'vue'
 import { CurrencyInputOptions, CurrencyDisplay } from 'vue-currency-input'
 import InfoBox from '@/components/ui/InfoBox.vue'
-import FormTextInput from '@/components/ui/FormTextInput.vue'
-import FormCurrencyInput from '@/components/ui/FormCurrencyInput.vue'
 import ButtonDefault from '@/components/ui/ButtonDefault.vue'
+import SliderInput from '@/components/ui/SliderInput.vue'
 
-/**
- * Includes:
- * Two numeric inputs
- * 1. Credit amount -
- * 2. Installements
- * A text information box
- * "How much does the person needs to earn"
- */
 export default defineComponent({
   props: {
     limit: {
@@ -69,15 +50,16 @@ export default defineComponent({
     },
   },
   components: {
-    FormTextInput,
     InfoBox,
     ButtonDefault,
-    FormCurrencyInput,
+    SliderInput
   },
   emits: ['formButtonClicked', 'valuesChanged'],
   setup: (props, context) => {
+    const minCredit = 10000
+    const maxCredit = 5000000
     const credit = ref(props.limit)
-    const installments = ref<number>(props.installment)
+    const installments = ref(props.installment)
     const currencyOptions: CurrencyInputOptions = {
       currency: 'BRL',
       currencyDisplay: CurrencyDisplay.symbol,
@@ -90,24 +72,24 @@ export default defineComponent({
       useGrouping: true,
     }
     const currencyFormatBR = (num: number) => {
+      console.log(num)
       return num
         .toFixed(2)
         .replace('.', ',') 
         .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
     }
+    const creditFormatted = computed(() => {
+      return currencyFormatBR(credit.value)
+    })
     const minIncome = computed(() => {
+      console.log(credit.value, installments.value)
       const minIncomeNumber = calMinIncome(credit.value, installments.value)
+      console.log(minIncomeNumber)
       return currencyFormatBR(minIncomeNumber)
     })
     const handleSubmit = () => {
+      context.emit('valuesChanged', credit.value, installments.value)
       context.emit('formButtonClicked')
-    }
-    const handleInstallmentsChange = (value: number) => {
-      installments.value = value
-      context.emit('valuesChanged', credit.value, installments.value)
-    }
-    const handleCreditChange = (value: number) => {
-      context.emit('valuesChanged', credit.value, installments.value)
     }
     const calMinIncome = (credit: number, installments: number) => {
       if (credit <= 0 || installments <= 0) return 0
@@ -117,11 +99,14 @@ export default defineComponent({
     }
     return {
       handleSubmit,
-      handleInstallmentsChange,
-      handleCreditChange,
+      currencyFormatBR,
       minIncome,
       credit,
+      creditFormatted,
+      installments,
       currencyOptions,
+      minCredit,
+      maxCredit
     }
   },
 })
@@ -141,6 +126,12 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.current-value {
+  margin-bottom: 10px;
+}
+::v-deep .info-box {
+  margin-top: 20px;
 }
 ::v-deep .creditInput {
   width: 240px;
