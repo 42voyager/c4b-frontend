@@ -107,7 +107,6 @@ export default defineComponent({
       context.emit('valuesChanged', credit.value, installments.value)
     }
     const handleCreditChange = (value: number) => {
-      console.log('value', value)
       context.emit('valuesChanged', credit.value, installments.value)
     }
     const calMinIncome = (credit: number, installments: number) => {
