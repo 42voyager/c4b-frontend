@@ -45,7 +45,7 @@ button {
 	position: relative;
 	z-index: 1;
 	margin-top: 65px;
-	height: calc(100vh - 65px);
+	height: calc(100vh - 69px);
 	overflow: hidden;
 }
 
@@ -64,14 +64,14 @@ button {
 .text-banner {
 	color: white;
 	position: absolute;
-	left: 0;
+	left: 50%;
 	bottom: 20px;
-	max-width: 500px;
+	max-width: 280px;
 	text-align: left;
 	font-size: 13px;
 	z-index: 10;
 	text-align: center;
-	width: 100%;
+	transform: translateX(-50%);
 }
 
 .banner img {
@@ -79,7 +79,9 @@ button {
 	height: calc(100vh - 65px);
 	transform: translateX(-50%);
 }
+@media (min-width: 552px) {
 
+}
 @media (min-width: 768px) {
 	.banner {
 		margin-top: 75px;
@@ -91,6 +93,8 @@ button {
 		bottom: 90px;
 		text-align: left;
 		width: auto;
+		max-width: 500px;
+		transform: translateX(0);
 	}
 	.banner img {
 		transform: translateX(0);

@@ -13,14 +13,14 @@
 					:errorsFront="item.error"
 				/>
 				<div class="wrapper-input">
-					<textarea 
-					name="Feedback" 
+					<textarea
+					name="Feedback"
 					placeholder="Mensagem"
 					id="Feedback"
 					class="textarea-input"
 					v-bind:class="{ invalid: validLocalTextArea()}"
-					cols="40" 
-					rows="10" 
+					cols="40"
+					rows="10"
 					required
 					v-model="userFeedBack.message"
 					/>
@@ -31,7 +31,7 @@
 				<ButtonDefault @buttonClicked="submitFeedBack()"/>
 			</form>
 		</div>
-		<TheSuccessForm 
+		<TheSuccessForm
 			v-show="success"
 			:messages="FeedbackConfiguration.text.success"
 			@newRequestClicked="newFeedback()"
@@ -140,7 +140,7 @@ function resetFeedBack(): void {
 		message: "",
 		recaptchaToken: ""
 	};
-	userFeedBack.value = emptyUserFeedBack 
+	userFeedBack.value = emptyUserFeedBack
 }
 
 /**
@@ -195,12 +195,12 @@ function newFeedback(): void {
 }
 
 /**
- * Função utilizada para criar um array contendo todos os dados  
+ * Função utilizada para criar um array contendo todos os dados
  * necessário para gerar os inputs
  * @returns {Array<InputsInfo>} - Um array com todos os dados utilizados nos inputs
  */
 function  createList(): Array<InputsInfo> {
-	
+
 	let inputsInfo = [
 		{
 			type: "text",
@@ -212,7 +212,7 @@ function  createList(): Array<InputsInfo> {
 		{
 			type: "email",
 			name: "email",
-			placeholder: FeedbackConfiguration.text.formInputInfolist[1].placeholder, 
+			placeholder: FeedbackConfiguration.text.formInputInfolist[1].placeholder,
 			isValid: () => inputValidationStatus.value.email == Validity.Invalid,
 			error: FeedbackConfiguration.text.formInputInfolist[1].error,
 		},
@@ -241,9 +241,8 @@ function handleInputChange(value: string, name: string): void {
 <style scoped>
 
 .feedback-title {
-	padding-top: 50px;
 	padding-bottom: 15px;
-	
+
 }
 .form-Feedback {
 	max-width: 350px;
@@ -278,11 +277,14 @@ function handleInputChange(value: string, name: string): void {
 @media (max-width: 576px)
 {
 	.wrapper-Feedback {
-		height: 100vh;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 	}
 }
-
+@media (min-width: 768px) {
+	.feedback-title {
+		padding-top: 50px;
+	}
+}
 </style>

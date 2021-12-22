@@ -51,6 +51,7 @@ export default class Highlight extends Vue {
 @media (min-width: 768px) {
 	.highlight-item {
 		width: auto;
+		max-width: 300px;
 	}
 }
 </style>
