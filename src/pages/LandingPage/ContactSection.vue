@@ -41,6 +41,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+import { useReCaptcha } from "vue-recaptcha-v3";
 import FormTextInput from "@/components/ui/FormTextInput.vue";
 import ApiController from "@/api/C4bApi";
 import ButtonDefault from "@/components/ui/ButtonDefault.vue";
@@ -68,7 +69,8 @@ const inputValidationStatus = ref({name: Validity.Undefined, email: Validity.Und
 const userFeedBack = ref({
 			name: "",
 			email: "",
-			message: ""
+			message: "",
+			recaptchaToken: ""
 		});
 /**
  * Component para criação do formulário de contato.
@@ -81,6 +83,36 @@ components: {
 		FormTextInput
 	},
 	setup() {
+		const { executeRecaptcha, recaptchaLoaded } = useReCaptcha()!;
+		/**
+		 * Função utilizada para gerar uma requisição para a API C4B
+		 */
+		const submitFeedBack = async () => {
+			if (!validFormVue(userFeedBack.value))
+				return
+			try
+			{
+				await recaptchaLoaded();
+				const token = await executeRecaptcha("login");
+				userFeedBack.value.recaptchaToken = token;
+
+				await new ApiController().postUserFeedback(userFeedBack.value);
+				success.value = true;
+				resetFeedBack()
+				inputValidationStatus.value = {name: Validity.Valid, email: Validity.Valid, message: Validity.Valid};
+			}
+			catch (err: any)
+			{
+				const newStatus = {...inputValidationStatus.value};
+				if (!checkErrorsReturn(err.response.data.errors.Name))
+					newStatus.name = Validity.Invalid;
+				if (!checkErrorsReturn(err.response.data.errors.Email))
+					newStatus.email = Validity.Invalid;
+				if (!checkErrorsReturn(err.response.data.errors.Message))
+					newStatus.message = Validity.Invalid;
+				inputValidationStatus.value = newStatus;
+			}
+		}
 		return {
 			success,
 			FeedbackConfiguration,
@@ -96,32 +128,7 @@ components: {
 	}
 })
 
-/**
- * Função utilizada para gerar uma requisição para a API C4B
- */
-function submitFeedBack(): void {
-	if (!validFormVue(userFeedBack.value))
-		return
-	new ApiController()
-		.postUserFeedback(userFeedBack.value)
-		.then((res) => {
-			resetFeedBack()
-			console.log(res);
-			inputValidationStatus.value = {name: Validity.Valid, email: Validity.Valid, message: Validity.Valid};
-			success.value = true;
-		})
-		.catch((err) => {
-			console.log("Error:  ", err)
-			const newStatus = {...inputValidationStatus.value};
-			if (!checkErrorsReturn(err.response.data.errors.Name))
-				newStatus.name = Validity.Invalid;
-			if (!checkErrorsReturn(err.response.data.errors.Email))
-				newStatus.email = Validity.Invalid;
-			if (!checkErrorsReturn(err.response.data.errors.Message))
-				newStatus.message = Validity.Invalid;
-			inputValidationStatus.value = newStatus;
-		})
-}
+
 
 /**
  * Função utilizada para limpar todos os campos do formulário
@@ -130,7 +137,8 @@ function resetFeedBack(): void {
 	const emptyUserFeedBack: IUserFeedBack = {
 		name: "",
 		email: "",
-		message: ""
+		message: "",
+		recaptchaToken: ""
 	};
 	userFeedBack.value = emptyUserFeedBack 
 }
