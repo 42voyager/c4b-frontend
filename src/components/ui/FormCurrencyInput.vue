@@ -18,12 +18,13 @@
 import { defineComponent, PropType, watch } from "vue";
 import { useCurrencyInput, CurrencyInputOptions } from "vue-currency-input";
 import InputError from "@/components/ui/InputError.vue";
-import { checkErrorsReturn } from "@/use/validInput";
 
 /**
- * Component utilizado para input
+ * Component utilizado para input numerico de formato 'currency'
  * @prop {Boolean} isValid - Condição para verficar se o input é válido
  * @prop {Array<String>} errors - Array de string contendo todos as mensagens de erros
+ * @prop {CurrencyOptions} currencyOptions - Objeto com as configuracoes do tipo do currency
+ * @prop {number} modelValue - value do input
  * @event inputEvent - Evento para quando algo é escrito no input
  */
 export default defineComponent({
@@ -68,7 +69,6 @@ export default defineComponent({
       context.emit("inputEvent", event.target.value);
     }
     return {
-      checkErrorsReturn,
       onInput,
       inputRef,
       formattedValue

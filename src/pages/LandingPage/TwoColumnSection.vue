@@ -6,10 +6,17 @@
     <div class="column column-two">
       <h2 v-if="requestSucceeded == false">{{ titleForm }}</h2>
       <form id="form-request" class="wrapper-form" @submit.prevent ref="div-1">
-        <TheFormCreditData2
+        <!-- <TheFormCreditDataSlider
           v-if="!nextStep"
           @formButtonClicked="goNextStep"
           @valuesChanged="creditDataChanged"
+          :limit="limit"
+          :installment="installment"
+        /> -->
+        <TheFormCreditData
+          v-if="!nextStep"
+          @nextStepClicked="goNextStep"
+          @valueChanged="creditDataChanged"
           :limit="limit"
           :installment="installment"
         />
@@ -36,7 +43,7 @@ import TheFormUserData from './TheFormUserData.vue'
 import ApiController from '@/api/C4bApi'
 import IUserData from '@/types/user'
 import TheFormCreditData from './TheFormCreditData.vue'
-import TheFormCreditData2 from './TheFormCreditData2.vue'
+// import TheFormCreditDataSlider from './TheFormCreditDataSlider.vue'
 import TheSuccessForm from './TheSuccessForm.vue'
 import { TitleForm, SucessMessage, errorMsgs } from '@/config/variables'
 import GetIPApi from '@/api/getIpApi'
@@ -48,9 +55,9 @@ const TwoColumnSection = defineComponent({
   },
   components: {
     TheFormUserData,
-    // TheFormCreditData,
+    TheFormCreditData,
     TheSuccessForm,
-    TheFormCreditData2,
+    // TheFormCreditDataSlider,
   },
   setup() {
     const { executeRecaptcha, recaptchaLoaded } = useReCaptcha()!
@@ -72,7 +79,6 @@ const TwoColumnSection = defineComponent({
       nextStep.value = false
     }
     const creditDataChanged = (newLimit: number | null, newInstallment: number | null) => {
-      console.log('DATAS', newLimit, newInstallment)
       if (newLimit != null && Number(newLimit) != 0) limit.value = newLimit
       if (newInstallment != null && Number(newInstallment) != 0) installment.value = newInstallment
     }
@@ -93,8 +99,8 @@ const TwoColumnSection = defineComponent({
       getOS()
     })
     const submitUser = async (user: IUserData, reset: () => void) => {
-      user.limit = limit.value
-      user.installment = installment.value
+      user.limit = limit.value.toString() as any // Parsed as string to avoid being rejected by the backend
+      user.installment = installment.value.toString() as any
       user.timestamp = new Date().toJSON()
       user.ipAddress = userIP.value
       user.operatingSystem = userOS.value

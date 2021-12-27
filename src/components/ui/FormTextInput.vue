@@ -18,7 +18,7 @@ import InputError from "@/components/ui/InputError.vue";
 import { checkErrorsReturn } from "@/use/validInput";
 
 /**
- * Component utilizado para input
+ * Component utilizado para input de texto/numerico
  * @prop {Boolean} isValid - Condição para verficar se o input é válido
  * @prop {Array<String>} errors - Array de string contendo todos as mensagens de erros
  * @event inputEvent - Evento para quando algo é escrito no input
@@ -44,8 +44,8 @@ export default defineComponent({
 		 * Função chamada para emitir um evento quando algo é escrito no input
 		 * @param {any} event - dados do evento recebido pelo input
 		 */
-		function onInput(event: any) {
-			context.emit("inputEvent", event.target.value)
+		function onInput(event: Event) {
+			context.emit("inputEvent", (event.target as HTMLInputElement).value)
 		}
 		return {
 			checkErrorsReturn,
