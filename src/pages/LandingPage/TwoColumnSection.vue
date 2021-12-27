@@ -165,13 +165,13 @@ export default TwoColumnSection
   display: flex;
   flex-flow: column;
   justify-content: center;
-  height: 100vh;
 }
 .column-two h2 {
-  margin-top: 10px;
+  margin-top: 30px;
+  margin-bottom: 20px;
 }
 .side-img {
-  height: 100%;
+  height: 100vh;
 }
 @media (min-width: 768px) {
   .two-column-section {

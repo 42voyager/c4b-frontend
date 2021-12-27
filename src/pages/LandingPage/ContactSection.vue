@@ -13,14 +13,14 @@
 					:errors="item.error"
 				/>
 				<div class="wrapper-input">
-					<textarea 
-					name="Feedback" 
+					<textarea
+					name="Feedback"
 					placeholder="Mensagem"
 					id="Feedback"
 					class="textarea-input"
 					v-bind:class="{ invalid: validLocalTextArea()}"
-					cols="40" 
-					rows="10" 
+					cols="40"
+					rows="10"
 					required
 					v-model="userFeedBack.message"
 					/>
@@ -31,7 +31,7 @@
 				<ButtonDefault @buttonClicked="submitFeedBack()"/>
 			</form>
 		</div>
-		<TheSuccessForm 
+		<TheSuccessForm
 			v-show="success"
 			:messages="FeedbackConfiguration.text.success"
 			@newRequestClicked="newFeedback()"
@@ -41,6 +41,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+import { useReCaptcha } from "vue-recaptcha-v3";
 import FormTextInput from "@/components/ui/FormTextInput.vue";
 import ApiController from "@/api/C4bApi";
 import ButtonDefault from "@/components/ui/ButtonDefault.vue";
@@ -68,7 +69,8 @@ const inputValidationStatus = ref({name: Validity.Undefined, email: Validity.Und
 const userFeedBack = ref({
 			name: "",
 			email: "",
-			message: ""
+			message: "",
+			recaptchaToken: ""
 		});
 /**
  * Component para criação do formulário de contato.
@@ -81,6 +83,36 @@ components: {
 		FormTextInput
 	},
 	setup() {
+		const { executeRecaptcha, recaptchaLoaded } = useReCaptcha()!;
+		/**
+		 * Função utilizada para gerar uma requisição para a API C4B
+		 */
+		const submitFeedBack = async () => {
+			if (!validFormVue(userFeedBack.value))
+				return
+			try
+			{
+				await recaptchaLoaded();
+				const token = await executeRecaptcha("login");
+				userFeedBack.value.recaptchaToken = token;
+
+				await new ApiController().postUserFeedback(userFeedBack.value);
+				success.value = true;
+				resetFeedBack()
+				inputValidationStatus.value = {name: Validity.Valid, email: Validity.Valid, message: Validity.Valid};
+			}
+			catch (err: any)
+			{
+				const newStatus = {...inputValidationStatus.value};
+				if (!checkErrorsReturn(err.response.data.errors.Name))
+					newStatus.name = Validity.Invalid;
+				if (!checkErrorsReturn(err.response.data.errors.Email))
+					newStatus.email = Validity.Invalid;
+				if (!checkErrorsReturn(err.response.data.errors.Message))
+					newStatus.message = Validity.Invalid;
+				inputValidationStatus.value = newStatus;
+			}
+		}
 		return {
 			success,
 			FeedbackConfiguration,
@@ -96,32 +128,7 @@ components: {
 	}
 })
 
-/**
- * Função utilizada para gerar uma requisição para a API C4B
- */
-function submitFeedBack(): void {
-	if (!validFormVue(userFeedBack.value))
-		return
-	new ApiController()
-		.postUserFeedback(userFeedBack.value)
-		.then((res) => {
-			resetFeedBack()
-			console.log(res);
-			inputValidationStatus.value = {name: Validity.Valid, email: Validity.Valid, message: Validity.Valid};
-			success.value = true;
-		})
-		.catch((err) => {
-			console.log("Error:  ", err)
-			const newStatus = {...inputValidationStatus.value};
-			if (!checkErrorsReturn(err.response.data.errors.Name))
-				newStatus.name = Validity.Invalid;
-			if (!checkErrorsReturn(err.response.data.errors.Email))
-				newStatus.email = Validity.Invalid;
-			if (!checkErrorsReturn(err.response.data.errors.Message))
-				newStatus.message = Validity.Invalid;
-			inputValidationStatus.value = newStatus;
-		})
-}
+
 
 /**
  * Função utilizada para limpar todos os campos do formulário
@@ -130,9 +137,10 @@ function resetFeedBack(): void {
 	const emptyUserFeedBack: IUserFeedBack = {
 		name: "",
 		email: "",
-		message: ""
+		message: "",
+		recaptchaToken: ""
 	};
-	userFeedBack.value = emptyUserFeedBack 
+	userFeedBack.value = emptyUserFeedBack
 }
 
 /**
@@ -187,12 +195,12 @@ function newFeedback(): void {
 }
 
 /**
- * Função utilizada para criar um array contendo todos os dados  
+ * Função utilizada para criar um array contendo todos os dados
  * necessário para gerar os inputs
  * @returns {Array<InputsInfo>} - Um array com todos os dados utilizados nos inputs
  */
 function  createList(): Array<InputsInfo> {
-	
+
 	let inputsInfo = [
 		{
 			type: "text",
@@ -204,7 +212,7 @@ function  createList(): Array<InputsInfo> {
 		{
 			type: "email",
 			name: "email",
-			placeholder: FeedbackConfiguration.text.formInputInfolist[1].placeholder, 
+			placeholder: FeedbackConfiguration.text.formInputInfolist[1].placeholder,
 			isValid: () => inputValidationStatus.value.email == Validity.Invalid,
 			error: FeedbackConfiguration.text.formInputInfolist[1].error,
 		},
@@ -233,9 +241,8 @@ function handleInputChange(value: string, name: string): void {
 <style scoped>
 
 .feedback-title {
-	padding-top: 50px;
 	padding-bottom: 15px;
-	
+
 }
 .form-Feedback {
 	max-width: 350px;
@@ -270,11 +277,14 @@ function handleInputChange(value: string, name: string): void {
 @media (max-width: 576px)
 {
 	.wrapper-Feedback {
-		height: 100vh;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 	}
 }
-
+@media (min-width: 768px) {
+	.feedback-title {
+		padding-top: 50px;
+	}
+}
 </style>
