@@ -1,16 +1,13 @@
 <template>
 	<div>
 		<input
-		:type="type"
-		:name="name"
-		:placeholder="placeholder"
-		required
-		class="input-feedback"
-		v-bind:class="{ invalid: isValid}"
+		v-bind="$attrs"
+		class="input-base"
+		v-bind:class="{ invalid: isValid }"
 		@input="onInput"
 		/>
 		<div v-show=" isValid">
-			<InputError :msg="errorsFront"/>
+			<InputError :msg="errors"/>
 		</div>
 	</div>
 </template>
@@ -21,12 +18,9 @@ import InputError from "@/components/ui/InputError.vue";
 import { checkErrorsReturn } from "@/use/validInput";
 
 /**
- * Component utilizado para input
- * @prop {String} type - tipo do input
- * @prop {String} name - Nome do input
- * @prop {String} placeholder - Placeholder a ser utilizado no input
+ * Component utilizado para input de texto/numerico
  * @prop {Boolean} isValid - Condição para verficar se o input é válido
- * @prop {Array<String>} errorsFront - Array de string contendo todos as mensagens de erros
+ * @prop {Array<String>} errors - Array de string contendo todos as mensagens de erros
  * @event inputEvent - Evento para quando algo é escrito no input
 */
 export default defineComponent({
@@ -34,35 +28,24 @@ export default defineComponent({
 		InputError
 	},
 	props: {
-		type: {
-			type: String,
-			default: "text"
-		},
-		name: {
-			type: String,
-			default: "nome"
-		},
-		placeholder: {
-			type: String,
-			required: true
-		},
 		isValid: {
 			type: Boolean,
 			required: true
 		},
-		errorsFront: {
+		errors: {
 			type: Array as PropType<string[]>,
 			required: true
 		},
 	},
 	emits: ["inputEvent"],
+	inheritAttrs: false,
 	setup(props, context) {
 		/**
 		 * Função chamada para emitir um evento quando algo é escrito no input
 		 * @param {any} event - dados do evento recebido pelo input
 		 */
-		function onInput(event: any) {
-			context.emit("inputEvent", event.target.value)
+		function onInput(event: Event) {
+			context.emit("inputEvent", (event.target as HTMLInputElement).value)
 		}
 		return {
 			checkErrorsReturn,
@@ -70,11 +53,10 @@ export default defineComponent({
 		}
 	},
 });
-
 </script>
 
 <style scoped>
-.input-feedback {
+.input-base {
 	max-width: 100%;
 	width: calc(100% - 30px);
 	padding: 15px;
@@ -82,5 +64,9 @@ export default defineComponent({
 	margin: 10px 0;
 	border-radius: 5px;
 	border: solid 1px #b29475;
+}
+.btn-next {
+	margin: 40px 20px;
+	text-align: right;
 }
 </style>
