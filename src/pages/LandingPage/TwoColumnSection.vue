@@ -141,9 +141,7 @@ const TwoColumnSection = defineComponent({
       messageResponse,
       requestSucceeded,
       installment,
-      limit,
-      userOS,
-      userIP,
+      limit
     }
   },
 })
