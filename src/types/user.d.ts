@@ -5,10 +5,10 @@ export default interface IUserData {
 	cnpj: string;
 	company: string;
 	optin: boolean;
-	limit: string;
-	installment: string;
-	ip: string;
-	os: string;
+	limit: number;
+	installment: number;
+	ipAddress: string;
+	operatingSystem: string;
 	timestamp: string;
 	recaptchaToken: string
 }

@@ -49,17 +49,17 @@ export const Faqs = [
 ]
 
 export const CreditLimits = [
-	{id: "10k", name: "creditLimit", label: "R$10.000 - R$100.000"},
-	{id: "500k", name: "creditLimit", label: "R$100.001 - R$500.000"},
-	{id: "1m", name: "creditLimit", label: "R$500.001 - R$1.000.000"},
-	{id: "over1m", name: "creditLimit", label: "R$1.000.001 - R$5.000.000"}
+	{id: 10000, name: "creditLimit", label: "R$10.000 - R$100.000"},
+	{id: 500000, name: "creditLimit", label: "R$100.001 - R$500.000"},
+	{id: 1000000, name: "creditLimit", label: "R$500.001 - R$1.000.000"},
+	{id: 5000000, name: "creditLimit", label: "R$1.000.001 - R$5.000.000"}
 ]
 
 export const CreditInstallments = [
-	{id: "6x", name: "installments", label: "6x"},
-	{id: "12x", name: "installments", label: "12x"},
-	{id: "24x", name: "installments", label: "24x"},
-	{id: "36x", name: "installments", label: "36x"}
+	{id: 6, name: "installments", label: "6x"},
+	{id: 12, name: "installments", label: "12x"},
+	{id: 24, name: "installments", label: "24x"},
+	{id: 36, name: "installments", label: "36x"}
 ]
 
 // Array for the text of terms
