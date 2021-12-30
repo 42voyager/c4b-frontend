@@ -4,7 +4,8 @@
 			<h2 class="feedback-title">{{ FeedbackConfiguration.text.title }}</h2>
 			<form id="form-Feedback" class="form-Feedback" @submit.prevent>
 				<FormTextInput
-					v-for="(item, index) of inputsInfo" :key="index"
+					v-for="(item, index) of inputsInfo" 
+					:key="index"
 					@inputEvent="(value) => { handleInputChange(value, item.name )}"
 					:type="item.type"
 					:name="item.name"

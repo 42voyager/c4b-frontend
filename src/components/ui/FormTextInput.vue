@@ -7,7 +7,8 @@
 		required
 		class="input-feedback"
 		v-bind:class="{ invalid: isValid}"
-		@input="onInput"
+		:value="modelValue"
+        @input="$emit('update:modelValue', $event.target.value)"
 		/>
 		<div v-show=" isValid">
 			<InputError :msg="errorsFront"/>
@@ -54,6 +55,10 @@ export default defineComponent({
 			type: Array as PropType<string[]>,
 			required: true
 		},
+		modelValue: {
+            type: String,
+            default: ''
+        }
 	},
 	emits: ["inputEvent"],
 	setup(props, context) {
