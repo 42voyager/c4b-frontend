@@ -67,11 +67,13 @@ export default defineComponent({
 
 <style scoped>
 .form-wrapper {
-	margin-top: 100px;
+	margin-top: 65px;
+	padding: 50px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
+	background-color: #e0ccba;
 }
 .title {
 	text-align: center;
@@ -79,5 +81,11 @@ export default defineComponent({
 .inputs {
 	width: calc(100% - 40px);
 	max-width: 500px;
+}
+
+@media (min-width: 768px) {
+	.form-wrapper {
+		height: calc(100vh - 300px);
+	}
 }
 </style>

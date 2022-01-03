@@ -11,7 +11,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { Options, Vue } from 'vue-class-component'
 import TheHeader from '@/components/layout/TheHeader.vue'
 import Banner from '@/pages/LandingPage/Banner.vue'
 import WrapperHighlights from '@/pages/LandingPage/WrapperHighlights.vue'
