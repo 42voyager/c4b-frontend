@@ -28,6 +28,10 @@ import { defineComponent, PropType} from "vue";
     ]
   }
 
+/**
+ * Componente contendo as informações sobre o produto
+ * @props {Object<IInformation>} infos - Objecto do tipo IInformation contendo todas as informações do produto.
+ */
 export default defineComponent({
   props: {
     infos: {

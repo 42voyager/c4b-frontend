@@ -27,7 +27,7 @@ interface IFaqs {
 
 /**
  * Componente de faqs
- * @props {Array} faqs - Um array de string contendo as perguntas e respostas.
+ * @props {Object<IFaqs>} faqs - Objeto do tipo IFaqs contendo um array de perguntas e resposta.
  */
 export default defineComponent({
 	props: {
