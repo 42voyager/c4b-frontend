@@ -1,13 +1,12 @@
 <template>
   <TheHeader />
   <Banner />
-  <WrapperHighlights :title="titlePontoForte" />
+  <WrapperHighlights :pontosForte="pontosForte" />
   <TwoColumnSection imageFileName="side-img.jpg" />
   <InformationSection
     :infos="infos"
-    :titleInfo="titleInfo"
   />
-  <FaqSection :faqs="faqs" />
+  <FaqSection :faqsInfo="faqsInfo" />
   <ContactForm/>
   <TheFooter />
 </template>
@@ -22,7 +21,7 @@ import InformationSection from "@/pages/LandingPage/InformationSection.vue";
 import TheFooter from "@/components/layout/TheFooter.vue";
 import FaqSection from "@/pages/LandingPage/FaqSection.vue";
 import ContactForm from "@/pages/LandingPage/ContactSection.vue";
-import { TitlePontoForte, Faqs, Infos, TitleInfo } from "./config/variables";
+import { PontosForte, FaqsInfo, Infos} from "./config/variables";
 
 @Options({
   components: {
@@ -37,10 +36,9 @@ import { TitlePontoForte, Faqs, Infos, TitleInfo } from "./config/variables";
   },
 })
 export default class App extends Vue {
-  titlePontoForte = TitlePontoForte;
-  faqs = Faqs;
+  pontosForte = PontosForte;
+  faqsInfo = FaqsInfo;
   infos = Infos;
-  titleInfo = TitleInfo;
 }
 </script>
 

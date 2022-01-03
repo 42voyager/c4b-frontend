@@ -2,34 +2,44 @@
 	<div class="container-credit">
 		<div class="form-credit" >
 			<p class="creditLabel">
-				De quanto seu negócio precisa
+				{{ creditData.text.titleLimits }}
 			</p>
 			<div class="radio-group">
 				<RadioInput
-					v-for="(creditLimit, id) of creditLimits"
+					v-for="(creditLimit, id) of creditData.text.creditLimits"
 					:key="id"
 					:id="creditLimit.id"
 					:name="creditLimit.name"
 					:label="creditLimit.label"
-					:value="limit"
+					:value="limit.toString()"
 					:isChecked="creditLimit.id == limit ? true : false"
 					@radioClicked="handleInput(creditLimit.id, null)"
 					/>
 			</div>
 			<p class="creditLabel">
-				Em quantas vezes você quer pagar?
+				{{ creditData.text.titleInstallments }}
 			</p>
 			<div class="radio-group">
 				<RadioInput
-					v-for="(creditInstallment, id) of creditInstallments"
+					v-for="(creditInstallment, id) of creditData.text.creditInstallments"
 					:key="id"
 					:id="creditInstallment.id"
 					:name="creditInstallment.name"
 					:label="creditInstallment.label"
-					:value="installment"
+					:value="installment.toString()"
 					:isChecked="creditInstallment.id == installment ? true : false"
 					@radioClicked="handleInput(null, creditInstallment.id)"
 					/>
+			</div>
+			<div class="input-wrapper">
+				<p class="creditLabel">
+					{{ creditData.text.titleMotivo }}
+				</p>
+				<FormTextInput
+					placeholder="Motivo"
+					name="motivo"
+					v-model="reason"
+				/>
 			</div>
 			<div class="btn-next">
 				<ButtonDefault msg="Continuar" @buttonClicked="nextStepClicked()"/>
@@ -39,12 +49,20 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue} from 'vue-class-component';
 import RadioInput from '@/components/ui/RadioInput.vue';
 import ButtonDefault from "@/components/ui/ButtonDefault.vue";
-import { CreditInstallments, CreditLimits } from '@/config/variables';
+import  FormTextInput from "@/components/ui/FormTextInput.vue";
+import { CreditData } from '@/config/variables';
+import { defineComponent, ref } from 'vue-demi';
 
-@Options({
+/**
+ * Component utilizado na primeira etapa da solicitação de crédito
+ * @props {String} limit - Limite de crédito
+ * @props {String} installment - Parcelas para a solicitação
+ * @emits nextStepClicked - utilizado para fazer a mudança de etapas do form
+ * @emits valueChanged - utilizado para fazer a mudança dos valores do limits e installment
+ */
+export default defineComponent({
 	props: {
 		limit: String,
 		installment: String
@@ -52,24 +70,47 @@ import { CreditInstallments, CreditLimits } from '@/config/variables';
 	emits: ["nextStepClicked", "valueChanged"],
 	components: {
 		RadioInput,
-		ButtonDefault
+		ButtonDefault,
+		FormTextInput
+	},
+	setup(props, context){
+		const creditData = CreditData;
+		const reason = ref("");
+
+		/**
+		 * Função utilizada para limpar o campo do motivo no form
+		 */
+		const reset = (): void => {
+			reason.value = "";
+		}
+		/**
+		 * Função utilizada para emitir um evendo quando o botão continuar é clicado
+		 */
+		const nextStepClicked = (): void => {
+			context.emit("nextStepClicked", reason.value, reset)
+		}
+
+		/** No momento que o radio input e clicado, handle input triggers */
+		const handleInput = (limit: string | null, installment: string | null): void => {
+			context.emit("valueChanged", limit, installment)
+		}
+		return {
+			creditData,
+			reason,
+			nextStepClicked,
+			handleInput
+		}
 	}
 })
-export default class TheFromCreditData extends Vue {
-	creditLimits = CreditLimits;
-	creditInstallments = CreditInstallments;
-
-	nextStepClicked(): void {
-		this.$emit("nextStepClicked")
-	}
-	/** No momento que o radio input e clickado, handle input triggers */
-	handleInput(limit: string | null, installment: string | null): void {
-		this.$emit("valueChanged", limit, installment)
-	}
-
-}
 </script>
 <style scoped>
+:deep .input-base {
+	border: none;
+	width: calc(80% - 30px);
+}
+.input-wrapper {
+	text-align: center;
+}
 .container-credit {
 	display: flex;
 	flex-direction: column;

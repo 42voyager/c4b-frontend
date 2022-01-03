@@ -4,7 +4,8 @@
 		v-bind="$attrs"
 		class="input-base"
 		v-bind:class="{ invalid: isValid }"
-		@input="onInput"
+		:value="modelValue"
+		@input="$emit('update:modelValue', $event.target.value)"
 		/>
 		<div v-show=" isValid">
 			<InputError :msg="errors"/>
@@ -30,12 +31,16 @@ export default defineComponent({
 	props: {
 		isValid: {
 			type: Boolean,
-			required: true
+			default: false
 		},
 		errors: {
 			type: Array as PropType<string[]>,
-			required: true
+			default: () => { return ([[""]]) },
 		},
+		modelValue: {
+			type: String,
+			default: ''
+		}
 	},
 	emits: ["inputEvent"],
 	inheritAttrs: false,

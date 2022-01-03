@@ -1,49 +1,48 @@
 <template>
 	<div class="highlights container">
 		<div class="wrapper-title">
-			<h2>{{ title }}</h2>
+			<h2>{{ pontosForte.title }}</h2>
 		</div>
 		<div class="wrapper-highlights">
 			<Highlight
-				imageFileName='img_item_01.jpg'
-				altText='Imagem 1'
-				:title='titlePonto1'
-				:description='ponto1' />
-			<Highlight
-				imageFileName='img_item_02.jpg'
-				altText='Imagem 2'
-				:title='titlePonto2'
-				:description='ponto2' />
-			<Highlight
-				imageFileName='img_item_03.jpg'
-				altText='Imagem 3'
-				:title='titlePonto3'
-				:description='ponto3' />
+				v-for="(item, index) of pontosForte.pontos"
+				:key="index"
+				:title="item.title"
+				:description="item.description"
+				:imageFileName="item.image"
+				:altText="item.altText"
+			/>
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
 import Highlight from '@/components/common/HighlightItem.vue';
-import { TitlePonto1, Ponto1, TitlePonto2, Ponto2, TitlePonto3, Ponto3 } from '@/config/variables';
+import { defineComponent, PropType } from 'vue-demi';
 
-@Options({
+interface IPontosForte {
+	title: string,
+	pontos: [{
+		title: string,
+		description: string,
+		image: string,
+		altText: string
+	}]
+}
+
+/**
+ * Componente para informações de destaque
+ * @props {Object} pontosForte - Um objeto contendo todos os dados utilizado no component
+ * @interface IPontosForte - interface utilizada para o props pontosForte
+ */
+export default defineComponent({
 	props: {
-		title: String
+		pontosForte: Object as PropType<IPontosForte>
 	},
 	components: {
 		Highlight
 	}
 })
-export default class WrapperHighlights extends Vue {
-	titlePonto1 = TitlePonto1;
-	ponto1 = Ponto1;
-	titlePonto2 = TitlePonto2;
-	ponto2 = Ponto2;
-	titlePonto3 = TitlePonto3;
-	ponto3 = Ponto3;
-}
 </script>
 
 <style scoped>

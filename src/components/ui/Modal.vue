@@ -8,20 +8,24 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { defineComponent } from "@vue/runtime-core";
 import ButtonDefault from "./ButtonDefault.vue";
 
-@Options ({
+export default defineComponent({
 	components: {
-		ButtonDefault
-	},
-	emits: ["buttonClicked"]
-})
-export default class Modal extends Vue {
-	closeModal(): void {
-		this.$emit("buttonClicked")
+			ButtonDefault
+		},
+	emits: ["buttonXModal"],
+	setup(props, context){
+
+		const closeModal = () => {
+			context.emit("buttonXModal")
+		}
+		return {
+			closeModal
+		}
 	}
-}
+})
 </script>
 
 <style scoped>
@@ -39,6 +43,9 @@ export default class Modal extends Vue {
 		display: block;
 	}
 	.modal-wrapper {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
 		position: absolute;
 		top: 50%;
 		left: 50%;

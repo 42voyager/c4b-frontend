@@ -14,7 +14,7 @@
           :installment="installment"
         /> -->
         <TheFormCreditData
-          v-if="!nextStep"
+          v-show="!nextStep"
           @nextStepClicked="goNextStep"
           @valueChanged="creditDataChanged"
           :limit="limit"
@@ -43,7 +43,7 @@ import TheFormUserData from './TheFormUserData.vue'
 import ApiController from '@/api/C4bApi'
 import IUserData from '@/types/user'
 import TheFormCreditData from './TheFormCreditData.vue'
-// import TheFormCreditDataSlider from './TheFormCreditDataSlider.vue'
+//import TheFormCreditDataSlider from './TheFormCreditDataSlider.vue'
 import TheSuccessForm from './TheSuccessForm.vue'
 import { TitleForm, SucessMessage, errorMsgs } from '@/config/variables'
 import GetIPApi from '@/api/getIpApi'
@@ -57,7 +57,7 @@ const TwoColumnSection = defineComponent({
     TheFormUserData,
     TheFormCreditData,
     TheSuccessForm,
-    // TheFormCreditDataSlider,
+    //TheFormCreditDataSlider,
   },
   setup() {
     const { executeRecaptcha, recaptchaLoaded } = useReCaptcha()!
@@ -71,9 +71,13 @@ const TwoColumnSection = defineComponent({
     const limit = ref(10000)
     const userIP = ref('')
     const userOS = ref('Unknown OS')
+    const userReason = ref("")
+    let teste = () => {return};
 
-    const goNextStep = () => {
+    const goNextStep = (reason: string, reset: () => void) => {
       nextStep.value = true
+      userReason.value = reason;
+      teste = reset;
     }
     const backStepClicked = () => {
       nextStep.value = false
@@ -101,6 +105,7 @@ const TwoColumnSection = defineComponent({
     const submitUser = async (user: IUserData, reset: () => void) => {
       user.limit = limit.value.toString() as any // Parsed as string to avoid being rejected by the backend
       user.installment = installment.value.toString() as any
+      user.reason = userReason.value;
       user.timestamp = new Date().toJSON()
       user.ipAddress = userIP.value
       user.operatingSystem = userOS.value
@@ -116,6 +121,7 @@ const TwoColumnSection = defineComponent({
         enableMessage.value = true
         messageResponse.value = { title: 'Solicitação recebida com sucesso!' }
         reset()
+        teste();
       } catch (err: any) {
         requestSucceeded.value = false
         enableMessage.value = true
@@ -128,6 +134,14 @@ const TwoColumnSection = defineComponent({
       }
     }
 
+    /**
+		* @param {KeyboardEvent} e - Evento do click
+		* Se a tecla esc é pressionada quando o modal de sucesso está aberto o modal será fechado
+		*/
+		const keyEscDown = (e: KeyboardEvent) => {
+			if (requestSucceeded.value == true &&  e.key == "Escape") newRequestClicked();
+		};
+		document.addEventListener("keyup", keyEscDown)
     return {
       submitUser,
       goNextStep,
@@ -177,6 +191,12 @@ export default TwoColumnSection
 .side-img {
   height: 100vh;
 }
+@media (min-width: 635px) {
+  .side-img {
+    width: 100%;
+    height: 900px;
+}
+}
 @media (min-width: 768px) {
   .two-column-section {
     flex-direction: row;
@@ -185,23 +205,32 @@ export default TwoColumnSection
     width: 50%;
   }
   .column-one {
-    height: 700px;
+    height: 900px;
   }
   .column-two {
     padding: 0 20px;
     height: auto;
   }
+  
 }
 @media (min-width: 992px) {
   .side-img {
     width: 100%;
-    height: auto;
+    height: 900px;
   }
 }
 @media (min-width: 1200px) {
   .side-img {
-    transform: translateY(-50%);
+    transform: translateY(-36%);
     margin-top: 50%;
+    height: 950px;
+  }
+
+}
+@media (min-width: 1460px) {
+  .side-img {
+    width: 100%;
+    height: auto;
   }
 }
 </style>

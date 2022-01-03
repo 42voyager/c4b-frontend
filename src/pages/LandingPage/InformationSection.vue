@@ -1,7 +1,7 @@
 <template>
   <div class="information-section" id="information-section">
-    <h2>{{ titleInfo }}</h2>
-    <div class="wrapper-item" v-for="(info, index) of infos" :key="index">
+    <h2>{{ infos.title }}</h2>
+    <div class="wrapper-item" v-for="(info, index) of infos.infosList" :key="index">
       <div class="column-info wrapper-img">
         <img
           :src="require('@/assets/info/' + info.img)"
@@ -20,24 +20,22 @@
 
 <script lang="ts">
 import { defineComponent, PropType} from "vue";
-  interface Information {
-    text: string,
-    img: string
+  interface IInformation {
+    title: string,
+    infosList: [
+      text: string,
+      img: string
+    ]
   }
 
-const InformationSection = defineComponent({
+export default defineComponent({
   props: {
     infos: {
-      type: Array as PropType<Information[]>,
-      required: true
-    },
-    titleInfo: {
-      type: String,
+      type: Object as PropType<IInformation>,
       required: true
     }
   }
 });
-export default InformationSection;
 </script>
 
 <style scoped>
