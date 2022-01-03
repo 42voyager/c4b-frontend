@@ -142,22 +142,22 @@ export const FeedbackConfiguration = {
 export const BankInfoFormConfiguration = {
 	formInputInfolist: [
 		{
-			name: "banco",
+			name: "bankName" as const,
 			type: "text",
 			placeholder: "Nome do Banco",
 			error: ["O nome deve ter entre 2 e 150 caracteres!"]
 		},
 		{
-			name: "agencia",
+			name: "branch" as const,
 			type: "text",
 			placeholder: "Agencia",
-			error: ["O email é inválido!"],
+			error: ["A agencia é inválida!"],
 		},
 		{
-			name: "conta",
+			name: "checkingAccount" as const,
 			type: "text",
 			placeholder: "Conta Corrente",
-			error: ["O email é inválido!"],
+			error: ["A conta é inválida!"],
 		},
 	]
 }

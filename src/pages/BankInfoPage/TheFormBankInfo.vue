@@ -6,34 +6,60 @@
 		<div class="inputs">
 			<FormTextInput
 				v-for="(item, index) of inputList"
+				:name="item.name"
 				:key="index"
 				:type="item.type"
 				:placeholder="item.placeholder"
-				:isValid="true"
-				:errorsFront="[]"
-				:modelValue="modelsArray[index]"
+				:isValid="false"
+				:errors="item.error"
+				v-model="formInfo[item.name]"
 			/>	
 		</div>
+		<ButtonDefault 
+			msg="Enviar"
+			@buttonClicked="handleSubmit"
+		/>
 	</div>	
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import FormTextInput from '@/components/ui/FormTextInput.vue'
+import ButtonDefault from '@/components/ui/ButtonDefault.vue'
 import { BankInfoFormConfiguration } from '@/config/variables'
+import C4bApi from '@/api/C4bApi'
 
 export default defineComponent({
 	components: {
-		FormTextInput
+		FormTextInput,
+		ButtonDefault
 	},
 	setup() {
-		const bankName = ref('')
-		const branch = ref('')
-		const checkingAccount = ref('')
+		const formInfo = ref({
+			bankName: '',
+			branch: '',
+			checkingAccount: ''
+		})
+		const route = useRoute()
+
+		const handleSubmit = async () => {
+			try {
+				await new C4bApi().postBankInfo({
+					...formInfo.value,
+					hash: route.params.id as string
+				})
+			}
+			catch (error) {
+				console.log(error)
+			}
+			console.log(formInfo.value)
+		}
 
 		return {
 			inputList: BankInfoFormConfiguration.formInputInfolist,
-			modelsArray: [bankName, branch, checkingAccount]
+			formInfo,
+			handleSubmit
 		}	
 	},
 })

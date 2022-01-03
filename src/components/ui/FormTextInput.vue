@@ -4,7 +4,8 @@
 		v-bind="$attrs"
 		class="input-base"
 		v-bind:class="{ invalid: isValid }"
-		@input="onInput"
+		:value="modelValue"
+        @input="$emit('update:modelValue', $event.target.value)"
 		/>
 		<div v-show=" isValid">
 			<InputError :msg="errors"/>
