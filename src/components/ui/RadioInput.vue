@@ -21,7 +21,7 @@ import { Options, Vue } from 'vue-class-component';
 		label: String,
 		id: String,
 		name: String,
-		value: String,
+		value: [String, Number],
 		isChecked: Boolean
 	},
 	emit: ["radioClicked"]

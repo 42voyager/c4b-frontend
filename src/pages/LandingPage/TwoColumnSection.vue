@@ -72,12 +72,12 @@ const TwoColumnSection = defineComponent({
     const userIP = ref('')
     const userOS = ref('Unknown OS')
     const userReason = ref("")
-    let teste = () => {return};
+    let resetInputReason = () => {return};
 
     const goNextStep = (reason: string, reset: () => void) => {
       nextStep.value = true
       userReason.value = reason;
-      teste = reset;
+      resetInputReason = reset;
     }
     const backStepClicked = () => {
       nextStep.value = false
@@ -102,7 +102,7 @@ const TwoColumnSection = defineComponent({
       })
       getOS()
     })
-    const submitUser = async (user: IUserData, reset: () => void) => {
+    const submitUser = async (user: IUserData, resetFormData: () => void) => {
       user.limit = limit.value.toString() as any // Parsed as string to avoid being rejected by the backend
       user.installment = installment.value.toString() as any
       user.reason = userReason.value;
@@ -120,14 +120,14 @@ const TwoColumnSection = defineComponent({
         requestSucceeded.value = true
         enableMessage.value = true
         messageResponse.value = { title: 'Solicitação recebida com sucesso!' }
-        reset()
-        teste();
+        resetFormData()
+        resetInputReason()
       } catch (err: any) {
         requestSucceeded.value = false
         enableMessage.value = true
         if (err.response && err.response.data.status == 429) {
           messageResponse.value = { title: errorMsgs.tooManyRequests }
-          reset()
+          resetFormData()
         } else {
           messageResponse.value = err.response.data.errors
         }

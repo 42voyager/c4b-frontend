@@ -8,10 +8,10 @@
 				<RadioInput
 					v-for="(creditLimit, id) of creditData.text.creditLimits"
 					:key="id"
-					:id="creditLimit.id"
+					:id="creditLimit.id.toString()"
 					:name="creditLimit.name"
 					:label="creditLimit.label"
-					:value="limit.toString()"
+					:value="limit"
 					:isChecked="creditLimit.id == limit ? true : false"
 					@radioClicked="handleInput(creditLimit.id, null)"
 					/>
@@ -23,10 +23,10 @@
 				<RadioInput
 					v-for="(creditInstallment, id) of creditData.text.creditInstallments"
 					:key="id"
-					:id="creditInstallment.id"
+					:id="creditInstallment.id.toString()"
 					:name="creditInstallment.name"
 					:label="creditInstallment.label"
-					:value="installment.toString()"
+					:value="installment"
 					:isChecked="creditInstallment.id == installment ? true : false"
 					@radioClicked="handleInput(null, creditInstallment.id)"
 					/>
@@ -64,8 +64,8 @@ import { defineComponent, ref } from 'vue-demi';
  */
 export default defineComponent({
 	props: {
-		limit: String,
-		installment: String
+		limit: [String, Number],
+		installment: [String, Number]
 	},
 	emits: ["nextStepClicked", "valueChanged"],
 	components: {
