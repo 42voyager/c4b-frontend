@@ -50,7 +50,7 @@ import InputError from "@/components/ui/InputError.vue";
 import TheSuccessForm from "@/pages/LandingPage/TheSuccessForm.vue";
 import IUserFeedBack from "@/types/userFeedBack"
 import { FeedbackConfiguration } from "@/config/variables";
-import { checkErrorsReturn } from "@/use/validInput";
+import { checkErrorsReturn, Validity } from "@/use/validInput";
 
 interface InputsInfo {
 	type: string,
@@ -58,11 +58,6 @@ interface InputsInfo {
 	placeholder: string,
 	isValid: () => boolean,
 	error: string[]
-}
-enum Validity {
-	Valid,
-	Invalid,
-	Undefined
 }
 
 const success = ref(false);

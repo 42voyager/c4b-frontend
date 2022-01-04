@@ -142,12 +142,6 @@ export const FeedbackConfiguration = {
 export const BankInfoFormConfiguration = {
 	formInputInfolist: [
 		{
-			name: "bankName" as const,
-			type: "text",
-			placeholder: "Nome do Banco",
-			error: ["O nome deve ter entre 2 e 150 caracteres!"]
-		},
-		{
 			name: "branch" as const,
 			type: "text",
 			placeholder: "Agencia",

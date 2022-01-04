@@ -7,7 +7,7 @@
 		:value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
 		/>
-		<div v-show=" isValid">
+		<div v-show="isValid">
 			<InputError :msg="errors"/>
 		</div>
 	</div>
