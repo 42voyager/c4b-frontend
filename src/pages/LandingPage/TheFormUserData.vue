@@ -88,7 +88,7 @@
         {{ messageResponse.title }}
       </p>
     </div>
-    <Modal v-show="!openedModal" @buttonClicked="openModal()">
+    <Modal v-show="!openedModal" @buttonXModal="openModal()">
       <div class="modal-header">
         <h3>Termos e condições</h3>
       </div>
@@ -167,7 +167,6 @@ export default class TheFormUserData extends Vue {
   }
   openModal(): void {
     this.openedModal = !this.openedModal;
-    console.log("Clicou no link:", this.openedModal);
   }
 }
 </script>

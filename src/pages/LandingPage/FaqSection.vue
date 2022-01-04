@@ -1,8 +1,8 @@
 <template>
 	<div id="faq-section" class="faq-section">
 		<div class="wrapper-faq">
-			<h2> FAQ </h2>
-			<div class="faq" v-for="(faq, index) of faqs" :key="index">
+			<h2> {{faqsInfo.title}} </h2>
+			<div class="faq" v-for="(faq, index) of faqsInfo.faqs" :key="index">
 				<CollapsiblePanel
 					:title="faq.question"
 					:content="faq.answer"
@@ -13,20 +13,30 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component"
 import CollapsiblePanel  from "@/components/common/CollapsiblePanel.vue"
+import { defineComponent, PropType } from "vue-demi"
 
-@Options({
+interface IFaqs {
+	faqs: [
+		{
+			question: string,
+			answer: string
+		}
+	]
+}
+
+/**
+ * Componente de faqs
+ * @props {Object<IFaqs>} faqs - Objeto do tipo IFaqs contendo um array de perguntas e resposta.
+ */
+export default defineComponent({
 	props: {
-		faqs: Array
+		faqsInfo: Object as PropType<IFaqs>
 	},
 	components: {
 		CollapsiblePanel
 	}
 })
-
-export default class FaqSection extends Vue {
-}
 </script>
 
 <style scoped>
@@ -34,6 +44,7 @@ export default class FaqSection extends Vue {
 .faq-section {
 	margin-top: 1px;
 	background-color: #e9e1d8;
+	font-size: 12px;
 }
 
 .wrapper-faq {
@@ -54,6 +65,9 @@ export default class FaqSection extends Vue {
 	.wrapper-faq {
 		width: calc(100% - 200px);
 		padding-top: 30px;
+	}
+	.faq-section {
+		font-size: 15px;
 	}
 }
 </style>
