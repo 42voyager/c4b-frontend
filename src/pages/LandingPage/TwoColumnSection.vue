@@ -45,7 +45,7 @@ import ApiController from '@/api/C4bApi'
 import IUserData from '@/types/user'
 // import TheFormCreditData from './TheFormCreditData.vue'
 import TheFormCreditDataSlider from './TheFormCreditDataSlider.vue'
-import TheSuccessForm from './TheSuccessForm.vue'
+import TheSuccessForm from '@/components/common/TheSuccessForm.vue'
 import { TitleForm, SucessMessage, errorMsgs } from '@/config/variables'
 import GetIPApi from '@/api/getIpApi'
 
