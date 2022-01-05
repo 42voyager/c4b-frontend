@@ -3,13 +3,30 @@ export const TitleBanner = "Solicite um crédito para seu negócio";
 export const TextBanner = "Rápido, simples, sem burocracia";
 
 //textos dos pontos forte
-export const TitlePontoForte = "Por que C4B é diferente?";
-export const TitlePonto1 = "Liquidez"
-export const Ponto1 = "Cristalize os planos para fazer crescer seu negócio.";
-export const TitlePonto2 = "Facil de solicitar"
-export const Ponto2 = "O processo é online, e você recebe a resposta no seu e-mail.";
-export const TitlePonto3 = "Faça crescer seu negócio"
-export const Ponto3 = "A rapidez de resposta ajuda você planejar melhor.";
+export const PontosForte = {
+	title: "Por que C4B é diferente?",
+	pontos: [
+		{
+			title: "Liquidez",
+			description: "Cristalize os planos para fazer crescer seu negócio.",
+			image: "img_item_01.jpg",
+			altText: "Imagen 1"
+		},
+		{
+			title: "Facil de solicitar",
+			description: "O processo é online, e você recebe a resposta no seu e-mail.",
+			image: "img_item_02.jpg",
+			altText: "Imagen 2"
+		},
+		{
+			title: "Faça crescer seu negócio",
+			description: "A rapidez de resposta ajuda você planejar melhor.",
+			image: "img_item_03.jpg",
+			altText: "Imagen 3"
+		}
+	]
+}
+
 
 // Textos do error
 export const errorMsgs = {
@@ -20,8 +37,9 @@ export const errorMsgs = {
 export const TitleForm = "Solicite seu crédito em 2 passos";
 
 //textos de informações
-export const TitleInfo = "C4B é a resposta para sua necessidade de crédito";
-export const Infos = [
+export const Infos = {
+	title: "C4B é a resposta para sua necessidade de crédito",
+	infosList: [
     {text: "O processo de solicitação é simples e sem burocracia, você só precisa" +
 	"preencher o formulário e esperar a resposta por e-mail. C4B foi desenhado para" +
 	"você não precisar se deslocar.",
@@ -35,10 +53,12 @@ export const Infos = [
 	"burocráticos. Você faz a solicitação desde seu computador e recebe a resposta " +
 	"no seu computador",
         img: "info-img4.jpg"}
-];
+]};
 
 // Array of questions and answer
-export const Faqs = [
+export const FaqsInfo = {
+	title: "FAQ",
+	faqs: [
 	{ question: "Preciso comprovar faturamento?", answer: "Sim, porém, nosso processo " +
 	"permite solicitar um crédito a medida de seu faturamento."},
 	{ question: "Existe algúm processo além de preencher o formulário?", answer: "Não, " +
@@ -46,21 +66,27 @@ export const Faqs = [
 	"seu computador e recebe a resposta no seu computador."},
 	{ question: "É seguro?", answer: "Todo o processo garante segurança e transparência. " +
 	"São solicitadas o mínimo de informações necessárias para tramitar o crédito."},
-]
+]}
 
-export const CreditLimits = [
-	{id: 10000, name: "creditLimit", label: "R$10.000 - R$100.000"},
-	{id: 500000, name: "creditLimit", label: "R$100.001 - R$500.000"},
-	{id: 1000000, name: "creditLimit", label: "R$500.001 - R$1.000.000"},
-	{id: 5000000, name: "creditLimit", label: "R$1.000.001 - R$5.000.000"}
-]
-
-export const CreditInstallments = [
-	{id: 6, name: "installments", label: "6x"},
-	{id: 12, name: "installments", label: "12x"},
-	{id: 24, name: "installments", label: "24x"},
-	{id: 36, name: "installments", label: "36x"}
-]
+export const CreditData = {
+	text: {
+		titleLimits: "De quanto seu negócio precisa",
+		creditLimits: [
+			{id: 10000, name: "creditLimit", label: "R$10.000 - R$100.000"},
+			{id: 500000, name: "creditLimit", label: "R$100.001 - R$500.000"},
+			{id: 1000000, name: "creditLimit", label: "R$500.001 - R$1.000.000"},
+			{id: 5000000, name: "creditLimit", label: "R$1.000.001 - R$5.000.000"}
+		],
+		titleInstallments: "Em quantas vezes você quer pagar?",
+		creditInstallments: [
+			{id: 6, name: "installments", label: "6x"},
+			{id: 12, name: "installments", label: "12x"},
+			{id: 24, name: "installments", label: "24x"},
+			{id: 36, name: "installments", label: "36x"}
+		],
+		titleMotivo: "Qual o motivo da sua solicitação de crédito?"
+	}
+}
 
 // Array for the text of terms
 export const Terms = [
@@ -140,18 +166,22 @@ export const FeedbackConfiguration = {
 }
 
 export const BankInfoFormConfiguration = {
-	formInputInfolist: [
+	title: "Insira seus dados bancários",
+	formInputsInfo: [
 		{
 			name: "branch" as const,
 			type: "text",
-			placeholder: "Agencia",
-			error: ["A agencia é inválida!"],
+			placeholder: "Agência",
+			error: ["A agência é inválida!"],
+			mask: ['####', '####-#', '####-##']
 		},
 		{
 			name: "checkingAccount" as const,
 			type: "text",
 			placeholder: "Conta Corrente",
 			error: ["A conta é inválida!"],
+			mask: ['#####-#', '######-#', '#######-#', '########-#', '#########-#', '###########-#']
 		},
-	]
+	],
+	submittLabel: "Enviar"
 }

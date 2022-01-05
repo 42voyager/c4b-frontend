@@ -1,7 +1,7 @@
 <template>
 	<div class="form-wrapper">
 		<div class="title">
-			<h2> Insira seus dados bancários </h2>
+			<h2> {{ BankInfoFormConfiguration.title }} </h2>
 		</div>
 
 		<div class="inputs">
@@ -11,18 +11,24 @@
 				v-model="formInfo.bankName"
 			/>
 			<FormTextInput
-				v-for="(item, index) of inputList"
+				v-for="(item, index) of BankInfoFormConfiguration.formInputsInfo"
+				v-maska="item.mask"
 				:name="item.name"
 				:key="index"
 				:type="item.type"
 				:placeholder="item.placeholder"
-				:isValid="inputIsValid[item.name]"
+				:isInvalid="inputIsInvalid[item.name]"
 				:errors="inputsErrors[item.name]"
 				v-model="formInfo[item.name]"
+			/>
+			<SuccessForm
+				v-if="wasFormSubmitted"
+				:messages="['Recibimos seus dados']"
+				@newRequestClicked="handleSuccessModalClose"
 			/>	
 		</div>
 		<ButtonDefault 
-			msg="Enviar"
+			:msg="BankInfoFormConfiguration.submittLabel"
 			@buttonClicked="handleSubmit"
 		/>
 	</div>	
@@ -34,6 +40,7 @@ import { useRoute } from 'vue-router'
 import FormTextInput from '@/components/ui/FormTextInput.vue'
 import ButtonDefault from '@/components/ui/ButtonDefault.vue'
 import MultiSelect from '@/components/ui/MultiSelect.vue'
+import SuccessForm from '@/components/common/TheSuccessForm.vue'
 import { BankInfoFormConfiguration } from '@/config/variables'
 import { Validity, checkErrorsReturn } from '@/use/validInput'
 import C4bApi from '@/api/C4bApi'
@@ -43,7 +50,8 @@ export default defineComponent({
 	components: {
 		FormTextInput,
 		ButtonDefault,
-		MultiSelect
+		MultiSelect,
+		SuccessForm
 	},
 	setup() {
 		const route = useRoute()
@@ -62,17 +70,23 @@ export default defineComponent({
 			branch: Validity.Undefined,
 			checkingAccount: Validity.Undefined
 		})
+		const wasFormSubmitted = ref(false)
 		const banksListSum = banksList.map(bank => {
 			return bank.ShortName
 		})
 		// Actually, should be called if input is invalid
-		const inputIsValid = computed(() => {
+		const inputIsInvalid = computed(() => {
 			return {
 				bankName: inputValidationStatus.value.bankName === Validity.Invalid,
 				branch: inputValidationStatus.value.branch === Validity.Invalid,
 				checkingAccount: inputValidationStatus.value.checkingAccount === Validity.Invalid
 			}
 		})
+
+		const handleSuccessModalClose = () => {
+			window.location.href = ''
+			wasFormSubmitted.value = false
+		}
 
 		watch(formInfo, (info) => console.log(info), {deep: true})
 
@@ -82,9 +96,9 @@ export default defineComponent({
 					...formInfo.value,
 					hash: route.params.id as string
 				})
+				wasFormSubmitted.value = true;
 			}
 			catch (error: any) {
-				console.log('err', error)
 				const newStatus = {...inputValidationStatus.value}
 				const newErrors = {...inputsErrors.value}
 
@@ -109,12 +123,14 @@ export default defineComponent({
 		}
 
 		return {
-			inputList: BankInfoFormConfiguration.formInputInfolist,
 			formInfo,
 			inputValidationStatus,
-			inputIsValid,
+			inputIsInvalid,
 			inputsErrors,
 			banksListSum,
+			wasFormSubmitted,
+			BankInfoFormConfiguration,
+			handleSuccessModalClose,
 			handleSubmit
 		}	
 	},

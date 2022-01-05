@@ -1,11 +1,13 @@
 <template>
   <TheHeader />
   <Banner />
-  <WrapperHighlights :title="titlePontoForte" />
+  <WrapperHighlights :pontosForte="pontosForte" />
   <TwoColumnSection imageFileName="side-img.jpg" />
-  <InformationSection :infos="infos" :titleInfo="titleInfo" />
-  <FaqSection :faqs="faqs" />
-  <ContactForm />
+  <InformationSection
+    :infos="infos"
+  />
+  <FaqSection :faqsInfo="faqsInfo" />
+  <ContactForm/>
   <TheFooter />
 </template>
 
@@ -19,7 +21,7 @@ import InformationSection from '@/pages/LandingPage/InformationSection.vue'
 import TheFooter from '@/components/layout/TheFooter.vue'
 import FaqSection from '@/pages/LandingPage/FaqSection.vue'
 import ContactForm from '@/pages/LandingPage/ContactSection.vue'
-import { TitlePontoForte, Faqs, Infos, TitleInfo } from '@/config/variables'
+import { PontosForte, FaqsInfo, Infos } from '@/config/variables'
 
 export default defineComponent({
   components: {
@@ -34,10 +36,9 @@ export default defineComponent({
   },
   setup() {
     return {
-      titlePontoForte: TitlePontoForte,
-      faqs: Faqs,
-      infos: Infos,
-      titleInfo: TitleInfo,
+      pontosForte: PontosForte,
+      faqsInfo: FaqsInfo,
+      infos: Infos
     }
   },
 })

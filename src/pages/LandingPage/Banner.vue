@@ -76,11 +76,8 @@ button {
 
 .banner img {
 	width: auto;
-	height: calc(100vh - 65px);
+	height: 100vh;
 	transform: translateX(-50%);
-}
-@media (min-width: 552px) {
-
 }
 @media (min-width: 768px) {
 	.banner {
@@ -104,7 +101,17 @@ button {
 @media (min-width: 1200px) {
 	.banner img {
 		max-width: 100%;
+		height: calc(100vh - 75px);
+	}
+}
+@media (min-width: 1360px) {
+	.banner img {
 		height: auto;
+	}
+}
+@media (min-width: 1932px) {
+	.banner img {
+		width: 100%;
 	}
 }
 </style>

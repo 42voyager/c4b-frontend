@@ -1,31 +1,39 @@
 <template>
-  <div class="wrapper-success">
-    <div id="message-panel">
-      <Sucess height="60" width="60" color="#b29475"/>
-      <p v-for="(message, index) of messages" :key="index"> 
-        {{ message }}
-      </p>
+  <Modal @buttonXModal="handleOkButtonClicked()" >
+    <div class="wrapper-success">
+      <div id="message-panel">
+        <Sucess height="60" width="60" color="#b29475"/>
+        <p v-for="(message, index) of messages" :key="index"> 
+          {{ message }}
+        </p>
+      </div>
+      <ButtonDefault :msg="buttonLabel" @buttonClicked="handleOkButtonClicked()"/>
     </div>
-    <ButtonDefault msg="Fazer nova solicitação" @buttonClicked="handleOkButtonClicked()"/>
-  </div>
+  </Modal>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 import ButtonDefault from "@/components/ui/ButtonDefault.vue";
 import Sucess from "@/components/icons/Sucess.vue";
+import Modal from "@/components/ui/Modal.vue";
 
-const TheSuccessForm = defineComponent({
+export default defineComponent({
   props: {
     messages: {
       type: Array as PropType<string[]>,
       required: true
     },
+    buttonLabel: {
+      type: String,
+      default: 'Fechar'
+    }
   },
   emits: ["newRequestClicked"],
   components: {
     ButtonDefault,
-    Sucess
+    Sucess,
+    Modal
   },
   setup(props, context) {
     const handleOkButtonClicked = () => {
@@ -36,8 +44,6 @@ const TheSuccessForm = defineComponent({
     }
   },
 });
-
-export default TheSuccessForm;
 
 </script>
 

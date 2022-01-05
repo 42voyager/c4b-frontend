@@ -25,6 +25,16 @@
         Faturamento mensual recomendado seria: <b> R$ {{ minIncome }} </b>
       </p>
     </InfoBox>
+    <div class="input-wrapper">
+				<p class="creditLabel">
+					{{ creditData.text.titleMotivo }}
+				</p>
+				<FormTextInput
+					placeholder="Motivo"
+					name="motivo"
+					v-model="reason"
+				/>
+		</div>
     <div class="btn-next">
       <ButtonDefault msg="Continuar" @buttonClicked="handleSubmit()" />
     </div>
@@ -34,6 +44,8 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue'
 import { CurrencyInputOptions, CurrencyDisplay } from 'vue-currency-input'
+import { CreditData } from '@/config/variables';
+import FormTextInput from '@/components/ui/FormTextInput.vue'
 import InfoBox from '@/components/ui/InfoBox.vue'
 import ButtonDefault from '@/components/ui/ButtonDefault.vue'
 import SliderInput from '@/components/ui/SliderInput.vue'
@@ -52,7 +64,8 @@ export default defineComponent({
   components: {
     InfoBox,
     ButtonDefault,
-    SliderInput
+    SliderInput,
+    FormTextInput
   },
   emits: ['formButtonClicked', 'valuesChanged'],
   setup: (props, context) => {
@@ -71,8 +84,17 @@ export default defineComponent({
       autoSign: true,
       useGrouping: true,
     }
+    const creditData = CreditData;
+    const reason = ref("");
+
+    /**
+     * Função utilizada para limpar o campo do motivo no form
+     */
+    const reset = (): void => {
+    reason.value = "";
+    }
     const currencyFormatBR = (num: number) => {
-      console.log(num)
+      //console.log(num)
       return num
         .toFixed(2)
         .replace('.', ',') 
@@ -82,14 +104,14 @@ export default defineComponent({
       return currencyFormatBR(credit.value)
     })
     const minIncome = computed(() => {
-      console.log(credit.value, installments.value)
+      //console.log(credit.value, installments.value)
       const minIncomeNumber = calMinIncome(credit.value, installments.value)
-      console.log(minIncomeNumber)
+      //console.log(minIncomeNumber)
       return currencyFormatBR(minIncomeNumber)
     })
     const handleSubmit = () => {
       context.emit('valuesChanged', credit.value, installments.value)
-      context.emit('formButtonClicked')
+      context.emit('formButtonClicked', reason.value, reset)
     }
     const calMinIncome = (credit: number, installments: number) => {
       if (credit <= 0 || installments <= 0) return 0
@@ -106,13 +128,22 @@ export default defineComponent({
       installments,
       currencyOptions,
       minCredit,
-      maxCredit
+      maxCredit,
+      creditData,
+      reason
     }
   },
 })
 </script>
 
 <style scoped>
+:deep .input-base {
+	border: none;
+	width: calc(80% - 30px);
+}
+.input-wrapper {
+	text-align: center;
+}
 .btn-next {
   margin: 40px 20px;
   text-align: right;

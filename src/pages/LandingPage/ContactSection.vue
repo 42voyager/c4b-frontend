@@ -4,14 +4,14 @@
 			<h2 class="feedback-title">{{ FeedbackConfiguration.text.title }}</h2>
 			<form id="form-Feedback" class="form-Feedback" @submit.prevent>
 				<FormTextInput
-					v-for="(item, index) of inputsInfo" 
+					v-for="(item, index) of inputsInfo"
 					:key="index"
-					@inputEvent="(value) => { handleInputChange(value, item.name )}"
 					:type="item.type"
 					:name="item.name"
 					:placeholder="item.placeholder"
-					:isValid="item.isValid()"
+					:isInvalid="item.isInvalid()"
 					:errors="item.error"
+					v-model="userFeedBack[item.name]"
 				/>
 				<div class="wrapper-input">
 					<textarea
@@ -34,6 +34,7 @@
 		</div>
 		<TheSuccessForm
 			v-show="success"
+			buttonLabel="Fazer nova solicitação"
 			:messages="FeedbackConfiguration.text.success"
 			@newRequestClicked="newFeedback()"
 		/>
@@ -47,16 +48,16 @@ import FormTextInput from "@/components/ui/FormTextInput.vue";
 import ApiController from "@/api/C4bApi";
 import ButtonDefault from "@/components/ui/ButtonDefault.vue";
 import InputError from "@/components/ui/InputError.vue";
-import TheSuccessForm from "@/pages/LandingPage/TheSuccessForm.vue";
+import TheSuccessForm from "@/components/common/TheSuccessForm.vue";
 import IUserFeedBack from "@/types/userFeedBack"
 import { FeedbackConfiguration } from "@/config/variables";
 import { checkErrorsReturn, Validity } from "@/use/validInput";
 
-interface InputsInfo {
+interface IInputsInfo {
 	type: string,
 	name: string,
 	placeholder: string,
-	isValid: () => boolean,
+	isInvalid: () => boolean,
 	error: string[]
 }
 
@@ -109,6 +110,14 @@ components: {
 				inputValidationStatus.value = newStatus;
 			}
 		}
+		/**
+		* @param {KeyboardEvent} e - Evento do click
+		* Se a tecla esc é pressionada quando o modal de sucesso está aberto o modal será fechado
+		*/
+		const keyEscDown = (e: KeyboardEvent) => {
+			if (success.value == true &&  e.key == "Escape") newFeedback();
+		};
+		document.addEventListener("keyup", keyEscDown)
 		return {
 			success,
 			FeedbackConfiguration,
@@ -119,7 +128,6 @@ components: {
 			checkErrorsReturn,
 			newFeedback,
 			validLocalTextArea,
-			handleInputChange
 		}
 	}
 })
@@ -193,45 +201,28 @@ function newFeedback(): void {
 /**
  * Função utilizada para criar um array contendo todos os dados
  * necessário para gerar os inputs
- * @returns {Array<InputsInfo>} - Um array com todos os dados utilizados nos inputs
+ * @returns {Array<IInputsInfo>} - Um array com todos os dados utilizados nos inputs
  */
-function  createList(): Array<InputsInfo> {
+function  createList(): Array<IInputsInfo> {
 
 	let inputsInfo = [
 		{
 			type: "text",
 			name: "name",
 			placeholder: FeedbackConfiguration.text.formInputInfolist[0].placeholder,
-			isValid: () => inputValidationStatus.value.name == Validity.Invalid,
+			isInvalid: () => inputValidationStatus.value.name == Validity.Invalid,
 			error: FeedbackConfiguration.text.formInputInfolist[0].error,
 		},
 		{
 			type: "email",
 			name: "email",
 			placeholder: FeedbackConfiguration.text.formInputInfolist[1].placeholder,
-			isValid: () => inputValidationStatus.value.email == Validity.Invalid,
+			isInvalid: () => inputValidationStatus.value.email == Validity.Invalid,
 			error: FeedbackConfiguration.text.formInputInfolist[1].error,
 		},
 	];
 	return inputsInfo;
 }
-
-/**
- * Função utilizada para guardar os dados escritos nos inputs
- * @param {string} value - Valor recebido pelo input
- * @param {string} name - Nome do input
- */
-function handleInputChange(value: string, name: string): void {
-	const newUserFeedback = {...userFeedBack.value};
-
-	if (name == "name")
-		newUserFeedback.name = value;
-	if (name == "email")
-		newUserFeedback.email = value;
-	newUserFeedback.message = userFeedBack.value.message;
-	userFeedBack.value = newUserFeedback;
-}
-
 </script>
 
 <style scoped>

@@ -3,12 +3,11 @@
     <input
       v-bind="$attrs"
       class="input-base"
-      v-bind:class="{ invalid: isValid }"
       @input="onInput"
       :modelValue="formattedValue"
       ref="inputRef"
     />
-    <div v-show="isValid">
+    <div v-show="isInvalid">
       <InputError :msg="errors" />
     </div>
   </div>
@@ -21,7 +20,7 @@ import InputError from "@/components/ui/InputError.vue";
 
 /**
  * Component utilizado para input numerico de formato 'currency'
- * @prop {Boolean} isValid - Condição para verficar se o input é válido
+ * @prop {Boolean} isInvalid - Condição para verficar se o input é válido
  * @prop {Array<String>} errors - Array de string contendo todos as mensagens de erros
  * @prop {CurrencyOptions} currencyOptions - Objeto com as configuracoes do tipo do currency
  * @prop {number} modelValue - value do input
@@ -32,7 +31,7 @@ export default defineComponent({
     InputError,
   },
   props: {
-    isValid: {
+    isInvalid: {
       type: Boolean,
       required: true,
     },
