@@ -1,5 +1,9 @@
 <template>
-  <TheHeader />
+  <TheHeader>
+    <template #menu-list>
+      <NavBarMenuItems />
+    </template>
+  </TheHeader>
   <Banner />
   <WrapperHighlights :pontosForte="pontosForte" />
   <TwoColumnSection imageFileName="side-img.jpg" />
@@ -21,6 +25,7 @@ import InformationSection from '@/pages/LandingPage/InformationSection.vue'
 import TheFooter from '@/components/layout/TheFooter.vue'
 import FaqSection from '@/pages/LandingPage/FaqSection.vue'
 import ContactForm from '@/pages/LandingPage/ContactSection.vue'
+import NavBarMenuItems from '@/pages/LandingPage/NavBarMenuItems.vue'
 import { PontosForte, FaqsInfo, Infos } from '@/config/variables'
 
 export default defineComponent({
@@ -33,6 +38,7 @@ export default defineComponent({
     TheFooter,
     FaqSection,
     ContactForm,
+    NavBarMenuItems
   },
   setup() {
     return {

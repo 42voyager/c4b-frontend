@@ -1,5 +1,8 @@
 <template>
-	<TheHeader />
+	<TheHeader>
+		<template #menu-list>
+		</template>
+	</TheHeader>
 	<TheFormBankInfo />	
 	<TheFooter />
 </template>

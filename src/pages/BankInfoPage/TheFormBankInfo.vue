@@ -23,11 +23,12 @@
 			/>
 			<SuccessForm
 				v-if="wasFormSubmitted"
+				buttonLabel="Finalizar"
 				:messages="['Recibimos seus dados']"
 				@newRequestClicked="handleSuccessModalClose"
 			/>	
 		</div>
-		<ButtonDefault 
+		<ButtonDefault
 			:msg="BankInfoFormConfiguration.submittLabel"
 			@buttonClicked="handleSubmit"
 		/>
@@ -84,8 +85,7 @@ export default defineComponent({
 		})
 
 		const handleSuccessModalClose = () => {
-			window.location.href = ''
-			wasFormSubmitted.value = false
+			window.location.href = '/'
 		}
 
 		watch(formInfo, (info) => console.log(info), {deep: true})
@@ -153,6 +153,7 @@ export default defineComponent({
 .inputs {
 	width: calc(100% - 40px);
 	max-width: 500px;
+	margin: 20px 0px;
 }
 
 @media (min-width: 768px) {
