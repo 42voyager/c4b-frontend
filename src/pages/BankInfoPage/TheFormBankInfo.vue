@@ -45,7 +45,7 @@ import SuccessForm from '@/components/common/TheSuccessForm.vue'
 import { BankInfoFormConfiguration } from '@/config/variables'
 import { Validity, checkErrorsReturn } from '@/use/validInput'
 import C4bApi from '@/api/C4bApi'
-import { banksList } from '@/config/bankslit'
+import { banksList } from '@/config/bankslist'
 
 export default defineComponent({
 	components: {
@@ -88,7 +88,7 @@ export default defineComponent({
 			window.location.href = '/'
 		}
 
-		watch(formInfo, (info) => console.log(info), {deep: true})
+		// watch(formInfo, (info) => console.log(info), {deep: true})
 
 		const handleSubmit = async () => {
 			try {
