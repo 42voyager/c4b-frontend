@@ -24,7 +24,7 @@
 			<SuccessForm
 				v-if="wasFormSubmitted"
 				buttonLabel="Finalizar"
-				:messages="['Recibimos seus dados']"
+				:messages="['Recebemos seus dados']"
 				@newRequestClicked="handleSuccessModalClose"
 			/>	
 		</div>
