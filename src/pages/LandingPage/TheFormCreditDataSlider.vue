@@ -29,11 +29,19 @@
 				<p class="creditLabel">
 					{{ creditData.text.titleMotivo }}
 				</p>
-				<FormTextInput
-					placeholder="Motivo"
-					name="motivo"
+        <MultiSelect
+					:options="creditData.text.listReasons"
 					v-model="reason"
 				/>
+				<FormTextInput
+					v-if="reason === others"
+					v-model="reasonOthers"
+					placeholder="Motivo"
+					name="Motivo"
+				/>
+        <div v-show="isInvalid">
+					<InputError :msg="creditData.text.errors"/>
+				</div>
 		</div>
     <div class="btn-next">
       <ButtonDefault msg="Continuar" @buttonClicked="handleSubmit()" />
@@ -42,13 +50,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue'
+import { defineComponent, ref, computed, watch } from 'vue'
 import { CurrencyInputOptions, CurrencyDisplay } from 'vue-currency-input'
 import { CreditData } from '@/config/variables';
 import FormTextInput from '@/components/ui/FormTextInput.vue'
 import InfoBox from '@/components/ui/InfoBox.vue'
 import ButtonDefault from '@/components/ui/ButtonDefault.vue'
 import SliderInput from '@/components/ui/SliderInput.vue'
+import MultiSelect from "@/components/ui/MultiSelect.vue"
+import InputError from "@/components/ui/InputError.vue"
 
 export default defineComponent({
   props: {
@@ -65,7 +75,9 @@ export default defineComponent({
     InfoBox,
     ButtonDefault,
     SliderInput,
-    FormTextInput
+    FormTextInput,
+		MultiSelect,
+		InputError
   },
   emits: ['formButtonClicked', 'valuesChanged'],
   setup: (props, context) => {
@@ -85,14 +97,35 @@ export default defineComponent({
       useGrouping: true,
     }
     const creditData = CreditData;
+		const lenghReason = creditData.text.listReasons.length;
     const reason = ref("");
+		const reasonOthers = ref("");
+		const others = creditData.text.listReasons[lenghReason - 1];
+		const isInvalid = ref(false);
 
     /**
      * Função utilizada para limpar o campo do motivo no form
      */
     const reset = (): void => {
-    reason.value = "";
+			reasonOthers.value = "";
+      isInvalid.value = false;
     }
+		/** Função para validar o multiselect */
+    const handleReasonSelect = (): void => {
+			if (reason.value == "" || reason.value == undefined)
+				isInvalid.value = true
+			else
+				isInvalid.value = false
+		}
+		/** Função utilizada para validar o input de outro motivos */
+    const validationReasonOthers = (): void => {
+      handleReasonSelect()
+			if (reason.value == others)
+				if (reasonOthers.value == "" || reasonOthers.value.length < 10)
+					isInvalid.value = true;
+				else
+					isInvalid.value = false;
+		}
     const currencyFormatBR = (num: number) => {
       //console.log(num)
       return num
@@ -111,8 +144,16 @@ export default defineComponent({
     })
     const handleSubmit = () => {
       context.emit('valuesChanged', credit.value, installments.value)
-      context.emit('formButtonClicked', reason.value, reset)
+      validationReasonOthers()
+			if (isInvalid.value == true)
+        return ;
+      else if (reason.value === others)
+        context.emit('formButtonClicked', reasonOthers.value, reset)
+			else
+        context.emit('formButtonClicked', reason.value, reset)
     }
+		/** Este evento é acionado sempre que o multiselect é clicado.*/
+		watch(reason, (reason) => handleReasonSelect())
     const calMinIncome = (credit: number, installments: number) => {
       if (credit <= 0 || installments <= 0) return 0
       const perc = 0.2
@@ -130,7 +171,10 @@ export default defineComponent({
       minCredit,
       maxCredit,
       creditData,
-      reason
+      reason,
+      others,
+      reasonOthers,
+      isInvalid,
     }
   },
 })
@@ -139,7 +183,6 @@ export default defineComponent({
 <style scoped>
 :deep .input-base {
 	border: none;
-	width: calc(80% - 30px);
 }
 .input-wrapper {
 	text-align: center;
