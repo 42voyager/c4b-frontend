@@ -40,16 +40,16 @@ export const TitleForm = "Solicite seu crédito em 2 passos";
 export const Infos = {
 	title: "C4B é a resposta para sua necessidade de crédito",
 	infosList: [
-    {text: "O processo de solicitação é simples e sem burocracia, você só precisa" +
-	"preencher o formulário e esperar a resposta por e-mail. C4B foi desenhado para" +
+    {text: "O processo de solicitação é simples e sem burocracia, você só precisa " +
+	"preencher o formulário e esperar a resposta por e-mail. C4B foi desenhado para " +
 	"você não precisar se deslocar.",
         img: "info-img1.jpg"},
-    {text: "Crédito a medida de sua empresa. C4B permite calcular com antecipação" +
-	"a quantidade solicitada para que esteja dentro das possibilidades do seu negócio." +
+    {text: "Crédito a medida de sua empresa. C4B permite calcular com antecipação " +
+	"a quantidade solicitada para que esteja dentro das possibilidades do seu negócio. " +
 	"Você pode decidir as parcelas e organizar melhor suas finanzas.",
         img: "info-img3.jpg"},
     {text: "O processo é digitalizado para facilitar o envío de informações, " +
-	"esqueça de ter que agendar visitas ao banco ou de perder tempo em trámites" +
+	"esqueça de ter que agendar visitas ao banco ou de perder tempo em trámites " +
 	"burocráticos. Você faz a solicitação desde seu computador e recebe a resposta " +
 	"no seu computador",
         img: "info-img4.jpg"}
@@ -62,7 +62,7 @@ export const FaqsInfo = {
 	{ question: "Preciso comprovar faturamento?", answer: "Sim, porém, nosso processo " +
 	"permite solicitar um crédito a medida de seu faturamento."},
 	{ question: "Existe algúm processo além de preencher o formulário?", answer: "Não, " +
-	"você só precisa preencher o fomrulário e C4B faz o trabalho. Você faz a solicitação desde" +
+	"você só precisa preencher o fomrulário e C4B faz o trabalho. Você faz a solicitação desde " +
 	"seu computador e recebe a resposta no seu computador."},
 	{ question: "É seguro?", answer: "Todo o processo garante segurança e transparência. " +
 	"São solicitadas o mínimo de informações necessárias para tramitar o crédito."},
@@ -84,7 +84,16 @@ export const CreditData = {
 			{id: 24, name: "installments", label: "24x"},
 			{id: 36, name: "installments", label: "36x"}
 		],
-		titleMotivo: "Qual o motivo da sua solicitação de crédito?"
+		titleMotivo: "Qual o motivo da sua solicitação de crédito?",
+		listReasons: [
+			"Capital de giro",
+			"Pagamento de folha ou 13º salário",
+			"Compra de equipamentos",
+			"Investimento em infraestrutura",
+			"Compra de insumos e produtos",
+			"outros"
+		],
+		errors: ["Você precisa escolher um motivo válido!"]
 	}
 }
 

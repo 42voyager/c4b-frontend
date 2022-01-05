@@ -6,20 +6,20 @@
     <div class="column column-two">
       <h2 v-if="requestSucceeded == false">{{ titleForm }}</h2>
       <form id="form-request" class="wrapper-form" @submit.prevent ref="div-1">
-        <!-- <TheFormCreditDataSlider
-          v-if="!nextStep"
+        <TheFormCreditDataSlider
+          v-show="!nextStep"
           @formButtonClicked="goNextStep"
           @valuesChanged="creditDataChanged"
           :limit="limit"
           :installment="installment"
-        /> -->
-        <TheFormCreditData
+        />
+        <!-- <TheFormCreditData
           v-show="!nextStep"
           @nextStepClicked="goNextStep"
           @valueChanged="creditDataChanged"
           :limit="limit"
           :installment="installment"
-        />
+        /> -->
         <TheFormUserData
           v-show="nextStep && requestSucceeded == false"
           @submitForm="submitUser"
@@ -43,9 +43,9 @@ import { useReCaptcha } from 'vue-recaptcha-v3'
 import TheFormUserData from './TheFormUserData.vue'
 import ApiController from '@/api/C4bApi'
 import IUserData from '@/types/user'
-import TheFormCreditData from './TheFormCreditData.vue'
-//import TheFormCreditDataSlider from './TheFormCreditDataSlider.vue'
-import TheSuccessForm from '@/components/common/TheSuccessForm.vue'
+// import TheFormCreditData from './TheFormCreditData.vue'
+import TheFormCreditDataSlider from './TheFormCreditDataSlider.vue'
+import TheSuccessForm from './TheSuccessForm.vue'
 import { TitleForm, SucessMessage, errorMsgs } from '@/config/variables'
 import GetIPApi from '@/api/getIpApi'
 
@@ -56,9 +56,9 @@ const TwoColumnSection = defineComponent({
   },
   components: {
     TheFormUserData,
-    TheFormCreditData,
+    // TheFormCreditData,
     TheSuccessForm,
-    //TheFormCreditDataSlider,
+    TheFormCreditDataSlider,
   },
   setup() {
     const { executeRecaptcha, recaptchaLoaded } = useReCaptcha()!
