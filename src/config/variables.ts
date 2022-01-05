@@ -173,3 +173,24 @@ export const FeedbackConfiguration = {
 		]
 	}
 }
+
+export const BankInfoFormConfiguration = {
+	title: "Insira seus dados bancários",
+	formInputsInfo: [
+		{
+			name: "branch" as const,
+			type: "text",
+			placeholder: "Agência",
+			error: ["A agência é inválida!"],
+			mask: ['####', '####-#', '####-##']
+		},
+		{
+			name: "checkingAccount" as const,
+			type: "text",
+			placeholder: "Conta Corrente",
+			error: ["A conta é inválida!"],
+			mask: ['#####-#', '######-#', '#######-#', '########-#', '#########-#', '###########-#']
+		},
+	],
+	submittLabel: "Enviar"
+}

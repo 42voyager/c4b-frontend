@@ -1,15 +1,13 @@
 <template>
   <header class="header">
     <div class="wrapper-logo">
-      <a href="#"><img src="@/assets/logo-abc.png" alt="Logo Banco ABC" /></a>
+      <a href="/"><img src="@/assets/logo-abc.png" alt="Logo Banco ABC" /></a>
     </div>
     <button class="toggle-menu" v-on:click="onClicked()">
       <MenuButton />
     </button>
     <ul id="menu" class="nav-bar" v-bind:class="{ hidden: isCollapsed }">
-      <li><a class="active" href="#form-request">Solicite seu crédito</a></li>
-      <li><a href="#information-section">Informações</a></li>
-      <li><a href="#faq-section">FAQ</a></li>
+      <slot name="menu-list" />
     </ul>
   </header>
 </template>
@@ -61,33 +59,6 @@ export default class TheHeader extends Vue {
 .wrapper-logo img {
   width: 60px;
 }
-li:first-child {
-  /* margin-right: auto; */
-}
-
-li {
-  display: block;
-  margin: 0 10px;
-  padding: 10px;
-}
-
-li a {
-  padding: 15px;
-}
-
-a:hover {
-  color: #b29475;
-}
-
-.active:hover {
-  background-color: #b29475;
-  color: white;
-  border-radius: 10px;
-}
-
-.active {
-  color: #b29475;
-}
 .toggle-menu {
   margin-left: auto;
   margin-right: 35px;
@@ -113,9 +84,6 @@ a:hover {
   }
   .toggle-menu {
     display: none;
-  }
-  li {
-    padding: 0;
   }
 }
 </style>

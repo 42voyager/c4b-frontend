@@ -29,6 +29,7 @@
         />
         <TheSuccessForm
           v-if="requestSucceeded === true"
+          buttonLabel="Fazer nova solicitação"
           :messages="sucessMessage"
           @newRequestClicked="newRequestClicked"
         />
@@ -44,7 +45,7 @@ import ApiController from '@/api/C4bApi'
 import IUserData from '@/types/user'
 // import TheFormCreditData from './TheFormCreditData.vue'
 import TheFormCreditDataSlider from './TheFormCreditDataSlider.vue'
-import TheSuccessForm from './TheSuccessForm.vue'
+import TheSuccessForm from '@/components/common/TheSuccessForm.vue'
 import { TitleForm, SucessMessage, errorMsgs } from '@/config/variables'
 import GetIPApi from '@/api/getIpApi'
 
@@ -71,13 +72,15 @@ const TwoColumnSection = defineComponent({
     const limit = ref(10000)
     const userIP = ref('')
     const userOS = ref('Unknown OS')
-    const userReason = ref("")
-    let resetInputReason = () => {return};
+    const userReason = ref('')
+    let resetInputReason = () => {
+      return
+    }
 
     const goNextStep = (reason: string, reset: () => void) => {
       nextStep.value = true
-      userReason.value = reason;
-      resetInputReason = reset;
+      userReason.value = reason
+      resetInputReason = reset
     }
     const backStepClicked = () => {
       nextStep.value = false
@@ -105,7 +108,7 @@ const TwoColumnSection = defineComponent({
     const submitUser = async (user: IUserData, resetFormData: () => void) => {
       user.limit = limit.value.toString() as any // Parsed as string to avoid being rejected by the backend
       user.installment = installment.value.toString() as any
-      user.reason = userReason.value;
+      user.reason = userReason.value
       user.timestamp = new Date().toJSON()
       user.ipAddress = userIP.value
       user.operatingSystem = userOS.value
@@ -135,13 +138,13 @@ const TwoColumnSection = defineComponent({
     }
 
     /**
-		* @param {KeyboardEvent} e - Evento do click
-		* Se a tecla esc é pressionada quando o modal de sucesso está aberto o modal será fechado
-		*/
-		const keyEscDown = (e: KeyboardEvent) => {
-			if (requestSucceeded.value == true &&  e.key == "Escape") newRequestClicked();
-		};
-		document.addEventListener("keyup", keyEscDown)
+     * @param {KeyboardEvent} e - Evento do click
+     * Se a tecla esc é pressionada quando o modal de sucesso está aberto o modal será fechado
+     */
+    const keyEscDown = (e: KeyboardEvent) => {
+      if (requestSucceeded.value == true && e.key == 'Escape') newRequestClicked()
+    }
+    document.addEventListener('keyup', keyEscDown)
     return {
       submitUser,
       goNextStep,
@@ -155,7 +158,7 @@ const TwoColumnSection = defineComponent({
       messageResponse,
       requestSucceeded,
       installment,
-      limit
+      limit,
     }
   },
 })
@@ -195,7 +198,7 @@ export default TwoColumnSection
   .side-img {
     width: 100%;
     height: 900px;
-}
+  }
 }
 @media (min-width: 768px) {
   .two-column-section {
@@ -211,7 +214,6 @@ export default TwoColumnSection
     padding: 0 20px;
     height: auto;
   }
-  
 }
 @media (min-width: 992px) {
   .side-img {
@@ -225,7 +227,6 @@ export default TwoColumnSection
     margin-top: 50%;
     height: 950px;
   }
-
 }
 @media (min-width: 1460px) {
   .side-img {

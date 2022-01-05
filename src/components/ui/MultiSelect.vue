@@ -49,7 +49,7 @@ export default defineComponent({
 }
 :deep .multiselect__single {
 	font-size: 18px !important;
-	color: rgb(116, 114, 114) !important;
+	color: black !important;
 	padding: 0;
 	margin-bottom: 0;
 }

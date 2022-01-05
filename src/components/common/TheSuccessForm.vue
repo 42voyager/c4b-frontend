@@ -7,7 +7,7 @@
           {{ message }}
         </p>
       </div>
-      <ButtonDefault msg="Fazer nova solicitação" @buttonClicked="handleOkButtonClicked()"/>
+      <ButtonDefault :msg="buttonLabel" @buttonClicked="handleOkButtonClicked()"/>
     </div>
   </Modal>
 </template>
@@ -24,6 +24,10 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       required: true
     },
+    buttonLabel: {
+      type: String,
+      default: 'Fechar'
+    }
   },
   emits: ["newRequestClicked"],
   components: {

@@ -4,11 +4,12 @@
 			<h2 class="feedback-title">{{ FeedbackConfiguration.text.title }}</h2>
 			<form id="form-Feedback" class="form-Feedback" @submit.prevent>
 				<FormTextInput
-					v-for="(item, index) of inputsInfo" :key="index"
+					v-for="(item, index) of inputsInfo"
+					:key="index"
 					:type="item.type"
 					:name="item.name"
 					:placeholder="item.placeholder"
-					:isValid="item.isValid()"
+					:isInvalid="item.isInvalid()"
 					:errors="item.error"
 					v-model="userFeedBack[item.name]"
 				/>
@@ -33,6 +34,7 @@
 		</div>
 		<TheSuccessForm
 			v-show="success"
+			buttonLabel="Fazer nova solicitação"
 			:messages="FeedbackConfiguration.text.success"
 			@newRequestClicked="newFeedback()"
 		/>
@@ -46,22 +48,17 @@ import FormTextInput from "@/components/ui/FormTextInput.vue";
 import ApiController from "@/api/C4bApi";
 import ButtonDefault from "@/components/ui/ButtonDefault.vue";
 import InputError from "@/components/ui/InputError.vue";
-import TheSuccessForm from "@/pages/LandingPage/TheSuccessForm.vue";
+import TheSuccessForm from "@/components/common/TheSuccessForm.vue";
 import IUserFeedBack from "@/types/userFeedBack"
 import { FeedbackConfiguration } from "@/config/variables";
-import { checkErrorsReturn } from "@/use/validInput";
+import { checkErrorsReturn, Validity } from "@/use/validInput";
 
 interface IInputsInfo {
 	type: string,
 	name: string,
 	placeholder: string,
-	isValid: () => boolean,
+	isInvalid: () => boolean,
 	error: string[]
-}
-enum Validity {
-	Valid,
-	Invalid,
-	Undefined
 }
 
 const success = ref(false);
@@ -213,14 +210,14 @@ function  createList(): Array<IInputsInfo> {
 			type: "text",
 			name: "name",
 			placeholder: FeedbackConfiguration.text.formInputInfolist[0].placeholder,
-			isValid: () => inputValidationStatus.value.name == Validity.Invalid,
+			isInvalid: () => inputValidationStatus.value.name == Validity.Invalid,
 			error: FeedbackConfiguration.text.formInputInfolist[0].error,
 		},
 		{
 			type: "email",
 			name: "email",
 			placeholder: FeedbackConfiguration.text.formInputInfolist[1].placeholder,
-			isValid: () => inputValidationStatus.value.email == Validity.Invalid,
+			isInvalid: () => inputValidationStatus.value.email == Validity.Invalid,
 			error: FeedbackConfiguration.text.formInputInfolist[1].error,
 		},
 	];

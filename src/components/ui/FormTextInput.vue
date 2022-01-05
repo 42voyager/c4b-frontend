@@ -3,11 +3,10 @@
 		<input
 		v-bind="$attrs"
 		class="input-base"
-		v-bind:class="{ invalid: isValid }"
 		:value="modelValue"
-		@input="$emit('update:modelValue', $event.target.value)"
+        @input="$emit('update:modelValue', $event.target.value)"
 		/>
-		<div v-show=" isValid">
+		<div v-show="isInvalid">
 			<InputError :msg="errors"/>
 		</div>
 	</div>
@@ -20,7 +19,7 @@ import { checkErrorsReturn } from "@/use/validInput";
 
 /**
  * Component utilizado para input de texto/numerico
- * @prop {Boolean} isValid - Condição para verficar se o input é válido
+ * @prop {Boolean} isInvalid - Condição para verficar se o input é válido
  * @prop {Array<String>} errors - Array de string contendo todos as mensagens de erros
  * @event inputEvent - Evento para quando algo é escrito no input
 */
@@ -29,7 +28,7 @@ export default defineComponent({
 		InputError
 	},
 	props: {
-		isValid: {
+		isInvalid: {
 			type: Boolean,
 			default: false
 		},
@@ -38,9 +37,9 @@ export default defineComponent({
 			default: () => { return ([[""]]) },
 		},
 		modelValue: {
-			type: String,
-			default: ''
-		}
+            type: String,
+            default: ''
+        }
 	},
 	emits: ["inputEvent"],
 	inheritAttrs: false,
