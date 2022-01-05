@@ -35,11 +35,19 @@
 				<p class="creditLabel">
 					{{ creditData.text.titleMotivo }}
 				</p>
-				<FormTextInput
-					placeholder="Motivo"
-					name="motivo"
+				<MultiSelect
+					:options="creditData.text.listReasons"
 					v-model="reason"
 				/>
+				<FormTextInput
+					v-if="reason === others"
+					v-model="reasonOthers"
+					placeholder="Motivo"
+					name="Motivo"
+				/>
+				<div v-show="isInvalid">
+					<InputError :msg="creditData.text.errors"/>
+				</div>
 			</div>
 			<div class="btn-next">
 				<ButtonDefault msg="Continuar" @buttonClicked="nextStepClicked()"/>
@@ -51,9 +59,11 @@
 <script lang="ts">
 import RadioInput from '@/components/ui/RadioInput.vue';
 import ButtonDefault from "@/components/ui/ButtonDefault.vue";
-import  FormTextInput from "@/components/ui/FormTextInput.vue";
+import FormTextInput from "@/components/ui/FormTextInput.vue";
+import MultiSelect from "@/components/ui/MultiSelect.vue"
+import InputError from "@/components/ui/InputError.vue"
 import { CreditData } from '@/config/variables';
-import { defineComponent, ref } from 'vue-demi';
+import { defineComponent, ref, watch } from 'vue-demi';
 
 /**
  * Component utilizado na primeira etapa da solicitação de crédito
@@ -65,31 +75,63 @@ import { defineComponent, ref } from 'vue-demi';
 export default defineComponent({
 	props: {
 		limit: [String, Number],
-		installment: [String, Number]
+		installment: [String, Number],
 	},
 	emits: ["nextStepClicked", "valueChanged"],
 	components: {
 		RadioInput,
 		ButtonDefault,
-		FormTextInput
+		FormTextInput,
+		MultiSelect,
+		InputError
 	},
 	setup(props, context){
 		const creditData = CreditData;
+		const lenghReason = creditData.text.listReasons.length;
 		const reason = ref("");
+		const reasonOthers = ref("");
+		const others = creditData.text.listReasons[lenghReason - 1];
+		const isInvalid = ref(false);
 
 		/**
 		 * Função utilizada para limpar o campo do motivo no form
 		 */
 		const reset = (): void => {
-			reason.value = "";
+			reasonOthers.value = "";
+			isInvalid.value = false;
+		}
+		/** Função para validar o multiselect */
+		const handleReasonSelect = (): void => {
+			if (reason.value == "" || reason.value == undefined)
+				isInvalid.value = true
+			else
+				isInvalid.value = false
+		}
+		/** Função utilizada para validar o input de outro motivos */
+		const validationReasonOthers = (): void => {
+			handleReasonSelect()
+			if (reason.value == others)
+				if (reasonOthers.value == "" || reasonOthers.value.length < 10)
+					isInvalid.value = true;
+				else
+					isInvalid.value = false;
 		}
 		/**
 		 * Função utilizada para emitir um evendo quando o botão continuar é clicado
+		 * Não faz nada caso um dos inputs obrigátorio seja inválido
 		 */
 		const nextStepClicked = (): void => {
-			context.emit("nextStepClicked", reason.value, reset)
+			validationReasonOthers()
+			if (isInvalid.value == true)
+				return ;
+			if (reason.value === others)
+				context.emit("nextStepClicked", reasonOthers.value, reset)
+			else
+				context.emit("nextStepClicked", reason.value, reset)
 		}
 
+		/** Este evento é acionado sempre que o multiselect é clicado.*/
+		watch(reason, (reason) => handleReasonSelect())
 		/** No momento que o radio input e clicado, handle input triggers */
 		const handleInput = (limit: string | null, installment: string | null): void => {
 			context.emit("valueChanged", limit, installment)
@@ -97,6 +139,9 @@ export default defineComponent({
 		return {
 			creditData,
 			reason,
+			others,
+			reasonOthers,
+			isInvalid,
 			nextStepClicked,
 			handleInput
 		}
@@ -106,7 +151,6 @@ export default defineComponent({
 <style scoped>
 :deep .input-base {
 	border: none;
-	width: calc(80% - 30px);
 }
 .input-wrapper {
 	text-align: center;
