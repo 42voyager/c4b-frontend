@@ -46,7 +46,7 @@ export const Infos = {
         img: "info-img1.jpg"},
     {text: "Crédito a medida de sua empresa. C4B permite calcular com antecipação " +
 	"a quantidade solicitada para que esteja dentro das possibilidades do seu negócio. " +
-	"Você pode decidir as parcelas e organizar melhor suas finanzas.",
+	"Você pode decidir as parcelas e organizar melhor suas finanças.",
         img: "info-img3.jpg"},
     {text: "O processo é digitalizado para facilitar o envío de informações, " +
 	"esqueça de ter que agendar visitas ao banco ou de perder tempo em trámites " +
