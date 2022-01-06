@@ -43,8 +43,9 @@ import { useReCaptcha } from 'vue-recaptcha-v3'
 import TheFormUserData from './TheFormUserData.vue'
 import ApiController from '@/api/C4bApi'
 import IUserData from '@/types/user'
-// import TheFormCreditData from './TheFormCreditData.vue'
+import TheFormCreditData from './TheFormCreditData.vue'
 import TheFormCreditDataSlider from './TheFormCreditDataSlider.vue'
+import TheFormCreditDataInput from './TheFormCreditDataInput.vue'
 import TheSuccessForm from '@/components/common/TheSuccessForm.vue'
 import { TitleForm, SucessMessage, errorMsgs } from '@/config/variables'
 import GetIPApi from '@/api/getIpApi'
@@ -56,7 +57,8 @@ const TwoColumnSection = defineComponent({
   },
   components: {
     TheFormUserData,
-    // TheFormCreditData,
+    TheFormCreditData,
+    TheFormCreditDataInput,
     TheSuccessForm,
     TheFormCreditDataSlider,
   },
