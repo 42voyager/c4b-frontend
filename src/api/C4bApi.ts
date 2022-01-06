@@ -21,7 +21,7 @@ export default class C4bApi {
 		return await axios.post(API_URL_BANK_INFO, bankInfo);
 	}
 
-	async getCreditInfo(limit : Number, installment : Number ): Promise<AxiosResponse> {
+	async getCreditInfo(limit : number, installment : number ): Promise<AxiosResponse> {
 		return await axios.get(API_URL_CREDIT, { params : { Limit : limit, Installment : installment } })
 	}
 }
