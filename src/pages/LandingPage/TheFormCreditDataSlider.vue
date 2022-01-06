@@ -29,7 +29,7 @@
       <p class="creditLabel">
         {{ creditData.text.titleMotivo }}
       </p>
-      <MultiSelect :options="creditData.text.listReasons" v-model="reason" />
+      <MultiSelect :options="creditData.text.listReasons" v-model="reason" placeholder="Selecione uma opção"/>
       <FormTextInput
         v-if="reason === others"
         v-model="reasonOthers"
