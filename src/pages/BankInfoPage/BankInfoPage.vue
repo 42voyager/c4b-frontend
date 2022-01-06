@@ -3,7 +3,7 @@
 		<template #menu-list>
 		</template>
 	</TheHeader>
-	<TheFormBankInfo />	
+	<TheFormBankInfo />
 	<TheFooter />
 </template>
 
@@ -22,7 +22,7 @@ export default defineComponent({
 })
 </script>
 
-<style>
+<style scoped>
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -30,5 +30,8 @@ export default defineComponent({
 }
 .modal-header {
   text-align: center;
+}
+:deep .toggle-menu {
+	display: none;
 }
 </style>
