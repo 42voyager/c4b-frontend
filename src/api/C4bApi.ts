@@ -6,7 +6,7 @@ import axios, { AxiosResponse } from 'axios'
 const API_URL_USER = '/Customer/'
 const API_URL_FEEDBACK = '/Feedback/'
 const API_URL_BANK_INFO = '/BankInfo/'
-const API_URL_CREDIT = '/Credit'
+const API_URL_CREDIT = '/Credit/'
 
 export default class C4bApi {
 	async postUser(user: IUserData): Promise<AxiosResponse> {
