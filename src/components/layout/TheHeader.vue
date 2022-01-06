@@ -40,6 +40,7 @@ export default class TheHeader extends Vue {
   background-color: #fff;
   align-items: center;
   z-index: 99;
+  box-shadow: 5px 5px 5px rgba(187, 187, 187, 0.5);
 }
 .nav-bar {
   position: absolute;
@@ -49,7 +50,7 @@ export default class TheHeader extends Vue {
   background-color: white;
   margin-left: -15px;
   margin-right: -15px;
-  margin-top: 225px;
+  margin-top: 165px;
   margin-bottom: 0;
   z-index: 99999;
 }

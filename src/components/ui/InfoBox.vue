@@ -39,8 +39,8 @@ export default defineComponent({
 }
 
 .info-style {
-	background-color: #cce5ff;
-	border-color: #b8daff;
+	background-color: #f6f2ef;
+	border-color: #b29475;
 }
 
 .warning-style {

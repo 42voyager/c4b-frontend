@@ -34,7 +34,7 @@
 		</div>
 		<TheSuccessForm
 			v-show="success"
-			buttonLabel="Fazer nova solicitação"
+			buttonLabel="Fechar"
 			:messages="FeedbackConfiguration.text.success"
 			@newRequestClicked="newFeedback()"
 		/>
