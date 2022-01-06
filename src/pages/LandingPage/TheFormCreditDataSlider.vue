@@ -8,8 +8,8 @@
       :maxLabel="'R$' + currencyFormatBR(maxCredit)"
       step="1000"
       v-model="credit"
-      />
-      <b class="current-value" > R$ {{ creditFormatted }} </b>
+    />
+    <b class="current-value"> R$ {{ creditFormatted }} </b>
     <p class="creditLabel">Em quantas vezes você quer pagar?</p>
     <SliderInput
       :min="6"
@@ -18,31 +18,28 @@
       :maxLabel="'35 Meses'"
       step="2"
       v-model="installments"
-      />
-      <b class="current-value"> {{ installments }} Meses </b>
+    />
+    <b class="current-value"> {{ installments }} Meses </b>
     <InfoBox class="info-box">
       <p>
         Faturamento mensual recomendado seria: <b> R$ {{ minIncome }} </b>
       </p>
     </InfoBox>
     <div class="input-wrapper">
-				<p class="creditLabel">
-					{{ creditData.text.titleMotivo }}
-				</p>
-        <MultiSelect
-					:options="creditData.text.listReasons"
-					v-model="reason"
-				/>
-				<FormTextInput
-					v-if="reason === others"
-					v-model="reasonOthers"
-					placeholder="Motivo"
-					name="Motivo"
-				/>
-        <div v-show="isInvalid">
-					<InputError :msg="creditData.text.errors"/>
-				</div>
-		</div>
+      <p class="creditLabel">
+        {{ creditData.text.titleMotivo }}
+      </p>
+      <MultiSelect :options="creditData.text.listReasons" v-model="reason" />
+      <FormTextInput
+        v-if="reason === others"
+        v-model="reasonOthers"
+        placeholder="Motivo"
+        name="Motivo"
+      />
+      <div v-show="isInvalid">
+        <InputError :msg="creditData.text.errors" />
+      </div>
+    </div>
     <div class="btn-next">
       <ButtonDefault msg="Continuar" @buttonClicked="handleSubmit()" />
     </div>
@@ -50,15 +47,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch } from 'vue'
-import { CurrencyInputOptions, CurrencyDisplay } from 'vue-currency-input'
-import { CreditData } from '@/config/variables';
-import FormTextInput from '@/components/ui/FormTextInput.vue'
-import InfoBox from '@/components/ui/InfoBox.vue'
-import ButtonDefault from '@/components/ui/ButtonDefault.vue'
-import SliderInput from '@/components/ui/SliderInput.vue'
-import MultiSelect from "@/components/ui/MultiSelect.vue"
-import InputError from "@/components/ui/InputError.vue"
+import { defineComponent, ref, computed, watch } from "vue";
+import { CurrencyInputOptions, CurrencyDisplay } from "vue-currency-input";
+import { CreditData } from "@/config/variables";
+import FormTextInput from "@/components/ui/FormTextInput.vue";
+import InfoBox from "@/components/ui/InfoBox.vue";
+import ButtonDefault from "@/components/ui/ButtonDefault.vue";
+import SliderInput from "@/components/ui/SliderInput.vue";
+import MultiSelect from "@/components/ui/MultiSelect.vue";
+import InputError from "@/components/ui/InputError.vue";
+import C4bApi from "@/api/C4bApi";
 
 export default defineComponent({
   props: {
@@ -76,90 +74,101 @@ export default defineComponent({
     ButtonDefault,
     SliderInput,
     FormTextInput,
-		MultiSelect,
-		InputError
+    MultiSelect,
+    InputError,
   },
-  emits: ['formButtonClicked', 'valuesChanged'],
+  emits: ["formButtonClicked", "valuesChanged"],
   setup: (props, context) => {
-    const minCredit = 10000
-    const maxCredit = 5000000
-    const credit = ref(props.limit)
-    const installments = ref(props.installment)
+    const minCredit = 10000;
+    const maxCredit = 5000000;
+    const credit = ref(props.limit);
+    const installments = ref(props.installment);
     const currencyOptions: CurrencyInputOptions = {
-      currency: 'BRL',
+      currency: "BRL",
       currencyDisplay: CurrencyDisplay.symbol,
-      locale: 'pt-BR',
+      locale: "pt-BR",
       hideCurrencySymbolOnFocus: false,
       hideGroupingSeparatorOnFocus: true,
       hideNegligibleDecimalDigitsOnFocus: true,
       autoDecimalDigits: false,
       autoSign: true,
       useGrouping: true,
-    }
+    };
     const creditData = CreditData;
-		const lenghReason = creditData.text.listReasons.length;
+    const lenghReason = creditData.text.listReasons.length;
     const reason = ref("");
-		const reasonOthers = ref("");
-		const others = creditData.text.listReasons[lenghReason - 1];
-		const isInvalid = ref(false);
+    const reasonOthers = ref("");
+    const others = creditData.text.listReasons[lenghReason - 1];
+    const isInvalid = ref(false);
+    const income = ref(0);
 
     /**
      * Função utilizada para limpar o campo do motivo no form
      */
     const reset = (): void => {
-			reasonOthers.value = "";
+      reasonOthers.value = "";
       isInvalid.value = false;
-    }
-		/** Função para validar o multiselect */
+    };
+    /** Função para validar o multiselect */
     const handleReasonSelect = (): void => {
-			if (reason.value == "" || reason.value == undefined)
-				isInvalid.value = true
-			else
-				isInvalid.value = false
-		}
-		/** Função utilizada para validar o input de outro motivos */
+      if (reason.value == "" || reason.value == undefined)
+        isInvalid.value = true;
+      else isInvalid.value = false;
+    };
+    /** Função utilizada para validar o input de outro motivos */
     const validationReasonOthers = (): void => {
-      handleReasonSelect()
-			if (reason.value == others)
-				if (reasonOthers.value == "" || reasonOthers.value.length < 10)
-					isInvalid.value = true;
-				else
-					isInvalid.value = false;
-		}
+      handleReasonSelect();
+      if (reason.value == others)
+        if (reasonOthers.value == "" || reasonOthers.value.length < 10)
+          isInvalid.value = true;
+        else isInvalid.value = false;
+    };
     const currencyFormatBR = (num: number) => {
       //console.log(num)
       return num
         .toFixed(2)
-        .replace('.', ',') 
-        .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    }
+        .replace(".", ",")
+        .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+    };
     const creditFormatted = computed(() => {
-      return currencyFormatBR(credit.value)
-    })
+      return currencyFormatBR(credit.value);
+    });
     const minIncome = computed(() => {
-      //console.log(credit.value, installments.value)
-      const minIncomeNumber = calMinIncome(credit.value, installments.value)
-      //console.log(minIncomeNumber)
-      return currencyFormatBR(minIncomeNumber)
-    })
+      return currencyFormatBR(income.value);
+    });
     const handleSubmit = () => {
-      context.emit('valuesChanged', credit.value, installments.value)
-      validationReasonOthers()
-			if (isInvalid.value == true)
-        return ;
+      context.emit("valuesChanged", credit.value, installments.value);
+      validationReasonOthers();
+      if (isInvalid.value == true) return;
       else if (reason.value === others)
-        context.emit('formButtonClicked', reasonOthers.value, reset)
-			else
-        context.emit('formButtonClicked', reason.value, reset)
-    }
-		/** Este evento é acionado sempre que o multiselect é clicado.*/
-		watch(reason, (reason) => handleReasonSelect())
-    const calMinIncome = (credit: number, installments: number) => {
-      if (credit <= 0 || installments <= 0) return 0
-      const perc = 0.2
-      const interest = 0.05
-      return ((credit + credit * interest) / installments) * (1 / perc)
-    }
+        context.emit("formButtonClicked", reasonOthers.value, reset);
+      else context.emit("formButtonClicked", reason.value, reset);
+    };
+    const CalculateIncome = async (limit: number, installment: number) => {
+      try {
+        const recomendedIncome = await new C4bApi().getCreditInfo(
+          limit,
+          installment
+        );
+        return recomendedIncome.data;
+      } catch (error: any) {
+        console.log(error);
+      }
+    };
+    /** Este evento é acionado sempre que o multiselect é clicado.*/
+    watch(reason, (reason) => handleReasonSelect());
+    watch(credit, (currentCredit) =>
+      calMinIncome(currentCredit, installments.value)
+    );
+    watch(installments, (currentInstallments) =>
+      calMinIncome(credit.value, currentInstallments)
+    );
+    const calMinIncome = async (credit: number, installments: number) => {
+      const minIncome = await CalculateIncome(credit, installments);
+      if (credit <= 0 || installments <= 0) return 0;
+      income.value = minIncome;
+      return 0;
+    };
     return {
       handleSubmit,
       currencyFormatBR,
@@ -175,17 +184,17 @@ export default defineComponent({
       others,
       reasonOthers,
       isInvalid,
-    }
+    };
   },
-})
+});
 </script>
 
 <style scoped>
 :deep .input-base {
-	border: none;
+  border: none;
 }
 .input-wrapper {
-	text-align: center;
+  text-align: center;
 }
 .btn-next {
   margin: 40px 20px;
