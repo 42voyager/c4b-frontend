@@ -119,11 +119,11 @@ export default defineComponent({
     };
     /** Função utilizada para validar o input de outro motivos */
     const validationReasonOthers = (): void => {
-      handleReasonSelect();
+      handleReasonSelect()
       if (reason.value == others)
-        if (reasonOthers.value == "" || reasonOthers.value.length < 10)
-          isInvalid.value = true;
-        else isInvalid.value = false;
+        if (reasonOthers.value == '' || reasonOthers.value.length < 10)
+          isInvalid.value = true
+        else isInvalid.value = false
     };
     const currencyFormatBR = (num: number) => {
       //console.log(num)
@@ -218,14 +218,14 @@ export default defineComponent({
 .current-value {
   margin-bottom: 10px;
 }
-::v-deep .info-box {
+:deep .info-box {
   margin-top: 20px;
 }
-::v-deep .creditInput {
+:deep .creditInput {
   width: 240px;
   border: none;
 }
-::v-deep .installmentInput {
+:deep .installmentInput {
   width: 240px;
   border: none;
   margin-bottom: 30px;
