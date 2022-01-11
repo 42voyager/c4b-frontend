@@ -7,47 +7,54 @@
           {{ message }}
         </p>
       </div>
-      <ButtonDefault :msg="buttonLabel" @buttonClicked="handleOkButtonClicked()"/>
+      <ButtonDefault
+        :msg="buttonLabel"
+        @buttonClicked="handleOkButtonClicked()"
+        />
     </div>
   </Modal>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
-import ButtonDefault from "@/components/ui/ButtonDefault.vue";
-import Sucess from "@/components/icons/Sucess.vue";
-import Modal from "@/components/ui/Modal.vue";
+import { defineComponent, PropType } from 'vue'
+import ButtonDefault from '@/components/ui/ButtonDefault.vue'
+import Sucess from '@/components/icons/Sucess.vue'
+import Modal from '@/components/ui/Modal.vue'
 
 export default defineComponent({
-  props: {
-    messages: {
-      type: Array as PropType<string[]>,
-      required: true
+    props: {
+        messages: {
+            type: Array as PropType<string[]>,
+            required: true
+        },
+        buttonLabel: {
+            type: String,
+            default: 'Fechar'
+        }
     },
-    buttonLabel: {
-      type: String,
-      default: 'Fechar'
-    }
-  },
-  emits: ["newRequestClicked"],
-  components: {
-    ButtonDefault,
-    Sucess,
-    Modal
-  },
-  setup(props, context) {
-    const handleOkButtonClicked = () => {
-      context.emit("newRequestClicked")
-    }
-    return {
-      handleOkButtonClicked
-    }
-  },
-});
+    emits: ['newRequestClicked'],
+    components: {
+        ButtonDefault,
+        Sucess,
+        Modal
+    },
+    setup(props, context) {
+        const handleOkButtonClicked = () => {
+            context.emit('newRequestClicked')
+        }
+        return {
+            handleOkButtonClicked
+        }
+    },
+})
 
 </script>
 
 <style scoped>
+:deep .modal-wrapper {
+  height: auto;
+  width: 280px;
+}
 p {
   margin-bottom: 5px;
 }
@@ -55,6 +62,7 @@ p {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 20px;
 }
 #message-panel {
   margin-bottom: 30px;
@@ -72,6 +80,9 @@ p {
   #message-panel {
     font-size: 26px;
     margin-bottom: 30px;
+  }
+  :deep .modal-wrapper {
+    width: 500px;
   }
 }
 </style>
