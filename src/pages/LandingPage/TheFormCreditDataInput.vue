@@ -220,14 +220,14 @@ export default defineComponent({
 .current-value {
     margin-bottom: 10px;
 }
-::v-deep .info-box {
+:deep .info-box {
     margin-top: 20px;
 }
-::v-deep .creditInput {
+:deep .creditInput {
     width: 240px;
     border: none;
 }
-::v-deep .installmentInput {
+:deep .installmentInput {
     width: 240px;
     border: none;
     margin-bottom: 30px;

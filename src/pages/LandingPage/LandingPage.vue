@@ -1,18 +1,16 @@
 <template>
-  <TheHeader>
-    <template #menu-list>
-      <NavBarMenuItems />
-    </template>
-  </TheHeader>
-  <Banner />
-  <WrapperHighlights :pontosForte="pontosForte" />
-  <TwoColumnSection imageFileName="side-img.jpg" />
-  <InformationSection
-    :infos="infos"
-  />
-  <FaqSection :faqsInfo="faqsInfo" />
-  <ContactForm/>
-  <TheFooter />
+    <TheHeader>
+        <template #menu-list>
+            <NavBarMenuItems />
+        </template>
+    </TheHeader>
+    <Banner />
+    <WrapperHighlights :pontosForte="pontosForte" />
+    <TwoColumnSection imageFileName="side-img.jpg" />
+    <InformationSection :infos="infos" />
+    <FaqSection :faqsInfo="faqsInfo" />
+    <ContactForm />
+    <TheFooter />
 </template>
 
 <script lang="ts">
@@ -29,34 +27,34 @@ import NavBarMenuItems from '@/pages/LandingPage/NavBarMenuItems.vue'
 import { PontosForte, FaqsInfo, Infos } from '@/config/variables'
 
 export default defineComponent({
-  components: {
-    TheHeader,
-    Banner,
-    WrapperHighlights,
-    TwoColumnSection,
-    InformationSection,
-    TheFooter,
-    FaqSection,
-    ContactForm,
-    NavBarMenuItems
-  },
-  setup() {
-    return {
-      pontosForte: PontosForte,
-      faqsInfo: FaqsInfo,
-      infos: Infos
-    }
-  },
+    components: {
+        TheHeader,
+        Banner,
+        WrapperHighlights,
+        TwoColumnSection,
+        InformationSection,
+        TheFooter,
+        FaqSection,
+        ContactForm,
+        NavBarMenuItems,
+    },
+    setup() {
+        return {
+            pontosForte: PontosForte,
+            faqsInfo: FaqsInfo,
+            infos: Infos,
+        }
+    },
 })
 </script>
 
 <style>
 #app {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #2c3e50;
 }
 .modal-header {
-  text-align: center;
+    text-align: center;
 }
 </style>
