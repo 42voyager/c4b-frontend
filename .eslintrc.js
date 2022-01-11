@@ -30,5 +30,7 @@ module.exports = {
         'quotes': ['warn', 'single'],
         'max-len': ['warn', 80],
         'indent': ['warn', 4],
+        '@typescript-eslint/no-non-null-assertion': 'off',
+        '@typescript-eslint/no-explicit-any': 'off'
     },
 }
