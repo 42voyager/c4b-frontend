@@ -34,7 +34,7 @@ export default defineComponent({
 		},
 		errors: {
 			type: Array as PropType<string[]>,
-			default: () => { return ([[""]]) },
+			default: () => { return ([""]) },
 		},
 		modelValue: {
             type: String,
