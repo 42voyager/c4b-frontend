@@ -29,7 +29,7 @@
                     />
                 </div>
                 <div v-show=" validLocalTextArea()">
-                    <InputError 
+                    <InputError
                         :msg="FeedbackConfiguration.text.errorTextArea"
                         />
                 </div>
@@ -92,7 +92,6 @@ export default defineComponent({
          * Função utilizada para gerar uma requisição para a API C4B
          */
         const submitFeedBack = async () => {
-            success.value = true
             if (!validFormVue(userFeedBack.value))
                 return
             try
@@ -104,7 +103,7 @@ export default defineComponent({
                 await new ApiController().postUserFeedback(userFeedBack.value)
                 success.value = true
                 resetFeedBack()
-                inputValidationStatus.value = 
+                inputValidationStatus.value =
                     {name: Validity.Valid, email: Validity.Valid,
                         message: Validity.Valid}
             }
@@ -214,7 +213,7 @@ function newFeedback(): void {
 /**
  * Função utilizada para criar um array contendo todos os dados
  * necessário para gerar os inputs
- * @returns {Array<IInputsInfo>} - Um array com todos 
+ * @returns {Array<IInputsInfo>} - Um array com todos
  * os dados utilizados nos inputs
  */
 function  createList(): Array<IInputsInfo> {
