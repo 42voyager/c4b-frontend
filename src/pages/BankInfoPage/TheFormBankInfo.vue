@@ -1,42 +1,50 @@
 <template>
-    <div class="form-wrapper">
-        <div class="title">
-            <h2>{{ BankInfoFormConfiguration.title }}</h2>
+    <div class="two-column">
+        <div class="column column-img">
+            <img
+                class="side-img"
+                :src="require('@/assets/' + imageFileName)"
+                :alt="altText"
+                />
         </div>
-
-        <div class="inputs">
-            <MultiSelect
-                placeholder="Nome do Banco"
-                :options="banksListSum"
-                v-model="formInfo.bankName"
-                :allow-empty="false"
-                :isInvalid="inputIsInvalid.bankName"
-                :errors="inputsErrors.bankName"
-            />
-            <FormTextInput
-                v-for="(
-                    item, index
-                ) of BankInfoFormConfiguration.formInputsInfo"
-                v-maska="item.mask"
-                :name="item.name"
-                :key="index"
-                :type="item.type"
-                :placeholder="item.placeholder"
-                :isInvalid="inputIsInvalid[item.name]"
-                :errors="inputsErrors[item.name]"
-                v-model="formInfo[item.name]"
-            />
-            <SuccessForm
-                v-if="wasFormSubmitted"
-                buttonLabel="Finalizar"
-                :messages="['Recebemos seus dados']"
-                @newRequestClicked="handleSuccessModalClose"
+        <div class="column-form-wrapper column">
+            <div class="title">
+                <h2>{{ BankInfoFormConfiguration.title }}</h2>
+            </div>
+            <div class="inputs">
+                <MultiSelect
+                    placeholder="Nome do Banco"
+                    :options="banksListSum"
+                    v-model="formInfo.bankName"
+                    :allow-empty="false"
+                    :isInvalid="inputIsInvalid.bankName"
+                    :errors="inputsErrors.bankName"
+                />
+                <FormTextInput
+                    v-for="(
+                        item, index
+                    ) of BankInfoFormConfiguration.formInputsInfo"
+                    v-maska="item.mask"
+                    :name="item.name"
+                    :key="index"
+                    :type="item.type"
+                    :placeholder="item.placeholder"
+                    :isInvalid="inputIsInvalid[item.name]"
+                    :errors="inputsErrors[item.name]"
+                    v-model="formInfo[item.name]"
+                />
+                <SuccessForm
+                    v-if="wasFormSubmitted"
+                    buttonLabel="Finalizar"
+                    :messages="['Recebemos seus dados']"
+                    @newRequestClicked="handleSuccessModalClose"
+                />
+            </div>
+            <ButtonDefault
+                :msg="BankInfoFormConfiguration.submittLabel"
+                @buttonClicked="handleSubmit"
             />
         </div>
-        <ButtonDefault
-            :msg="BankInfoFormConfiguration.submittLabel"
-            @buttonClicked="handleSubmit"
-        />
     </div>
 </template>
 
@@ -76,6 +84,10 @@ export default defineComponent({
         MultiSelect,
         SuccessForm,
     },
+    props: {
+        imageFileName: String,
+        altText: String
+    },
     setup() {
         const route = useRoute()
         const formInfo = ref({
@@ -96,11 +108,10 @@ export default defineComponent({
                 branch: inputValidationStatus.value.branch === Validity.Invalid,
                 checkingAccount:
                     inputValidationStatus.value.checkingAccount ===
-                    Validity.Invalid,
-            }
+                    Validity.Invalid,            }
         })
 
-        /** Funcao que vai redireccionar o usuario para a landing page */
+        /** Função que vai redirecionar o usuário para a landing page */
         const handleSuccessModalClose = () => {
             window.location.href = '/'
         }
@@ -155,14 +166,32 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.form-wrapper {
-    margin-top: 65px;
-    padding: 50px;
+.two-column {
+  display: flex;
+  width: 100%;
+  background-color: #e0ccba;
+  flex-direction: column;
+  margin-top: 73px;
+}
+.column {
+    width: calc(100% - 100px);
+    max-height: calc(100vh - 73px);
+}
+.column-img {
+  overflow: hidden;
+  width: 100%;
+  display: none;
+}
+.column-form-wrapper {
+    padding: 0 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     background-color: #e0ccba;
+    background-image: url('~@/assets/side-image-bank.jpg');
+    color: white;
+    height: calc(100vh - 70px);
 }
 .title {
     text-align: center;
@@ -172,10 +201,45 @@ export default defineComponent({
     max-width: 500px;
     margin: 20px 0px;
 }
-
+.side-img {
+    height: auto;
+    width: 100%;
+    min-height: calc(100vh - 70px);
+}
 @media (min-width: 768px) {
-    .form-wrapper {
-        height: calc(100vh - 300px);
+    .column-form-wrapper {
+        background-image: none;
+        color: black;
     }
+    .two-column {
+        flex-direction: row;
+    }
+    .column {
+        width: 50%;
+    }
+    .column-img {
+        display: block;
+    }
+    .side-img {
+        width: auto;
+    }
+}
+@media (min-width: 992px) {
+  .side-img {
+    height: 915px;
+  }
+}
+@media (min-width: 1260px) {
+  .side-img {
+    width: 100%;
+    transform: translateY(-38%);
+    margin-top: 50%;
+  }
+}
+@media (min-width: 1460px) {
+  .side-img {
+    width: 100%;
+    height: auto;
+  }
 }
 </style>
