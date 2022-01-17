@@ -119,9 +119,8 @@ const TwoColumnSection = defineComponent({
         })
         const submitUser = async (user: IUserData,resetFormData:
           () => void) => {
-            requestSucceeded.value = true
             // Parsed as string to avoid being rejected by the backend
-            user.limit = limit.value.toString() as any 
+            user.limit = limit.value.toString() as any
             user.installment = installment.value.toString() as any
             user.reason = userReason.value
             user.timestamp = new Date().toJSON()
@@ -137,8 +136,8 @@ const TwoColumnSection = defineComponent({
                 await new ApiController().postUser(user)
                 requestSucceeded.value = true
                 enableMessage.value = true
-                messageResponse.value = { 
-                    title: 'Solicitação recebida com sucesso!' 
+                messageResponse.value = {
+                    title: 'Solicitação recebida com sucesso!'
                 }
                 resetFormData()
                 resetInputReason()
