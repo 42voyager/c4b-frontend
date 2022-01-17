@@ -1,7 +1,7 @@
 <template>
-      <li><a class="active" href="#form-request">Solicite seu crédito</a></li>
-      <li><a href="#information-section">Informações</a></li>
-      <li><a href="#faq-section">FAQ</a></li>
+      <li><a class="active" href="#form-request" id="navbar-credit-request">Solicite seu crédito</a></li>
+      <li><a href="#information-section" id="navbar-information">Informações</a></li>
+      <li><a href="#faq-section" id="navbar-faq">FAQ</a></li>
 </template>
 
 .<script lang="ts">
