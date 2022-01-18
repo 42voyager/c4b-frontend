@@ -1,34 +1,36 @@
 <template>
-      <li><a class="active" :href="creditRequest">Solicite seu crédito</a></li>
-      <li><a :href="infoSection">Informações</a></li>
-      <li><a :href="faqSection">FAQ</a></li>
+      <li
+        v-for="(item, index) of listItems"
+        :key="index"
+        >
+      <a
+        :href="item.href"
+        >
+        {{ item.title }}
+      </a>
+      </li>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
+import { ListItemsNavBar } from '@/config/variables'
+
+interface IitemsNavBar {
+    title: string,
+    href:string
+}
 
 export default defineComponent({
     props: {
-        creditRequest: {
-            type: String,
-            default: '#form-request'
-        },
-        infoSection: {
-            type: String,
-            default: '#information-section'
-        },
-        faqSection: {
-            type: String,
-            default: '#faq-section'
+        listItems: {
+            type: Object as PropType<IitemsNavBar[]>,
+            default: ListItemsNavBar
         }
     }
 })
 </script>
 
 <style scoped>
-li:first-child {
-  /* margin-right: auto; */
-}
 
 li {
   display: block;
@@ -44,13 +46,13 @@ a:hover {
   color: #b29475;
 }
 
-.active:hover {
+li:first-child a:hover {
   background-color: #b29475;
   color: white;
   border-radius: 10px;
 }
 
-.active {
+li:first-child a {
   color: #b29475;
 }
 </style>

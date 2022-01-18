@@ -2,9 +2,7 @@
     <TheHeader>
         <template #menu-list>
             <NavBarMenuItems
-                :creditRequest="'/#form-request'"
-                :infoSection="'/#information-section'"
-                :faqSection="'/#faq-section'"/>
+                :listItems="ListItemsNavBarBankForm"/>
         </template>
     </TheHeader>
     <TheFormBankInfo imageFileName="side-image-bank.jpg" />
@@ -17,6 +15,7 @@ import TheFormBankInfo from '@/pages/BankInfoPage/TheFormBankInfo.vue'
 import TheHeader from '@/components/layout/TheHeader.vue'
 import TheFooter from '@/components/layout/TheFooter.vue'
 import NavBarMenuItems from '@/components/common/NavBarMenuItems.vue'
+import { ListItemsNavBarBankForm } from '@/config/variables'
 
 export default defineComponent({
     components: {
@@ -24,6 +23,11 @@ export default defineComponent({
         TheHeader,
         TheFooter,
         NavBarMenuItems
+    },
+    setup() {
+        return {
+            ListItemsNavBarBankForm
+        }
     }
 })
 </script>
