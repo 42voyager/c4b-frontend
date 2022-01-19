@@ -1,4 +1,4 @@
-export enum Validity {
+export enum EValidity {
     Valid,
     Invalid,
     Undefined
