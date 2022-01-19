@@ -50,7 +50,7 @@ export default class TheHeader extends Vue {
   background-color: white;
   margin-left: -15px;
   margin-right: -15px;
-  margin-top: 165px;
+  margin-top: 180px;
   margin-bottom: 0;
   z-index: 99999;
 }

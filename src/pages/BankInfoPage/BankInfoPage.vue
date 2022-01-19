@@ -1,10 +1,12 @@
 <template>
-	<TheHeader>
-		<template #menu-list>
-		</template>
-	</TheHeader>
-	<TheFormBankInfo />
-	<TheFooter />
+    <TheHeader>
+        <template #menu-list>
+            <NavBarMenuItems
+                :listItems="ListItemsNavBarBankForm"/>
+        </template>
+    </TheHeader>
+    <TheFormBankInfo imageFileName="side-image-bank.jpg" />
+    <TheFooter />
 </template>
 
 <script lang="ts">
@@ -12,13 +14,21 @@ import { defineComponent } from 'vue'
 import TheFormBankInfo from '@/pages/BankInfoPage/TheFormBankInfo.vue'
 import TheHeader from '@/components/layout/TheHeader.vue'
 import TheFooter from '@/components/layout/TheFooter.vue'
+import NavBarMenuItems from '@/components/common/NavBarMenuItems.vue'
+import { ListItemsNavBarBankForm } from '@/config/variables'
 
 export default defineComponent({
-	components: {
-		TheFormBankInfo,
-		TheHeader,
-		TheFooter
-	}
+    components: {
+        TheFormBankInfo,
+        TheHeader,
+        TheFooter,
+        NavBarMenuItems
+    },
+    setup() {
+        return {
+            ListItemsNavBarBankForm
+        }
+    }
 })
 </script>
 
@@ -30,8 +40,5 @@ export default defineComponent({
 }
 .modal-header {
   text-align: center;
-}
-:deep .toggle-menu {
-	display: none;
 }
 </style>
