@@ -29,7 +29,7 @@
                     />
                 </div>
                 <div v-show=" validLocalTextArea()">
-                    <InputError 
+                    <InputError
                         :msg="FeedbackConfiguration.text.errorTextArea"
                         />
                 </div>
@@ -55,7 +55,7 @@ import InputError from '@/components/ui/InputError.vue'
 import TheSuccessForm from '@/components/common/TheSuccessForm.vue'
 import IUserFeedBack from '@/types/userFeedBack'
 import { FeedbackConfiguration } from '@/config/variables'
-import { checkErrorsReturn, Validity } from '@/use/validInput'
+import { checkErrorsReturn, EValidity } from '@/use/validInput'
 
 interface IInputsInfo {
     type: string,
@@ -67,8 +67,8 @@ interface IInputsInfo {
 
 const success = ref(false)
 const inputValidationStatus = ref(
-    {name: Validity.Undefined, email: Validity.Undefined,
-        message: Validity.Undefined})
+    {name: EValidity.Undefined, email: EValidity.Undefined,
+        message: EValidity.Undefined})
 const userFeedBack = ref({
     name: '',
     email: '',
@@ -103,19 +103,19 @@ export default defineComponent({
                 await new ApiController().postUserFeedback(userFeedBack.value)
                 success.value = true
                 resetFeedBack()
-                inputValidationStatus.value = 
-                    {name: Validity.Valid, email: Validity.Valid,
-                        message: Validity.Valid}
+                inputValidationStatus.value =
+                    {name: EValidity.Valid, email: EValidity.Valid,
+                        message: EValidity.Valid}
             }
             catch (err: any)
             {
                 const newStatus = {...inputValidationStatus.value}
                 if (!checkErrorsReturn(err.response.data.errors.Name))
-                    newStatus.name = Validity.Invalid
+                    newStatus.name = EValidity.Invalid
                 if (!checkErrorsReturn(err.response.data.errors.Email))
-                    newStatus.email = Validity.Invalid
+                    newStatus.email = EValidity.Invalid
                 if (!checkErrorsReturn(err.response.data.errors.Message))
-                    newStatus.message = Validity.Invalid
+                    newStatus.message = EValidity.Invalid
                 inputValidationStatus.value = newStatus
             }
         }
@@ -169,21 +169,21 @@ function resetFeedBack(): void {
 function validFormVue(userFeedBack: IUserFeedBack): boolean {
     const newStatus = {...inputValidationStatus.value}
     if (userFeedBack.name.length < 2)
-        newStatus.name = Validity.Invalid
+        newStatus.name = EValidity.Invalid
     else
-        newStatus.name = Validity.Valid
+        newStatus.name = EValidity.Valid
     if (userFeedBack.email.length < 11)
-        newStatus.email = Validity.Invalid
+        newStatus.email = EValidity.Invalid
     else
-        newStatus.email = Validity.Valid
+        newStatus.email = EValidity.Valid
     if (userFeedBack.message.length < 10)
-        newStatus.message = Validity.Invalid
+        newStatus.message = EValidity.Invalid
     else
-        newStatus.message = Validity.Valid
+        newStatus.message = EValidity.Valid
     inputValidationStatus.value = newStatus
-    if (inputValidationStatus.value.name == Validity.Valid
-            && inputValidationStatus.value.email == Validity.Valid
-            && inputValidationStatus.value.message == Validity.Valid)
+    if (inputValidationStatus.value.name == EValidity.Valid
+            && inputValidationStatus.value.email == EValidity.Valid
+            && inputValidationStatus.value.message == EValidity.Valid)
         return (true)
     else
         return (false)
@@ -195,7 +195,7 @@ function validFormVue(userFeedBack: IUserFeedBack): boolean {
  *  caso contrário retorna false
  */
 function validLocalTextArea(): boolean {
-    if (inputValidationStatus.value.message == Validity.Invalid)
+    if (inputValidationStatus.value.message == EValidity.Invalid)
         return true
     else
         return false
@@ -213,7 +213,7 @@ function newFeedback(): void {
 /**
  * Função utilizada para criar um array contendo todos os dados
  * necessário para gerar os inputs
- * @returns {Array<IInputsInfo>} - Um array com todos 
+ * @returns {Array<IInputsInfo>} - Um array com todos
  * os dados utilizados nos inputs
  */
 function  createList(): Array<IInputsInfo> {
@@ -225,7 +225,7 @@ function  createList(): Array<IInputsInfo> {
             placeholder: FeedbackConfiguration.text.formInputInfolist[0]
                 .placeholder,
             isInvalid: () => inputValidationStatus.value.name ==
-                Validity.Invalid,
+                EValidity.Invalid,
             error: FeedbackConfiguration.text.formInputInfolist[0].error,
         },
         {
@@ -234,7 +234,7 @@ function  createList(): Array<IInputsInfo> {
             placeholder: FeedbackConfiguration.text.formInputInfolist[1]
                 .placeholder,
             isInvalid: () => inputValidationStatus.value.email ==
-                Validity.Invalid,
+                EValidity.Invalid,
             error: FeedbackConfiguration.text.formInputInfolist[1].error,
         },
     ]

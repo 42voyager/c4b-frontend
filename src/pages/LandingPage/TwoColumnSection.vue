@@ -10,20 +10,20 @@
     <div class="column column-two">
       <h2 v-if="requestSucceeded == false">{{ titleForm }}</h2>
       <form id="form-request" class="wrapper-form" @submit.prevent ref="div-1">
-        <!-- <TheFormCreditDataInput
+        <TheFormCreditDataSlider
           v-show="!nextStep"
           @formButtonClicked="goNextStep"
           @valuesChanged="creditDataChanged"
           :limit="limit"
           :installment="installment"
-        /> -->
-        <TheFormCreditData
+        />
+        <!-- <TheFormCreditData
           v-show="!nextStep"
           @nextStepClicked="goNextStep"
           @valueChanged="creditDataChanged"
           :limit="limit"
           :installment="installment"
-        />
+        /> -->
         <TheFormUserData
           v-show="nextStep && requestSucceeded == false"
           @submitForm="submitUser"
@@ -130,7 +130,7 @@ const TwoColumnSection = defineComponent({
         const submitUser = async (user: IUserData,resetFormData:
           () => void) => {
             // Parsed as string to avoid being rejected by the backend
-            user.limit = limit.value.toString() as any 
+            user.limit = limit.value.toString() as any
             user.installment = installment.value.toString() as any
             user.reason = userReason.value
             user.timestamp = new Date().toJSON()
@@ -146,8 +146,8 @@ const TwoColumnSection = defineComponent({
                 await new ApiController().postUser(user)
                 requestSucceeded.value = true
                 enableMessage.value = true
-                messageResponse.value = { 
-                    title: 'Solicitação recebida com sucesso!' 
+                messageResponse.value = {
+                    title: 'Solicitação recebida com sucesso!'
                 }
                 resetFormData()
                 resetInputReason()

@@ -23,7 +23,7 @@ import InformationSection from '@/pages/LandingPage/InformationSection.vue'
 import TheFooter from '@/components/layout/TheFooter.vue'
 import FaqSection from '@/pages/LandingPage/FaqSection.vue'
 import ContactForm from '@/pages/LandingPage/ContactSection.vue'
-import NavBarMenuItems from '@/pages/LandingPage/NavBarMenuItems.vue'
+import NavBarMenuItems from '@/components/common/NavBarMenuItems.vue'
 import { PontosForte, FaqsInfo, Infos } from '@/config/variables'
 
 export default defineComponent({
