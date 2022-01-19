@@ -10,20 +10,20 @@
     <div class="column column-two">
       <h2 v-if="requestSucceeded == false">{{ titleForm }}</h2>
       <form id="form-request" class="wrapper-form" @submit.prevent ref="div-1">
-        <!-- <TheFormCreditDataInput
+        <TheFormCreditDataSlider
           v-show="!nextStep"
           @formButtonClicked="goNextStep"
           @valuesChanged="creditDataChanged"
           :limit="limit"
           :installment="installment"
-        /> -->
-        <TheFormCreditData
+        />
+        <!-- <TheFormCreditData
           v-show="!nextStep"
           @nextStepClicked="goNextStep"
           @valueChanged="creditDataChanged"
           :limit="limit"
           :installment="installment"
-        />
+        /> -->
         <TheFormUserData
           v-show="nextStep && requestSucceeded == false"
           @submitForm="submitUser"

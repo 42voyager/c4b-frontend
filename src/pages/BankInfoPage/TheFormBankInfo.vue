@@ -48,7 +48,7 @@ import ButtonDefault from '@/components/ui/ButtonDefault.vue'
 import MultiSelect from '@/components/ui/MultiSelect.vue'
 import SuccessForm from '@/components/common/TheSuccessForm.vue'
 import { BankInfoFormConfiguration } from '@/config/variables'
-import { Validity, checkErrorsReturn } from '@/use/validInput'
+import { EValidity, checkErrorsReturn } from '@/use/validInput'
 import C4bApi from '@/api/C4bApi'
 import banksList from '@/config/banksList.json'
 
@@ -64,9 +64,9 @@ const initialInputErrors = {
 }
 
 const initialInputValidationStatus = {
-    bankName: Validity.Undefined,
-    branch: Validity.Undefined,
-    checkingAccount: Validity.Undefined,
+    bankName: EValidity.Undefined,
+    branch: EValidity.Undefined,
+    checkingAccount: EValidity.Undefined,
 }
 
 export default defineComponent({
@@ -92,11 +92,11 @@ export default defineComponent({
         const inputIsInvalid = computed(() => {
             return {
                 bankName:
-                    inputValidationStatus.value.bankName === Validity.Invalid,
-                branch: inputValidationStatus.value.branch === Validity.Invalid,
+                    inputValidationStatus.value.bankName === EValidity.Invalid,
+                branch: inputValidationStatus.value.branch === EValidity.Invalid,
                 checkingAccount:
                     inputValidationStatus.value.checkingAccount ===
-                    Validity.Invalid,
+                    EValidity.Invalid,
             }
         })
 
@@ -119,11 +119,11 @@ export default defineComponent({
 
                 if (!checkErrorsReturn(error.response.data.errors.BankName)) {
                     newErrors.bankName = error.response.data.errors.BankName
-                    newStatus.bankName = Validity.Invalid
+                    newStatus.bankName = EValidity.Invalid
                 }
                 if (!checkErrorsReturn(error.response.data.errors.Branch)) {
                     newErrors.branch = error.response.data.errors.Branch
-                    newStatus.branch = Validity.Invalid
+                    newStatus.branch = EValidity.Invalid
                 }
                 if (
                     !checkErrorsReturn(
@@ -132,7 +132,7 @@ export default defineComponent({
                 ) {
                     newErrors.checkingAccount =
                         error.response.data.errors.CheckingAccount
-                    newStatus.checkingAccount = Validity.Invalid
+                    newStatus.checkingAccount = EValidity.Invalid
                 }
                 inputValidationStatus.value = newStatus
                 inputsErrors.value = newErrors
