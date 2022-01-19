@@ -1,4 +1,5 @@
 <template>
+<transition name="show-user-data">
   <div id="div-form-request" class="wrapper-form">
     <div class="wrapper-input">
       <input
@@ -105,6 +106,7 @@
       </div>
     </Modal>
   </div>
+</transition>
 </template>
 
 <script lang="ts">

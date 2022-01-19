@@ -92,7 +92,6 @@ export default defineComponent({
          * Função utilizada para gerar uma requisição para a API C4B
          */
         const submitFeedBack = async () => {
-            success.value = true
             if (!validFormVue(userFeedBack.value))
                 return
             try

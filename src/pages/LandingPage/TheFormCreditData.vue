@@ -1,4 +1,5 @@
 <template>
+<transition name="show-user-credit">
 	<div class="container-credit">
 		<div class="form-credit" >
 			<p class="creditLabel">
@@ -54,6 +55,7 @@
 			</div>
 		</div>
 	</div>
+</transition>
 </template>
 
 <script lang="ts">
