@@ -45,7 +45,7 @@
             </div>
         </div>
         <div class="btn-next">
-            <ButtonDefault msg="Continuar" @buttonClicked="handleSubmit()" />
+            <ButtonDefault id="btn-step-next-text-input" msg="Continuar" @buttonClicked="handleSubmit()" />
         </div>
     </div>
 </template>

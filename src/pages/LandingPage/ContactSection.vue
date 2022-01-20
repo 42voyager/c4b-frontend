@@ -33,7 +33,7 @@
                         :msg="FeedbackConfiguration.text.errorTextArea"
                         />
                 </div>
-                <ButtonDefault @buttonClicked="submitFeedBack()"/>
+                <ButtonDefault id="btn-submit-contact-form" @buttonClicked="submitFeedBack()"/>
             </form>
         </div>
         <TheSuccessForm
