@@ -4,8 +4,9 @@
         <div class="text-banner">
             <h1>{{ titleBanner }}</h1>
             <p>{{ textBanner }}</p>
-            <ButtonDefault 
+            <ButtonDefault
                 msg="Solicite seu crédito"
+				id="btn-banner"
                 @buttonClicked="goToElement('form-request')"
                 />
         </div>

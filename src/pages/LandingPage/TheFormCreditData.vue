@@ -51,7 +51,7 @@
 				</div>
 			</div>
 			<div class="btn-next">
-				<ButtonDefault msg="Continuar" @buttonClicked="nextStepClicked()"/>
+				<ButtonDefault id="btn-next-step-buttons" msg="Continuar" @buttonClicked="nextStepClicked()"/>
 			</div>
 		</div>
 	</div>
