@@ -1,53 +1,59 @@
 <template>
-    <div class="container-credit">
-        <p class="creditLabel">De quanto seu negócio precisa</p>
-        <FormCurrencyInput
-            class="creditInput"
-            placeholder="R$ 0,00"
-            is-valid="true"
-            :errors="[]"
-            v-model="credit"
-            :currencyOptions="currencyOptions"
-        />
-        <p class="creditLabel">Em quantas vezes você quer pagar?</p>
-        <FormTextInput
-            class="installmentInput"
-            type="number"
-            min="6"
-            max="36"
-            placeholder="Quantos meses"
-            is-valid="true"
-            :errors="[]"
-            v-model="installments"
-        />
-        <InfoBox class="info-box">
-            <p>
-                Faturamento mensual recomendado seria:
-                <b> R$ {{ minIncome }} </b>
-            </p>
-        </InfoBox>
-        <div class="input-wrapper">
-            <p class="creditLabel">
-                {{ creditData.text.titleMotivo }}
-            </p>
-            <MultiSelect
-                :options="creditData.text.listReasons"
-                v-model="reason"
+    <transition name="show-user-credit">
+        <div class="container-credit">
+            <p class="creditLabel">De quanto seu negócio precisa</p>
+            <FormCurrencyInput
+                class="creditInput"
+                placeholder="R$ 0,00"
+                is-valid="true"
+                :errors="[]"
+                v-model="credit"
+                :currencyOptions="currencyOptions"
             />
+            <p class="creditLabel">Em quantas vezes você quer pagar?</p>
             <FormTextInput
-                v-if="reason === others"
-                v-model="reasonOthers"
-                placeholder="Motivo"
-                name="Motivo"
+                class="installmentInput"
+                type="number"
+                min="6"
+                max="36"
+                placeholder="Quantos meses"
+                is-valid="true"
+                :errors="[]"
+                v-model="installments"
             />
-            <div v-show="isInvalid">
-                <InputError :msg="creditData.text.errors" />
+            <InfoBox class="info-box">
+                <p>
+                    Faturamento mensual recomendado seria:
+                    <b> R$ {{ minIncome }} </b>
+                </p>
+            </InfoBox>
+            <div class="input-wrapper">
+                <p class="creditLabel">
+                    {{ creditData.text.titleMotivo }}
+                </p>
+                <MultiSelect
+                    :options="creditData.text.listReasons"
+                    v-model="reason"
+                />
+                <FormTextInput
+                    v-if="reason === others"
+                    v-model="reasonOthers"
+                    placeholder="Motivo"
+                    name="Motivo"
+                />
+                <div v-show="isInvalid">
+                    <InputError :msg="creditData.text.errors" />
+                </div>
+            </div>
+            <div class="btn-next">
+                <ButtonDefault
+                    id="btn-step-next-text-input"
+                    msg="Continuar"
+                    @buttonClicked="handleSubmit()"
+                />
             </div>
         </div>
-        <div class="btn-next">
-            <ButtonDefault id="btn-step-next-text-input" msg="Continuar" @buttonClicked="handleSubmit()" />
-        </div>
-    </div>
+    </transition>
 </template>
 
 <script lang="ts">
@@ -79,7 +85,7 @@ export default defineComponent({
         FormTextInput,
         MultiSelect,
         InputError,
-        FormCurrencyInput
+        FormCurrencyInput,
     },
     emits: ['formButtonClicked', 'valuesChanged'],
     setup: (props, context) => {
@@ -204,7 +210,7 @@ export default defineComponent({
     text-align: center;
 }
 .btn-next {
-    margin: 40px 20px;
+    margin: 40px 20px 45px 20px;
     text-align: right;
 }
 .creditLabel {
