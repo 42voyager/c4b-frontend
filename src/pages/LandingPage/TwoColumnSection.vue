@@ -219,7 +219,7 @@ export default TwoColumnSection
 
 .circles-wizard {
   position: absolute;
-  bottom: 10px;
+  bottom: 15px;
   left: 0;
   right: 0;
 }
@@ -255,31 +255,19 @@ export default TwoColumnSection
 .form-data {
   margin-bottom: 50px;
 }
-@media (min-width: 635px) {
+@media (min-width: 540px) {
   .side-img {
     width: 100%;
-    height: 900px;
-  }
-}
-@media (min-width: 768px) {
-  .two-column-section {
-    flex-direction: row;
-  }
-  .column {
-    width: 50%;
+    height: auto;
   }
   .column-one {
-    height: 900px;
-  }
-  .column-two {
-    padding: 0 20px;
-    height: 100vh;
+    height: calc(100vh - 50px);
   }
 }
 @media (min-width: 992px) {
   .side-img {
     width: 100%;
-    height: 900px;
+    /* height: 900px; */
   }
 }
 @media (min-width: 1200px) {
@@ -287,6 +275,22 @@ export default TwoColumnSection
     transform: translateY(-36%);
     margin-top: 50%;
     height: 950px;
+  }
+  .two-column-section {
+    flex-direction: row;
+  }
+  .column {
+    width: 50%;
+  }
+  .column-one {
+    height: calc(100vh - 50px);
+  }
+  .column-two {
+    padding: 0 20px;
+    height: calc(100vh - 50px);
+  }
+  .column-two h2 {
+    font-size: 25px;
   }
 }
 @media (min-width: 1460px) {

@@ -1,70 +1,75 @@
 <template>
-    <div class="container-credit">
-        <p class="creditLabel">De quanto seu negócio precisa</p>
-        <SliderInput
-            :min="minCredit"
-            :max="maxCredit"
-            :minLabel="'R$' + currencyFormatBR(minCredit)"
-            :maxLabel="'R$' + currencyFormatBR(maxCredit)"
-            step="1000"
-            v-model="credit"
-        />
-        <b class="current-value"> R$ {{ creditFormatted }} </b>
-        <p class="creditLabel">Em quantas vezes você quer pagar?</p>
-        <SliderInput
-            :min="6"
-            :max="36"
-            :minLabel="'6 Meses'"
-            :maxLabel="'35 Meses'"
-            step="2"
-            v-model="installments"
-        />
-        <b class="current-value"> {{ installments }} Meses </b>
-        <InfoBox class="info-box">
-            <p>
-                Faturamento mensual recomendado seria:
-                <br>
-                <b
-                    v-show="
-                        requestStatus == ERequestStatus.Done ||
-                        requestStatus == ERequestStatus.Idle
-                    "
-                >
-                    R$ {{ minIncome }}
-                </b>
-                <i
-                    v-show="
-                        requestStatus == ERequestStatus.Debounced ||
-                        requestStatus == ERequestStatus.InProgress
-                    "
-                >
-                    {{ `Calculando... ` }}
-                </i>
-            </p>
-        </InfoBox>
-        <div class="input-wrapper">
-            <p class="creditLabel">
-                {{ creditData.text.titleMotivo }}
-            </p>
-            <MultiSelect
-                :options="creditData.text.listReasons"
-                v-model="reason"
-                placeholder="Selecione uma opção"
+    <transition name="show-user-credit">
+        <div class="container-credit">
+            <p class="creditLabel">De quanto seu negócio precisa</p>
+            <SliderInput
+                :min="minCredit"
+                :max="maxCredit"
+                :minLabel="'R$' + currencyFormatBR(minCredit)"
+                :maxLabel="'R$' + currencyFormatBR(maxCredit)"
+                step="1000"
+                v-model="credit"
             />
-            <FormTextInput
-                v-if="reason === others"
-                v-model="reasonOthers"
-                placeholder="Motivo"
-                name="Motivo"
+            <b class="current-value"> R$ {{ creditFormatted }} </b>
+            <p class="creditLabel">Em quantas vezes você quer pagar?</p>
+            <SliderInput
+                :min="6"
+                :max="36"
+                :minLabel="'6 Meses'"
+                :maxLabel="'35 Meses'"
+                step="2"
+                v-model="installments"
             />
-            <div v-show="isInvalid">
-                <InputError :msg="creditData.text.errors" />
+            <b class="current-value"> {{ installments }} Meses </b>
+            <InfoBox class="info-box">
+                <p>
+                    Faturamento mensual recomendado seria:
+                    <br />
+                    <b
+                        v-show="
+                            requestStatus == ERequestStatus.Done ||
+                            requestStatus == ERequestStatus.Idle
+                        "
+                    >
+                        R$ {{ minIncome }}
+                    </b>
+                    <i
+                        v-show="
+                            requestStatus == ERequestStatus.Debounced ||
+                            requestStatus == ERequestStatus.InProgress
+                        "
+                    >
+                        {{ `Calculando... ` }}
+                    </i>
+                </p>
+            </InfoBox>
+            <div class="input-wrapper">
+                <p class="creditLabel">
+                    {{ creditData.text.titleMotivo }}
+                </p>
+                <MultiSelect
+                    :options="creditData.text.listReasons"
+                    v-model="reason"
+                    placeholder="Selecione uma opção"
+                />
+                <FormTextInput
+                    v-if="reason === others"
+                    v-model="reasonOthers"
+                    placeholder="Motivo"
+                    name="Motivo"
+                />
+                <div v-show="isInvalid">
+                    <InputError :msg="creditData.text.errors" />
+                </div>
+            </div>
+            <div class="btn-next">
+                <ButtonDefault
+                    msg="Continuar"
+                    @buttonClicked="handleSubmit()"
+                />
             </div>
         </div>
-        <div class="btn-next">
-            <ButtonDefault msg="Continuar" @buttonClicked="handleSubmit()" />
-        </div>
-    </div>
+    </transition>
 </template>
 
 <script lang="ts">
@@ -251,7 +256,7 @@ export default defineComponent({
     text-align: center;
 }
 .btn-next {
-    margin: 40px 20px;
+    margin: 40px 20px 50px 20px;
     text-align: right;
 }
 .creditLabel {
