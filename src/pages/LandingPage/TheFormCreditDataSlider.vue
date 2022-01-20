@@ -64,6 +64,7 @@
             </div>
             <div class="btn-next">
                 <ButtonDefault
+                    id="btn-step-next-slider"
                     msg="Continuar"
                     @buttonClicked="handleSubmit()"
                 />

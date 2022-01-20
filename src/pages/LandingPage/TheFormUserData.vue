@@ -81,8 +81,8 @@
       </div>
     </div>
     <div class="wrapper-button">
-      <ButtonDefault msg="Voltar" @buttonClicked="backStep()" />
-      <ButtonDefault msg="Solicitar" @buttonClicked="submitForm()" />
+      <ButtonDefault id="btn-step-back" msg="Voltar" @buttonClicked="backStep()" />
+      <ButtonDefault id="btn-submit-request-credit" msg="Solicitar" @buttonClicked="submitForm()" />
     </div>
     <div id="message-panel" v-if="!validInput(messageResponse.title)">
       <p>

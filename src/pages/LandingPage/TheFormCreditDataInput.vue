@@ -47,6 +47,7 @@
             </div>
             <div class="btn-next">
                 <ButtonDefault
+                    id="btn-step-next-text-input"
                     msg="Continuar"
                     @buttonClicked="handleSubmit()"
                 />

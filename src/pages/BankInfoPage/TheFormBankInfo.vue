@@ -41,6 +41,7 @@
                 />
             </div>
             <ButtonDefault
+				id="btn-bank-info-submit"
                 :msg="BankInfoFormConfiguration.submittLabel"
                 @buttonClicked="handleSubmit"
             />

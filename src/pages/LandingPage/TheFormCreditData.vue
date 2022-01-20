@@ -56,6 +56,7 @@
                 </div>
                 <div class="btn-next">
                     <ButtonDefault
+                        id="btn-next-step-buttons"
                         msg="Continuar"
                         @buttonClicked="nextStepClicked()"
                     />
@@ -124,8 +125,8 @@ export default defineComponent({
                 else isInvalid.value = false
         }
         /**
-         * Função utilizada para emitir um evendo 
-		 * quando o botão continuar é clicado
+         * Função utilizada para emitir um evendo
+         * quando o botão continuar é clicado
          * Não faz nada caso um dos inputs obrigátorio seja inválido
          */
         const nextStepClicked = (): void => {
