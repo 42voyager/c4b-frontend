@@ -30,6 +30,11 @@
           @backStep="backStepClicked"
           :enableMessage="enableMessage"
           :messageResponse="messageResponse"
+          class="form-data"
+        />
+        <Wizard
+          class="circles-wizard"
+          :list="[statusStepOne ,nextStep]"
         />
         <TheSuccessForm
           v-if="requestSucceeded === true"
@@ -49,6 +54,7 @@ import ApiController from '@/api/C4bApi'
 import IUserData from '@/types/user'
 import TheFormCreditData from './TheFormCreditData.vue'
 import TheFormCreditDataSlider from './TheFormCreditDataSlider.vue'
+import Wizard from '@/components/ui/Wizard.vue'
 import TheFormCreditDataInput from './TheFormCreditDataInput.vue'
 import TheSuccessForm from '@/components/common/TheSuccessForm.vue'
 import { TitleForm, SucessMessage, errorMsgs } from '@/config/variables'
@@ -65,6 +71,7 @@ const TwoColumnSection = defineComponent({
         TheFormCreditDataInput,
         TheSuccessForm,
         TheFormCreditDataSlider,
+        Wizard
     },
     setup() {
         const { executeRecaptcha, recaptchaLoaded } = useReCaptcha()!
@@ -73,6 +80,7 @@ const TwoColumnSection = defineComponent({
         const enableMessage = ref(false)
         const messageResponse = ref({ title: '' })
         const requestSucceeded = ref(false)
+        const statusStepOne = ref(true)
         const nextStep = ref(false)
         const installment = ref(6)
         const limit = ref(10000)
@@ -87,9 +95,11 @@ const TwoColumnSection = defineComponent({
             nextStep.value = true
             userReason.value = reason
             resetInputReason = reset
+            statusStepOne.value = false
         }
         const backStepClicked = () => {
             nextStep.value = false
+            statusStepOne.value = true
         }
         const creditDataChanged = (newLimit: number | null,
             newInstallment: number | null) => {
@@ -165,6 +175,7 @@ const TwoColumnSection = defineComponent({
         document.addEventListener('keyup', keyEscDown)
         return {
             submitUser,
+            statusStepOne,
             goNextStep,
             backStepClicked,
             creditDataChanged,
@@ -185,6 +196,33 @@ export default TwoColumnSection
 </script>
 
 <style scoped>
+.show-user-data-enter-from {
+  transform: translateX(100%);
+
+}
+.show-user-data-enter-to {
+  transform: translateX(0);
+} 
+.show-user-data-enter-active {
+  transition: transform 0.5s ease;
+}
+
+.show-user-credit-enter-from {
+  transform: translateX(-100%);
+}
+.show-user-credit-enter-to {
+  transform: translateX(0)
+}
+.show-user-credit-enter-active {
+  transition: transform 0.5s ease;
+}
+
+.circles-wizard {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+}
 .two-column-section {
   display: flex;
   width: 100%;
@@ -204,6 +242,8 @@ export default TwoColumnSection
   display: flex;
   flex-flow: column;
   justify-content: center;
+  overflow: hidden;
+  position: relative;
 }
 .column-two h2 {
   margin-top: 30px;
@@ -211,6 +251,9 @@ export default TwoColumnSection
 }
 .side-img {
   height: 100vh;
+}
+.form-data {
+  margin-bottom: 50px;
 }
 @media (min-width: 635px) {
   .side-img {
@@ -230,7 +273,7 @@ export default TwoColumnSection
   }
   .column-two {
     padding: 0 20px;
-    height: auto;
+    height: 100vh;
   }
 }
 @media (min-width: 992px) {
