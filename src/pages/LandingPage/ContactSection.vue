@@ -33,7 +33,8 @@
                         :msg="FeedbackConfiguration.text.errorTextArea"
                         />
                 </div>
-                <ButtonDefault id="btn-submit-contact-form" @buttonClicked="submitFeedBack()"/>
+                <ButtonDefault id="btn-submit-contact-form"
+                    @buttonClicked="submitFeedBack()"/>
             </form>
         </div>
         <TheSuccessForm
@@ -41,6 +42,7 @@
             buttonLabel="Fechar"
             :messages="FeedbackConfiguration.text.success"
             @newRequestClicked="newFeedback()"
+            :useRateStar="false"
         />
     </div>
 </template>

@@ -77,6 +77,7 @@
 import { defineComponent, ref, computed, watch, onMounted } from 'vue'
 import { CurrencyInputOptions, CurrencyDisplay } from 'vue-currency-input'
 import { debounce } from '@/use/debounce'
+import { currencyFormatBR } from '@/use/numberFormatBR'
 import { CreditData } from '@/config/variables'
 import FormTextInput from '@/components/ui/FormTextInput.vue'
 import InfoBox from '@/components/ui/InfoBox.vue'
@@ -159,13 +160,6 @@ export default defineComponent({
                 if (reasonOthers.value == '' || reasonOthers.value.length < 10)
                     isInvalid.value = true
                 else isInvalid.value = false
-        }
-        const currencyFormatBR = (num: number) => {
-            //console.log(num)
-            return num
-                .toFixed(2)
-                .replace('.', ',')
-                .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
         }
         const creditFormatted = computed(() => {
             return currencyFormatBR(credit.value)
