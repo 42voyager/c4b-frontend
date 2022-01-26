@@ -112,7 +112,6 @@ const TwoColumnSection = defineComponent({
             userReason.value = reason
             resetInputReason = reset
             statusStepOne.value = false
-            userData.value = {}
         }
 
         /**

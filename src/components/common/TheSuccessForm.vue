@@ -64,7 +64,7 @@ export default defineComponent({
     props: {
         messages: {
             type: Array as PropType<string[]>,
-            required: true,
+            default: () => {return ['Recebemos sua solicitação!']},
         },
         buttonLabel: {
             type: String,
