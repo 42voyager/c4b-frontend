@@ -4,6 +4,7 @@
             <p class="creditLabel">De quanto seu negócio precisa</p>
             <div class="wrapper-slider">
                 <Slider
+                    id="credit-slider"
                     class="slider"
                     :format="format"
                     :min="Number(minCredit)"
@@ -22,13 +23,19 @@
             /> -->
             <!-- <b class="current-value"> R$ {{ creditFormatted }} </b> -->
             <FormTextInput
+                :isInvalid="invalidCredit"
+                :errors="errorsCredit"
+                id="input-credit-slider"
                 class="current-value"
                 v-model="credit"
-                v-maska="'#######'"
+                v-maska="{ 
+                    mask: ['######','Y######'], 
+                    tokens: {'Y': {pattern: /[0-5]/}}}"
             />
             <p class="creditLabel">Em quantas vezes você quer pagar?</p>
             <div class="wrapper-slider">
                 <Slider
+                    id="installments-slider"
                     class="slider"
                     :min="6"
                     :max="36"
@@ -166,6 +173,9 @@ export default defineComponent({
         const isInvalid = ref(false)
         const income = ref(0)
         const requestStatus = ref(ERequestStatus.Idle)
+        const invalidCredit = ref(false)
+        const errorsCredit = ['O crédito precisa ser maior que R$10.000,00'+
+            ' e menor que R$5.000.000,00']
         /**
          * Está função serve para formatar o número mostrado no
          * tooltip do slider
@@ -210,6 +220,7 @@ export default defineComponent({
         const handleSubmit = () => {
             context.emit('valuesChanged', credit.value, installments.value)
             validationReasonOthers()
+            if (invalidCredit.value == true) return
             if (isInvalid.value == true) return
             else if (reason.value === others)
                 context.emit('formButtonClicked', reasonOthers.value, reset)
@@ -236,6 +247,11 @@ export default defineComponent({
         /** Espera que o slider do limite de crédito mude de valor */
         watch(credit, (currentCredit) => {
             requestStatus.value = ERequestStatus.Debounced
+            if (credit.value < 10000 || credit.value > 5000000)
+                invalidCredit.value = true
+            else
+                invalidCredit.value = false
+
             calMinIncomeDebounce(currentCredit, installments.value)
         })
         /** Espera que o slider de parcelas mude de valor */
@@ -278,7 +294,9 @@ export default defineComponent({
             isInvalid,
             requestStatus,
             ERequestStatus,
-            format
+            format,
+            errorsCredit,
+            invalidCredit
         }
     },
 })
@@ -344,5 +362,8 @@ export default defineComponent({
     width: 100px;
     text-align: center;
     margin-top: 0;
+}
+:deep .div-error {
+    text-align: center;
 }
 </style>

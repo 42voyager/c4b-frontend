@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="div-error">
         <input
         v-bind="$attrs"
         class="input-base"
