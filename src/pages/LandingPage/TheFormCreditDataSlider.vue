@@ -2,25 +2,49 @@
     <transition name="show-user-credit">
         <div class="container-credit">
             <p class="creditLabel">De quanto seu negócio precisa</p>
-            <SliderInput
+            <div class="wrapper-slider">
+                <Slider
+                    class="slider"
+                    :format="format"
+                    :min="Number(minCredit)"
+                    :max="Number(maxCredit)"
+                    v-model="credit"
+                    :step="1000"
+                />
+            </div>
+            <!-- <SliderInput
                 :min="minCredit"
                 :max="maxCredit"
                 :minLabel="'R$' + currencyFormatBR(minCredit)"
                 :maxLabel="'R$' + currencyFormatBR(maxCredit)"
                 step="1000"
                 v-model="credit"
+            /> -->
+            <!-- <b class="current-value"> R$ {{ creditFormatted }} </b> -->
+            <FormTextInput
+                class="current-value"
+                v-model="credit"
+                v-maska="'#######'"
             />
-            <b class="current-value"> R$ {{ creditFormatted }} </b>
             <p class="creditLabel">Em quantas vezes você quer pagar?</p>
-            <SliderInput
+            <div class="wrapper-slider">
+                <Slider
+                    class="slider"
+                    :min="6"
+                    :max="36"
+                    :step="1"
+                    v-model="installments"
+                />
+            </div>
+            <!-- <SliderInput
                 :min="6"
                 :max="36"
                 :minLabel="'6 Meses'"
                 :maxLabel="'35 Meses'"
-                step="2"
+                step="1"
                 v-model="installments"
-            />
-            <b class="current-value"> {{ installments }} Meses </b>
+            /> -->
+            <!-- <b class="current-value"> {{ installments }} Meses </b> -->
             <InfoBox class="info-box">
                 <p>
                     Faturamento mensual recomendado seria:
@@ -73,6 +97,8 @@
     </transition>
 </template>
 
+<style src="@vueform/slider/themes/default.css"></style>
+
 <script lang="ts">
 import { defineComponent, ref, computed, watch, onMounted } from 'vue'
 import { CurrencyInputOptions, CurrencyDisplay } from 'vue-currency-input'
@@ -86,6 +112,7 @@ import SliderInput from '@/components/ui/SliderInput.vue'
 import MultiSelect from '@/components/ui/MultiSelect.vue'
 import InputError from '@/components/ui/InputError.vue'
 import C4bApi from '@/api/C4bApi'
+import Slider from '@vueform/slider'
 
 enum ERequestStatus {
     Idle,
@@ -112,6 +139,7 @@ export default defineComponent({
         FormTextInput,
         MultiSelect,
         InputError,
+        Slider
     },
     emits: ['formButtonClicked', 'valuesChanged'],
     setup: (props, context) => {
@@ -138,7 +166,14 @@ export default defineComponent({
         const isInvalid = ref(false)
         const income = ref(0)
         const requestStatus = ref(ERequestStatus.Idle)
-
+        /**
+         * Está função serve para formatar o número mostrado no
+         * tooltip do slider
+         * @param {number} value - Numbero recebido do slider
+         */
+        const format = (value: number): string => {
+            return `R$${currencyFormatBR(value)}`
+        }
         /**
          * Função utilizada para limpar o campo do motivo no form
          */
@@ -161,8 +196,13 @@ export default defineComponent({
                     isInvalid.value = true
                 else isInvalid.value = false
         }
-        const creditFormatted = computed(() => {
-            return currencyFormatBR(credit.value)
+        const convertToNumber = (value: string): string => {
+            const newValue = value.replace(/,/g, '').replace(/\./g, '')
+            return newValue
+        }
+        const creditFormatted = computed({
+            get: () =>  currencyFormatBR(credit.value),
+            set: value =>  {credit.value = Number(convertToNumber(value))}
         })
         const minIncome = computed(() => {
             return currencyFormatBR(income.value)
@@ -238,12 +278,26 @@ export default defineComponent({
             isInvalid,
             requestStatus,
             ERequestStatus,
+            format
         }
     },
 })
 </script>
-
 <style scoped>
+.wrapper-slider {
+    width: 80%;
+    margin-bottom: 20px;
+}
+.slider {
+    --slider-handle-width: 30px;
+    --slider-handle-height: 30px;
+    --slider-width: 16px;
+    --slider-height: 16px;
+    --slider-bg: #b9ada0;
+    --slider-connect-bg: #64380c;
+    --slider-handle-ring-color: #00000030;
+    --slider-tooltip-bg: #64380c;
+}
 :deep .input-base {
     border: none;
 }
@@ -256,6 +310,7 @@ export default defineComponent({
 }
 .creditLabel {
     margin: 25px 0;
+    margin-bottom: 50px;
     text-align: center;
     font-size: 20px;
 }
@@ -263,6 +318,7 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
 }
 .current-value {
     margin-bottom: 10px;
@@ -283,5 +339,10 @@ export default defineComponent({
     width: 240px;
     border: none;
     margin-bottom: 30px;
+}
+:deep .input-base {
+    width: 100px;
+    text-align: center;
+    margin-top: 0;
 }
 </style>

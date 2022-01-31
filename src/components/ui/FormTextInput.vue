@@ -38,7 +38,7 @@ export default defineComponent({
             default: () => { return (['']) },
         },
         modelValue: {
-            type: String,
+            type: [String, Number],
             default: ''
         }
     },
