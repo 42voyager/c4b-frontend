@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="div-error">
         <input
         v-bind="$attrs"
         class="input-base"
@@ -38,7 +38,7 @@ export default defineComponent({
             default: () => { return (['']) },
         },
         modelValue: {
-            type: String,
+            type: [String, Number],
             default: ''
         }
     },
