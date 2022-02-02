@@ -23,7 +23,7 @@
             <b class="current-value"> {{ installments }} Meses </b>
             <InfoBox class="info-box">
                 <p>
-                    Faturamento mensual recomendado seria:
+                    Faturamento mensal recomendado seria:
                     <br />
                     <b
                         v-show="
