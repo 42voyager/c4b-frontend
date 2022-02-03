@@ -15,7 +15,7 @@
 import { defineComponent, PropType } from 'vue'
 import { ListItemsNavBar } from '@/config/variables'
 
-interface IitemsNavBar {
+export interface IitemsNavBar {
     title: string,
     href:string
 }
