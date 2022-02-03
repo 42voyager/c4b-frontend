@@ -7,7 +7,7 @@ import ErrorPage from '@/pages/ErrorPage/ErrorPage.vue'
 const routes = [
     { path: '/', component: LandingPage },
     { path: '/bankInfoForm/:id', component: BankInfoPage },
-    { path: '/Contract/:id', component: ContractPage },
+    { path: '/contractSign/:id', component: ContractPage },
     { path: '/Error', component: ErrorPage }
 ]
 

@@ -130,8 +130,8 @@ export default defineComponent({
             window.location.href = '/'
         }
         onBeforeMount(async () => {
-            await generateContract()
             await getCustomerInfo()
+            await generateContract()
             await getBankInfo()
             pageReady.value = true
         })

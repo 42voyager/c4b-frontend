@@ -110,7 +110,7 @@ export default defineComponent({
         const getBankInfo = async () => {
             try {
                 await new C4bApi().getBankInfo(hash)
-                window.location.href = '/Contract/' + hash
+                window.location.href = '/contractSign/' + hash
             } catch (err: any) {
                 console.log()
             }
@@ -132,7 +132,7 @@ export default defineComponent({
 
         /** Função que vai redirecionar o usuário para a landing page */
         const handleSuccessModalClose = () => {
-            window.location.href = '/Contract/' + hash
+            window.location.href = '/contractSign/' + hash
         }
 
         /** Funcao que faz o request dos dados bancarios para o servidor */
