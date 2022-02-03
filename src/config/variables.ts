@@ -220,7 +220,8 @@ export const Terms = [
 
 // Sucess form
 export const SucessMessage = [
-    'Recebemos sua solicitação, obrigado pelo seu interesse!',
+    'recebemos sua solicitação ',
+    'Obrigado pelo seu interesse!',
     'Em breve entraremos em contato!'
 ]
 

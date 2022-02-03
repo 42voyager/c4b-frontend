@@ -1,64 +1,72 @@
 <template>
-  <div class="two-column-section" id="two-column-section">
-    <div class="column column-one">
-      <img
-        class="side-img"
-        :src="require('@/assets/' + imageFileName)"
-        :alt="altText"
-        />
-    </div>
-    <div class="column column-two">
-      <h2 v-if="requestSucceeded == false">{{ titleForm }}</h2>
-      <form id="form-request" class="wrapper-form" @submit.prevent ref="div-1">
-        <TheFormCreditDataSlider
-          v-show="!nextStep"
-          @formButtonClicked="goNextStep"
-          @valuesChanged="creditDataChanged"
-          :limit="limit"
-          :installment="installment"
-        />
-        <!-- <TheFormCreditData
+    <div class="two-column-section" id="two-column-section">
+        <div class="column column-one">
+            <img
+                class="side-img"
+                :src="require('@/assets/' + imageFileName)"
+                :alt="altText"
+            />
+        </div>
+        <div class="column column-two">
+            <h2 v-if="requestSucceeded == false">{{ titleForm }}</h2>
+            <form
+                id="form-request"
+                class="wrapper-form"
+                @submit.prevent
+                ref="div-1"
+            >
+                <TheFormCreditDataSlider
+                    v-show="!nextStep"
+                    @formButtonClicked="goNextStep"
+                    @valuesChanged="creditDataChanged"
+                    :limit="limit"
+                    :installment="installment"
+                />
+                <!-- <TheFormCreditData
           v-show="!nextStep"
           @nextStepClicked="goNextStep"
           @valueChanged="creditDataChanged"
           :limit="limit"
           :installment="installment"
         /> -->
-        <TheFormUserData
-          v-show="nextStep && requestSucceeded == false"
-          @submitForm="submitUser"
-          @backStep="backStepClicked"
-          :enableMessage="enableMessage"
-          :messageResponse="messageResponse"
-          class="form-data"
-        />
-        <Wizard
-          class="circles-wizard"
-          :list="[statusStepOne ,nextStep]"
-        />
-        <TheSuccessForm
-          v-if="requestSucceeded === true"
-          buttonLabel="Fazer nova solicitação"
-          :messages="sucessMessage"
-          @newRequestClicked="newRequestClicked"
-        />
-      </form>
+                <TheFormUserData
+                    v-show="nextStep && requestSucceeded == false"
+                    @submitForm="submitUser"
+                    @backStep="backStepClicked"
+                    :enableMessage="enableMessage"
+                    :messageResponse="messageResponse"
+                    class="form-data"
+                />
+                <Wizard
+                    class="circles-wizard"
+                    :list="[statusStepOne, nextStep]"
+                />
+                <TheSuccessForm
+                    v-if="requestSucceeded === true"
+                    buttonLabel="Avaliar"
+                    @newRequestClicked="newRequestClicked"
+                    @rateClicked="submitStarRate"
+                    :useRateStar="true"
+                    :userData="userData"
+                />
+            </form>
+        </div>
     </div>
-  </div>
 </template>
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
 import { useReCaptcha } from 'vue-recaptcha-v3'
 import TheFormUserData from './TheFormUserData.vue'
-import ApiController from '@/api/C4bApi'
+import C4bApi from '@/api/C4bApi'
 import IUserData from '@/types/user'
 import TheFormCreditData from './TheFormCreditData.vue'
 import TheFormCreditDataSlider from './TheFormCreditDataSlider.vue'
 import Wizard from '@/components/ui/Wizard.vue'
 import TheFormCreditDataInput from './TheFormCreditDataInput.vue'
 import TheSuccessForm from '@/components/common/TheSuccessForm.vue'
-import { TitleForm, SucessMessage, errorMsgs } from '@/config/variables'
+import { TitleForm, errorMsgs } from '@/config/variables'
 import GetIPApi from '@/api/getIpApi'
+import IUserFeedBackStar from '@/types/userFeedBackStar'
 
 const TwoColumnSection = defineComponent({
     props: {
@@ -71,12 +79,11 @@ const TwoColumnSection = defineComponent({
         TheFormCreditDataInput,
         TheSuccessForm,
         TheFormCreditDataSlider,
-        Wizard
+        Wizard,
     },
     setup() {
         const { executeRecaptcha, recaptchaLoaded } = useReCaptcha()!
         const titleForm = TitleForm
-        const sucessMessage = SucessMessage
         const enableMessage = ref(false)
         const messageResponse = ref({ title: '' })
         const requestSucceeded = ref(false)
@@ -87,27 +94,54 @@ const TwoColumnSection = defineComponent({
         const userIP = ref('')
         const userOS = ref('Unknown OS')
         const userReason = ref('')
+        const userData = ref()
         let resetInputReason = () => {
             return
         }
 
+        /**
+         * Função utilizada quando o botão continuar da primeira etapa do form
+         * é clicado. Pega o motivo e altera as variaveis necessárias para ir
+         * pra proxima etapa.
+         * @param {string} reason - Motivo da solicitação de crédito.
+         * @param {function} reset - Função utilizada para resetar o
+         * input do motivo.
+         */
         const goNextStep = (reason: string, reset: () => void) => {
             nextStep.value = true
             userReason.value = reason
             resetInputReason = reset
             statusStepOne.value = false
         }
+
+        /**
+         * Função utilizada quando o botão de voltar do form é clicado.
+         * Altera as variaveis necessárias para voltar uma etapa.
+         */
         const backStepClicked = () => {
             nextStep.value = false
             statusStepOne.value = true
         }
-        const creditDataChanged = (newLimit: number | null,
-            newInstallment: number | null) => {
+
+        /**
+         * @param {number | null} newLimit - Variavel do valor do crédito.
+         * @param {number | null} newInstallment - Novas quantidade de parcelas.
+         */
+        const creditDataChanged = (
+            newLimit: number | null,
+            newInstallment: number | null
+        ) => {
             if (newLimit != null && Number(newLimit) != 0)
                 limit.value = newLimit
             if (newInstallment != null && Number(newInstallment) != 0)
                 installment.value = newInstallment
         }
+
+        /**
+         * Função utilizada quando o botão do modal é clicado, muda as
+         * variaveis de status necessária para voltar para a primeira
+         * etapada do form.
+         */
         const newRequestClicked = () => {
             nextStep.value = false
             messageResponse.value = { title: '' }
@@ -116,8 +150,7 @@ const TwoColumnSection = defineComponent({
         const getOS = () => {
             if (navigator.userAgent.indexOf('Win') != -1)
                 userOS.value = 'Windows'
-            if (navigator.userAgent.indexOf('Mac') != -1)
-                userOS.value = 'MacOS'
+            if (navigator.userAgent.indexOf('Mac') != -1) userOS.value = 'MacOS'
             if (navigator.userAgent.indexOf('Linux') != -1)
                 userOS.value = 'Linux'
         }
@@ -127,8 +160,34 @@ const TwoColumnSection = defineComponent({
             })
             getOS()
         })
-        const submitUser = async (user: IUserData,resetFormData:
-          () => void) => {
+        /**
+         * Função utilizada para submiter a avaliação com estrelas.
+         * @param {IUserFeedBackStar} feedbackStar - Objeto com os dados
+         * da avaliação
+         */
+        const submitStarRate = async (feedbackStar: IUserFeedBackStar) => {
+            feedbackStar.name = userData.value.name
+            feedbackStar.email = userData.value.email
+            try {
+                console.log(feedbackStar)
+                await new C4bApi().postRateStar(feedbackStar)
+                newRequestClicked()
+            } catch (err: any) {
+                console.log(err)
+            }
+        }
+
+        /**
+         * Função utilizada para submiter uma solicação de crédito.
+         * Verificação do Recaptcha incluida.
+         * @param {IUserData} user - Objeto com todos os dados do usuário.
+         * @param {Function} resetFormData - Função utilizada para resetar
+         * o Formulário de dados.
+         */
+        const submitUser = async (
+            user: IUserData,
+            resetFormData: () => void
+        ) => {
             // Parsed as string to avoid being rejected by the backend
             user.limit = limit.value.toString() as any
             user.installment = installment.value.toString() as any
@@ -136,6 +195,7 @@ const TwoColumnSection = defineComponent({
             user.timestamp = new Date().toJSON()
             user.ipAddress = userIP.value
             user.operatingSystem = userOS.value
+            userData.value = user
             try {
                 // ReCaptcha 3 handling
                 await recaptchaLoaded()
@@ -143,11 +203,11 @@ const TwoColumnSection = defineComponent({
                 user.recaptchaToken = token
 
                 // Submit user handling
-                await new ApiController().postUser(user)
+                await new C4bApi().postUser(user)
                 requestSucceeded.value = true
                 enableMessage.value = true
                 messageResponse.value = {
-                    title: 'Solicitação recebida com sucesso!'
+                    title: 'Solicitação recebida com sucesso!',
                 }
                 resetFormData()
                 resetInputReason()
@@ -164,10 +224,10 @@ const TwoColumnSection = defineComponent({
         }
 
         /**
-        * @param {KeyboardEvent} e - Evento do click
-        * Se a tecla esc é pressionada quando o modal de sucesso está aberto
-        * o modal será fechado
-        */
+         * @param {KeyboardEvent} e - Evento do click
+         * Se a tecla esc é pressionada quando o modal de sucesso está aberto
+         * o modal será fechado
+         */
         const keyEscDown = (e: KeyboardEvent) => {
             if (requestSucceeded.value == true && e.key == 'Escape')
                 newRequestClicked()
@@ -180,14 +240,15 @@ const TwoColumnSection = defineComponent({
             backStepClicked,
             creditDataChanged,
             newRequestClicked,
+            submitStarRate,
             nextStep,
             titleForm,
-            sucessMessage,
             enableMessage,
             messageResponse,
             requestSucceeded,
             installment,
             limit,
+            userData,
         }
     },
 })
@@ -197,106 +258,105 @@ export default TwoColumnSection
 
 <style scoped>
 .show-user-data-enter-from {
-  transform: translateX(100%);
-
+    transform: translateX(100%);
 }
 .show-user-data-enter-to {
-  transform: translateX(0);
-} 
+    transform: translateX(0);
+}
 .show-user-data-enter-active {
-  transition: transform 0.5s ease;
+    transition: transform 0.5s ease;
 }
 
 .show-user-credit-enter-from {
-  transform: translateX(-100%);
+    transform: translateX(-100%);
 }
 .show-user-credit-enter-to {
-  transform: translateX(0)
+    transform: translateX(0);
 }
 .show-user-credit-enter-active {
-  transition: transform 0.5s ease;
+    transition: transform 0.5s ease;
 }
 
 .circles-wizard {
-  position: absolute;
-  bottom: 15px;
-  left: 0;
-  right: 0;
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    right: 0;
 }
 .two-column-section {
-  display: flex;
-  width: 100%;
-  background-color: #b2937548;
-  flex-direction: column;
+    display: flex;
+    width: 100%;
+    background-color: #b2937548;
+    flex-direction: column;
 }
 .column {
-  width: calc(100% - 40px);
+    width: calc(100% - 40px);
 }
 .column-one {
-  overflow: hidden;
-  width: 100%;
+    overflow: hidden;
+    width: 100%;
 }
 .column-two {
-  padding: 0 20px;
-  align-self: center;
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
-  overflow: hidden;
-  position: relative;
+    padding: 0 20px;
+    align-self: center;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
 }
 .column-two h2 {
-  margin-top: 30px;
-  margin-bottom: 20px;
+    margin-top: 30px;
+    margin-bottom: 20px;
 }
 .side-img {
-  height: 100vh;
+    height: 100vh;
 }
 .form-data {
-  margin-bottom: 50px;
+    margin-bottom: 50px;
 }
 @media (min-width: 540px) {
-  .side-img {
-    width: 100%;
-    height: auto;
-  }
-  .column-one {
-    height: calc(100vh - 50px);
-  }
+    .side-img {
+        width: 100%;
+        height: auto;
+    }
+    .column-one {
+        height: calc(100vh - 50px);
+    }
 }
 @media (min-width: 992px) {
-  .side-img {
-    width: 100%;
-    /* height: 900px; */
-  }
+    .side-img {
+        width: 100%;
+        /* height: 900px; */
+    }
 }
 @media (min-width: 1200px) {
-  .side-img {
-    transform: translateY(-36%);
-    margin-top: 50%;
-    height: 950px;
-  }
-  .two-column-section {
-    flex-direction: row;
-  }
-  .column {
-    width: 50%;
-  }
-  .column-one {
-    height: calc(100vh - 50px);
-  }
-  .column-two {
-    padding: 0 20px;
-    height: calc(100vh - 50px);
-  }
-  .column-two h2 {
-    font-size: 25px;
-  }
+    .side-img {
+        transform: translateY(-36%);
+        margin-top: 50%;
+        height: 950px;
+    }
+    .two-column-section {
+        flex-direction: row;
+    }
+    .column {
+        width: 50%;
+    }
+    .column-one {
+        height: calc(100vh - 50px);
+    }
+    .column-two {
+        padding: 0 20px;
+        height: calc(100vh - 50px);
+    }
+    .column-two h2 {
+        font-size: 25px;
+    }
 }
 @media (min-width: 1460px) {
-  .side-img {
-    width: 100%;
-    height: auto;
-  }
+    .side-img {
+        width: 100%;
+        height: auto;
+    }
 }
 </style>
