@@ -4,7 +4,7 @@
  * @param {number} num - o numero que deseja converte
  * @returns String do numero convertido em formato de Real
  */
- export const currencyFormatBR = (num: number): string => {
+export const currencyFormatBR = (num: number): string => {
     const number = Number(num)
         .toFixed(2)
         .replace('.', ',')

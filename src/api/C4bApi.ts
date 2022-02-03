@@ -1,5 +1,6 @@
 import IUserData from '@/types/user'
 import IUserFeedBack from '@/types/userFeedBack'
+import IUserFeedBackStar from '@/types/userFeedBackStar'
 import IBankInfo from '@/types/bankInfo'
 import axios, { AxiosResponse } from 'axios'
 import IContract from '@/types/contract'
@@ -9,6 +10,7 @@ const API_URL_FEEDBACK = '/Feedback/'
 const API_URL_BANK_INFO = '/BankInfo/'
 const API_URL_CREDIT = '/Credit/'
 const API_URL_CONTRACT = '/Contract/'
+const API_URL_RATESTAR = '/FeedbackStar/'
 
 export default class C4bApi {
     async postUser(user: IUserData): Promise<AxiosResponse> {
@@ -41,5 +43,10 @@ export default class C4bApi {
 
     async postContract(contract: IContract): Promise<AxiosResponse> {
         return await axios.put(API_URL_CONTRACT, contract)
+    }
+
+    async postRateStar(feedback: IUserFeedBackStar):
+        Promise<AxiosResponse> {
+        return await axios.post(API_URL_RATESTAR, feedback)
     }
 }
