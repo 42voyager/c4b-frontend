@@ -5,7 +5,7 @@
                 class="side-img"
                 :src="require('@/assets/' + imageFileName)"
                 :alt="altText"
-                />
+            />
         </div>
         <div class="column-form-wrapper column">
             <div class="title">
@@ -41,7 +41,7 @@
                 />
             </div>
             <ButtonDefault
-				id="btn-bank-info-submit"
+                id="btn-bank-info-submit"
                 :msg="BankInfoFormConfiguration.submittLabel"
                 @buttonClicked="handleSubmit"
             />
@@ -50,7 +50,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue'
+import { defineComponent, ref, computed, onBeforeMount } from 'vue'
 import { useRoute } from 'vue-router'
 import FormTextInput from '@/components/ui/FormTextInput.vue'
 import ButtonDefault from '@/components/ui/ButtonDefault.vue'
@@ -87,7 +87,7 @@ export default defineComponent({
     },
     props: {
         imageFileName: String,
-        altText: String
+        altText: String,
     },
     setup() {
         const route = useRoute()
@@ -100,6 +100,21 @@ export default defineComponent({
         const inputsErrors = ref(initialInputErrors)
         const inputValidationStatus = ref(initialInputValidationStatus)
         const wasFormSubmitted = ref(false)
+        const getCustomerInfo = async () => {
+            try {
+                await new C4bApi().getCustomerInfo(hash)
+            } catch (err: any) {
+                window.location.href = '/Error'
+            }
+        }
+        const getBankInfo = async () => {
+            try {
+                await new C4bApi().getBankInfo(hash)
+                window.location.href = '/Contract/' + hash
+            } catch (err: any) {
+                console.log()
+            }
+        }
         const banksListSum = banksList.map((bank: BankInfo) => {
             return `${bank.COMPE} - ${bank.ShortName}`
         })
@@ -107,7 +122,8 @@ export default defineComponent({
             return {
                 bankName:
                     inputValidationStatus.value.bankName === EValidity.Invalid,
-                branch: inputValidationStatus.value.branch === EValidity.Invalid,
+                branch:
+                    inputValidationStatus.value.branch === EValidity.Invalid,
                 checkingAccount:
                     inputValidationStatus.value.checkingAccount ===
                     EValidity.Invalid,
@@ -152,7 +168,10 @@ export default defineComponent({
                 inputsErrors.value = newErrors
             }
         }
-
+        onBeforeMount(async () => {
+            getCustomerInfo()
+			getBankInfo()
+        })
         return {
             formInfo,
             inputValidationStatus,
@@ -170,20 +189,20 @@ export default defineComponent({
 
 <style scoped>
 .two-column {
-  display: flex;
-  width: 100%;
-  background-color: #e0ccba;
-  flex-direction: column;
-  margin-top: 73px;
+    display: flex;
+    width: 100%;
+    background-color: #e0ccba;
+    flex-direction: column;
+    margin-top: 73px;
 }
 .column {
     width: calc(100% - 100px);
     max-height: calc(100vh - 73px);
 }
 .column-img {
-  overflow: hidden;
-  width: 100%;
-  display: none;
+    overflow: hidden;
+    width: 100%;
+    display: none;
 }
 .column-form-wrapper {
     padding: 0 50px;
@@ -228,21 +247,21 @@ export default defineComponent({
     }
 }
 @media (min-width: 992px) {
-  .side-img {
-    height: 915px;
-  }
+    .side-img {
+        height: 915px;
+    }
 }
 @media (min-width: 1260px) {
-  .side-img {
-    width: 100%;
-    transform: translateY(-38%);
-    margin-top: 50%;
-  }
+    .side-img {
+        width: 100%;
+        transform: translateY(-38%);
+        margin-top: 50%;
+    }
 }
 @media (min-width: 1460px) {
-  .side-img {
-    width: 100%;
-    height: auto;
-  }
+    .side-img {
+        width: 100%;
+        height: auto;
+    }
 }
 </style>

@@ -1,61 +1,64 @@
 <template>
-    <div class="wrapper-contract-info">
-        <div class="info-valor">
-            <p>Valor a receber:</p>
-            <p class="info">R${{ currencyFormatBR(credit) }}</p>
-        </div>
-        <div class="info-valor">
-            <p>Forma de pagamento:</p>
-            <p class="info">{{ installments }}x mensais</p>
-        </div>
-        <div class="info-banco">
-            <p>Dados bancários para crédito</p>
-            <p>
-                <span
-                    ><b>Banco: {{ bank }}</b></span
-                >
-                <span
-                    ><b>Agência: {{ branch }}</b></span
-                >
-                <span
-                    ><b>Conta: {{ account }}</b></span
-                >
-            </p>
-        </div>
-    </div>
-    <iframe :src="pdfString"></iframe>
-    <div class="wrapper-checkboxes">
-        <CheckboxInput
-            v-model="contractData.acceptTerms"
-            :nameID="'aceitaTermos'"
-            :labelMessage="'Li e acepto os Termos e Condições de Relacionamento com o Banco ABC. Declaro que tenho poderes de assinatura pela empresa e autorizo a assinatura eletrônica.'"
-        />
-        <CheckboxInput
-            v-model="contractData.authorizeSCR"
-            :nameID="'autorizaSCR'"
-            :labelMessage="'Autorizo a Consulta de SCR e da Agenda de Recebíveis e ac eito os Termos de Sigilo Bancário'"
-        />
-        <CheckboxInput
-            v-model="contractData.existsPEP"
-            :nameID="'temPEP'"
-            :labelMessage="'Na empresa, há alguma Pessoa Exposta Publicamente (PEP) em uma função de administração, controle direto ou indireto, direção, procuração ou representação?'"
-        />
-        <ButtonDefault
-            id="btn-submit-request-credit"
-            msg="Assinar"
-            @buttonClicked="signContract"
-        />
-        <SuccessForm
-            v-if="wasContractSigned"
-            buttonLabel="Finalizar"
-            :messages="['Contrato assinado']"
-            @newRequestClicked="handleSuccessModalClose"
-        />
-    </div>
+	<div v-if="pageReady">
+		<div class="wrapper-contract-info">
+			<div class="info-valor">
+				<p>Valor a receber:</p>
+				<p class="info">R${{ currencyFormatBR(credit) }}</p>
+			</div>
+			<div class="info-valor">
+				<p>Forma de pagamento:</p>
+				<p class="info">{{ installments }}x mensais</p>
+			</div>
+			<div class="info-banco">
+				<p>Dados bancários para crédito</p>
+				<p>
+					<span
+						><b>Banco: {{ bank }}</b></span
+					>
+					<span
+						><b>Agência: {{ branch }}</b></span
+					>
+					<span
+						><b>Conta: {{ account }}</b></span
+					>
+				</p>
+			</div>
+		</div>
+		<p class="pw-alert">A senha é o CNPJ usando . - e /. exemplo: (19.259.103/0001-07)</p>
+		<iframe :src="pdfString"></iframe>
+		<div class="wrapper-checkboxes">
+			<CheckboxInput
+				v-model="contractData.acceptTerms"
+				:nameID="'aceitaTermos'"
+				:labelMessage="'Li e acepto os Termos e Condições de Relacionamento com o Banco ABC. Declaro que tenho poderes de assinatura pela empresa e autorizo a assinatura eletrônica.'"
+			/>
+			<CheckboxInput
+				v-model="contractData.authorizeSCR"
+				:nameID="'autorizaSCR'"
+				:labelMessage="'Autorizo a Consulta de SCR e da Agenda de Recebíveis e ac eito os Termos de Sigilo Bancário'"
+			/>
+			<CheckboxInput
+				v-model="contractData.existsPEP"
+				:nameID="'temPEP'"
+				:labelMessage="'Na empresa, há alguma Pessoa Exposta Publicamente (PEP) em uma função de administração, controle direto ou indireto, direção, procuração ou representação?'"
+			/>
+			<ButtonDefault
+				id="btn-submit-request-credit"
+				msg="Assinar"
+				@buttonClicked="signContract"
+			/>
+			<SuccessForm
+				v-if="wasContractSigned"
+				buttonLabel="Finalizar"
+				:messages="['Contrato assinado']"
+				@newRequestClicked="handleSuccessModalClose"
+			/>
+		</div>
+	</div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue-demi'
+import { defineComponent, ref, onBeforeMount } from 'vue-demi'
 import C4bApi from '@/api/C4bApi'
 import { useRoute } from 'vue-router'
 import { currencyFormatBR } from '@/use/numberFormatBR'
@@ -67,15 +70,16 @@ export default defineComponent({
     components: {
         CheckboxInput,
         ButtonDefault,
-        SuccessForm
+        SuccessForm,
     },
     setup() {
-        var pdfString = ref('')
-        var credit = ref(0)
-        var installments = ref('')
-        var bank = ref('')
-        var branch = ref('')
-        var account = ref('')
+        const pdfString = ref('')
+        const credit = ref(0)
+        const installments = ref('')
+        const bank = ref('')
+        const branch = ref('')
+        const account = ref('')
+        const pageReady = ref(false)
         const wasContractSigned = ref(false)
         const route = useRoute()
         const contractData = ref({
@@ -83,16 +87,15 @@ export default defineComponent({
             ContractPdf: pdfString,
             acceptTerms: false,
             authorizeSCR: false,
-            existsPEP:false
+            existsPEP: false,
         })
         const hash = route.params.id as string
         const generateContract = async () => {
             try {
                 const contractInfo = await new C4bApi().getContract(hash)
                 pdfString.value = contractInfo.data.contractPdf
-                console.log(contractInfo)
             } catch (err: any) {
-                console.log(err)
+                window.location.href = '/Error'
             }
         }
         const getCustomerInfo = async () => {
@@ -101,7 +104,7 @@ export default defineComponent({
                 credit.value = Number(customerInfo.data.limit)
                 installments.value = customerInfo.data.installment
             } catch (err: any) {
-                console.log(err)
+                window.location.href = '/Error'
             }
         }
         const getBankInfo = async () => {
@@ -112,27 +115,26 @@ export default defineComponent({
                 account.value = bankInfo.data.checkingAccount
                 contractData.value.customerID = bankInfo.data.customerID
             } catch (err: any) {
-                console.log(err)
+                window.location.href = '/Error'
             }
         }
         const signContract = async () => {
             try {
-                await new C4bApi().postContract(
-                    contractData.value
-                )
+                await new C4bApi().postContract(contractData.value)
                 wasContractSigned.value = true
-            }
-            catch (err: any) {
-                console.log(err, "erro do contrato")
+            } catch (err: any) {
                 wasContractSigned.value = false
             }
         }
         const handleSuccessModalClose = () => {
             window.location.href = '/'
         }
-        generateContract()
-        getCustomerInfo()
-        getBankInfo()
+        onBeforeMount(async () => {
+            await generateContract()
+            await getCustomerInfo()
+            await getBankInfo()
+            pageReady.value = true
+        })
         return {
             pdfString,
             credit,
@@ -144,7 +146,8 @@ export default defineComponent({
             contractData,
             signContract,
             wasContractSigned,
-            handleSuccessModalClose
+            handleSuccessModalClose,
+            pageReady,
         }
     },
 })
@@ -186,6 +189,11 @@ iframe {
     margin-right: auto;
     padding-top: 30px;
     padding-bottom: 30px;
+}
+.pw-alert {
+	padding-left: 30px;
+	padding-right: 30px;
+	text-align: center;
 }
 @media (min-width: 992px) {
     .wrapper-contract-info {
