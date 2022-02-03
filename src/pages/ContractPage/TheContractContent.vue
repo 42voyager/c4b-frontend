@@ -1,60 +1,62 @@
 <template>
-	<div v-if="pageReady">
-		<div class="wrapper-contract-info">
-			<div class="info-valor">
-				<p>Valor a receber:</p>
-				<p class="info">R${{ currencyFormatBR(credit) }}</p>
-			</div>
-			<div class="info-valor">
-				<p>Forma de pagamento:</p>
-				<p class="info">{{ installments }}x mensais</p>
-			</div>
-			<div class="info-banco">
-				<p>Dados bancários para crédito</p>
-				<p>
-					<span
-						><b>Banco: {{ bank }}</b></span
-					>
-					<span
-						><b>Agência: {{ branch }}</b></span
-					>
-					<span
-						><b>Conta: {{ account }}</b></span
-					>
-				</p>
-			</div>
-		</div>
-		<p class="pw-alert">A senha é o CNPJ usando . - e /. exemplo: (19.259.103/0001-07)</p>
-		<iframe :src="pdfString"></iframe>
-		<div class="wrapper-checkboxes">
-			<CheckboxInput
-				v-model="contractData.acceptTerms"
-				:nameID="'aceitaTermos'"
-				:labelMessage="'Li e acepto os Termos e Condições de Relacionamento com o Banco ABC. Declaro que tenho poderes de assinatura pela empresa e autorizo a assinatura eletrônica.'"
-			/>
-			<CheckboxInput
-				v-model="contractData.authorizeSCR"
-				:nameID="'autorizaSCR'"
-				:labelMessage="'Autorizo a Consulta de SCR e da Agenda de Recebíveis e ac eito os Termos de Sigilo Bancário'"
-			/>
-			<CheckboxInput
-				v-model="contractData.existsPEP"
-				:nameID="'temPEP'"
-				:labelMessage="'Na empresa, há alguma Pessoa Exposta Publicamente (PEP) em uma função de administração, controle direto ou indireto, direção, procuração ou representação?'"
-			/>
-			<ButtonDefault
-				id="btn-submit-request-credit"
-				msg="Assinar"
-				@buttonClicked="signContract"
-			/>
-			<SuccessForm
-				v-if="wasContractSigned"
-				buttonLabel="Finalizar"
-				:messages="['Contrato assinado']"
-				@newRequestClicked="handleSuccessModalClose"
-			/>
-		</div>
-	</div>
+    <div v-if="pageReady">
+        <div class="wrapper-contract-info">
+            <div class="info-valor">
+                <p>Valor a receber:</p>
+                <p class="info">R${{ currencyFormatBR(credit) }}</p>
+            </div>
+            <div class="info-valor">
+                <p>Forma de pagamento:</p>
+                <p class="info">{{ installments }}x mensais</p>
+            </div>
+            <div class="info-banco">
+                <p>Dados bancários para crédito</p>
+                <p>
+                    <span
+                        ><b>Banco: {{ bank }}</b></span
+                    >
+                    <span
+                        ><b>Agência: {{ branch }}</b></span
+                    >
+                    <span
+                        ><b>Conta: {{ account }}</b></span
+                    >
+                </p>
+            </div>
+        </div>
+        <p class="pw-alert">
+            A senha é o CNPJ usando . - e /. exemplo: (19.259.103/0001-07)
+        </p>
+        <iframe :src="pdfString"></iframe>
+        <div class="wrapper-checkboxes">
+            <CheckboxInput
+                v-model="contractData.acceptTerms"
+                :nameID="'aceitaTermos'"
+                :labelMessage="'Li e acepto os Termos e Condições de Relacionamento com o Banco ABC. Declaro que tenho poderes de assinatura pela empresa e autorizo a assinatura eletrônica.'"
+            />
+            <CheckboxInput
+                v-model="contractData.authorizeSCR"
+                :nameID="'autorizaSCR'"
+                :labelMessage="'Autorizo a Consulta de SCR e da Agenda de Recebíveis e ac eito os Termos de Sigilo Bancário'"
+            />
+            <CheckboxInput
+                v-model="contractData.existsPEP"
+                :nameID="'temPEP'"
+                :labelMessage="'Na empresa, há alguma Pessoa Exposta Publicamente (PEP) em uma função de administração, controle direto ou indireto, direção, procuração ou representação?'"
+            />
+            <ButtonDefault
+                id="btn-submit-request-credit"
+                msg="Assinar"
+                @buttonClicked="signContract"
+            />
+            <SuccessForm
+                v-if="wasContractSigned"
+                buttonLabel="Finalizar"
+                :messages="['Contrato assinado']"
+                @newRequestClicked="handleSuccessModalClose"
+            />
+        </div>
+    </div>
 </template>
 
 <script lang="ts">
@@ -93,6 +95,12 @@ export default defineComponent({
         const generateContract = async () => {
             try {
                 const contractInfo = await new C4bApi().getContract(hash)
+                if (
+                    contractInfo.data.acceptTerms == true ||
+                    contractInfo.data.authorizeSCR == true ||
+                    contractInfo.data.existsPEP == true
+                )
+                    window.location.href = '/Error'
                 pdfString.value = contractInfo.data.contractPdf
             } catch (err: any) {
                 window.location.href = '/Error'
@@ -191,9 +199,9 @@ iframe {
     padding-bottom: 30px;
 }
 .pw-alert {
-	padding-left: 30px;
-	padding-right: 30px;
-	text-align: center;
+    padding-left: 30px;
+    padding-right: 30px;
+    text-align: center;
 }
 @media (min-width: 992px) {
     .wrapper-contract-info {
