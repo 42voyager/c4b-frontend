@@ -79,17 +79,16 @@ export default defineComponent({
         const wasContractSigned = ref(false)
         const route = useRoute()
         const contractData = ref({
-            customerID: Number(route.params.id),
+            customerID: 1,
             ContractPdf: pdfString,
             acceptTerms: false,
             authorizeSCR: false,
             existsPEP:false
         })
+        const hash = route.params.id as string
         const generateContract = async () => {
             try {
-                const contractInfo = await new C4bApi().getContract(
-                    Number(route.params.id)
-                )
+                const contractInfo = await new C4bApi().getContract(hash)
                 pdfString.value = contractInfo.data.contractPdf
                 console.log(contractInfo)
             } catch (err: any) {
@@ -98,9 +97,7 @@ export default defineComponent({
         }
         const getCustomerInfo = async () => {
             try {
-                const customerInfo = await new C4bApi().getCustomerInfo(
-                    Number(route.params.id)
-                )
+                const customerInfo = await new C4bApi().getCustomerInfo(hash)
                 credit.value = Number(customerInfo.data.limit)
                 installments.value = customerInfo.data.installment
             } catch (err: any) {
@@ -109,12 +106,11 @@ export default defineComponent({
         }
         const getBankInfo = async () => {
             try {
-                const bankInfo = await new C4bApi().getBankInfo(
-                    Number(route.params.id)
-                )
+                const bankInfo = await new C4bApi().getBankInfo(hash)
                 bank.value = bankInfo.data.bankName
                 branch.value = bankInfo.data.branch
                 account.value = bankInfo.data.checkingAccount
+                contractData.value.customerID = bankInfo.data.customerID
             } catch (err: any) {
                 console.log(err)
             }

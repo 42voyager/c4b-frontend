@@ -96,6 +96,7 @@ export default defineComponent({
             branch: '',
             checkingAccount: '',
         })
+        const hash = route.params.id as string
         const inputsErrors = ref(initialInputErrors)
         const inputValidationStatus = ref(initialInputValidationStatus)
         const wasFormSubmitted = ref(false)
@@ -115,7 +116,7 @@ export default defineComponent({
 
         /** Função que vai redirecionar o usuário para a landing page */
         const handleSuccessModalClose = () => {
-            window.location.href = '/'
+            window.location.href = '/Contract/' + hash
         }
 
         /** Funcao que faz o request dos dados bancarios para o servidor */
@@ -123,7 +124,7 @@ export default defineComponent({
             try {
                 await new C4bApi().postBankInfo({
                     ...formInfo.value,
-                    hash: route.params.id as string,
+                    hash: hash,
                 })
                 wasFormSubmitted.value = true
             } catch (error: any) {
