@@ -1,93 +1,103 @@
 <template>
-  <div class="wrapper-panel">
-    <div
-      class="header-panel"
-      :class="{ 'rounded-border': isCollapsed }"
-      v-on:click="onHeaderClicked()"
-    >
-      <h3 class="title">
-        {{ title }}
-      </h3>
-      <Caret
-        color="#b29475"
-        width="30"
-        height="30"
-        :isCollapsed="isCollapsed"
-      />
+    <div class="wrapper-panel">
+        <div
+            class="header-panel"
+            :class="{ 'rounded-border': isCollapsed }"
+            v-on:click="onHeaderClicked()"
+        >
+            <h3 class="title">
+                {{ title }}
+            </h3>
+            <Caret
+                color="#b29475"
+                width="30"
+                height="30"
+                :isCollapsed="isCollapsed"
+            />
+        </div>
+        <div class="content" v-bind:class="{ hidden: isCollapsed }">
+            <div class="content-inner">
+                {{ content }}
+            </div>
+        </div>
     </div>
-    <div class="content" v-bind:class="{ hidden: isCollapsed }">
-      <div class="content-inner">
-        {{ content }}
-      </div>
-    </div>
-  </div>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
-import Caret from "@/components/icons/Caret.vue";
+import Caret from '@/components/icons/Caret.vue'
+import { defineComponent, ref } from 'vue'
 
-@Options({
-  props: {
-    title: String,
-    content: String,
-  },
-  components: {
-    Caret,
-  },
+export default defineComponent({
+    props: {
+        title: {
+            type: String,
+            default: 'Title',
+        },
+        content: {
+            type: String,
+            default: 'content',
+        },
+    },
+    components: {
+        Caret,
+    },
+    setup() {
+        const isCollapsed = ref(true)
+
+        const onHeaderClicked = (): void => {
+            isCollapsed.value = isCollapsed.value ? false : true
+        }
+        return {
+            onHeaderClicked,
+            isCollapsed
+        }
+    },
 })
-export default class CollapsiblePanel extends Vue {
-  isCollapsed = true;
-
-  onHeaderClicked(): void {
-    this.isCollapsed = this.isCollapsed ? false : true;
-  }
-}
 </script>
 
 <style scoped>
 .wrapper-panel {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 .rounded-border {
-  border-radius: 15px;
+    border-radius: 15px;
 }
 .header-panel {
-  display: flex;
-  justify-content: space-between;
-  border: 1px solid #070708;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-  color: #b29475;
-  padding: 15px 30px;
-  cursor: pointer;
-  background-color: #070708;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #070708;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    color: #b29475;
+    padding: 15px 30px;
+    cursor: pointer;
+    background-color: #070708;
 }
 .header-panel svg {
-	transition: all .25s linear;
+    transition: all 0.25s linear;
 }
 .content {
-  height: auto;
-  transition: all .25s linear;
-  overflow: hidden;
-  border-bottom: 1px solid #b29475;
-  border-left: 1px solid #b29475;
-  border-right: 1px solid #b29475;
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
-  opacity: 1;
+    height: auto;
+    transition: all 0.25s linear;
+    overflow: hidden;
+    border-bottom: 1px solid #b29475;
+    border-left: 1px solid #b29475;
+    border-right: 1px solid #b29475;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    opacity: 1;
 }
 .content-inner {
-  padding: 15px 30px;
+    padding: 15px 30px;
 }
 .title {
-  padding: 5px;
+    padding: 5px;
 }
 .hidden {
-  height: 0;
-  padding: 0;
-  opacity: 0;
-  border: none;
+    height: 0;
+    padding: 0;
+    opacity: 0;
+    border: none;
 }
 </style>

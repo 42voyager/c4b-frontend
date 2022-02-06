@@ -32,17 +32,23 @@
             <CheckboxInput
                 v-model="contractData.acceptTerms"
                 :nameID="'aceitaTermos'"
-                :labelMessage="'Li e acepto os Termos e Condições de Relacionamento com o Banco ABC. Declaro que tenho poderes de assinatura pela empresa e autorizo a assinatura eletrônica.'"
+                :labelMessage="'Li e acepto os Termos e Condições de ' +
+                'Relacionamento com o Banco ABC. Declaro que tenho poderes ' +
+                'de assinatura pela empresa e autorizo a ' + 
+                'assinatura eletrônica.'"
             />
             <CheckboxInput
                 v-model="contractData.authorizeSCR"
                 :nameID="'autorizaSCR'"
-                :labelMessage="'Autorizo a Consulta de SCR e da Agenda de Recebíveis e ac eito os Termos de Sigilo Bancário'"
+                :labelMessage="'Autorizo a Consulta de SCR e da Agenda de ' +
+                'Recebíveis e ac eito os Termos de Sigilo Bancário'"
             />
             <CheckboxInput
                 v-model="contractData.existsPEP"
                 :nameID="'temPEP'"
-                :labelMessage="'Na empresa, há alguma Pessoa Exposta Publicamente (PEP) em uma função de administração, controle direto ou indireto, direção, procuração ou representação?'"
+                :labelMessage="'Na empresa, há alguma Pessoa Exposta ' +
+                'Publicamente (PEP) em uma função de administração, controle ' +
+                'direto ou indireto, direção, procuração ou representação?'"
             />
             <ButtonDefault
                 id="btn-submit-request-credit"

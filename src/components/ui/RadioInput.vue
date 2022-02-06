@@ -1,58 +1,60 @@
 <template>
-	<div class="radio-input" v-on:click="clicked()">
-		<input 
-			class="checkbox-radio" 
-			type="radio" 
-			:id="id" 
-			:name="name" 
-			:value="id"
-			:checked="isChecked"
-			@change="$emit('change', $event.target.checked)"
-				>
-		<label class="label-radio" :for="id">{{ label }}</label>
-	</div>
+    <div class="radio-input" v-on:click="clicked()">
+        <input
+            class="checkbox-radio"
+            type="radio"
+            :id="id"
+            :name="name"
+            :value="id"
+            :checked="isChecked"
+            @change="$emit('change', $event.target.checked)"
+        />
+        <label class="label-radio" :for="id">{{ label }}</label>
+    </div>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
+import { defineComponent } from 'vue'
 
-@Options({
-	props: {
-		label: String,
-		id: String,
-		name: String,
-		value: [String, Number],
-		isChecked: Boolean
-	},
-	emit: ["radioClicked"]
+export default defineComponent({
+    props: {
+        label: String,
+        id: String,
+        name: String,
+        value: [String, Number],
+        isChecked: Boolean,
+    },
+    emits: ['radioClicked'],
+    setup(props, context) {
+        const clicked = (): void => {
+            context.emit('radioClicked')
+        }
+        return {
+            clicked,
+        }
+    },
 })
-export default class RadioInput extends Vue {
-	clicked(): void {
-		this.$emit("radioClicked")
-	}
-}
 </script>
 
 <style scoped>
 .label-radio {
-	background-color: #b29475;
-	color: white;
-	padding: 15px 0;
-	margin: 10px;
-	width: 100%;
-	text-align: center;
-	border-radius: 15px;
-	cursor: pointer;
+    background-color: #b29475;
+    color: white;
+    padding: 15px 0;
+    margin: 10px;
+    width: 100%;
+    text-align: center;
+    border-radius: 15px;
+    cursor: pointer;
 }
 .checkbox-radio {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
 }
 .radio-input input:checked + .label-radio {
-	background-color: #64380c;
+    background-color: #64380c;
 }
-
 </style>

@@ -13,15 +13,6 @@
                     :step="1000"
                 />
             </div>
-            <!-- <SliderInput
-                :min="minCredit"
-                :max="maxCredit"
-                :minLabel="'R$' + currencyFormatBR(minCredit)"
-                :maxLabel="'R$' + currencyFormatBR(maxCredit)"
-                step="1000"
-                v-model="credit"
-            /> -->
-            <!-- <b class="current-value"> R$ {{ creditFormatted }} </b> -->
             <FormTextInput
                 :isInvalid="invalidCredit"
                 :errors="errorsCredit"
@@ -43,15 +34,6 @@
                     v-model="installments"
                 />
             </div>
-            <!-- <SliderInput
-                :min="6"
-                :max="36"
-                :minLabel="'6 Meses'"
-                :maxLabel="'35 Meses'"
-                step="1"
-                v-model="installments"
-            /> -->
-            <!-- <b class="current-value"> {{ installments }} Meses </b> -->
             <InfoBox class="info-box">
                 <p>
                     Faturamento mensal recomendado seria:

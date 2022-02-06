@@ -166,7 +166,7 @@ export default defineComponent({
             }
         }
         /** Este evento é acionado sempre que o multiselect é clicado.*/
-        watch(reason, (reason) => handleReasonSelect())
+        watch(reason, () => handleReasonSelect())
         /** Espera que o slider do limite de crédito mude de valor */
         watch(credit, (currentCredit) =>
             calMinIncome(currentCredit, installments.value)
@@ -175,7 +175,8 @@ export default defineComponent({
         watch(installments, (currentInstallments) =>
             calMinIncome(credit.value, currentInstallments)
         )
-        /** Função asíncrona que espera que o backend faça o cálculo do faturamento recomendado */
+        /** Função asíncrona que espera que o backend faça o cálculo do 
+         * faturamento recomendado */
         const calMinIncome = async (credit: number, installments: number) => {
             const minIncome = await CalculateIncome(credit, installments)
             if (credit <= 0 || installments <= 0) return 0
