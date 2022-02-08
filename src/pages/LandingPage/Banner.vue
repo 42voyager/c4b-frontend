@@ -6,7 +6,7 @@
             <p>{{ textBanner }}</p>
             <ButtonDefault
                 msg="Solicite seu crédito"
-				id="btn-banner"
+                id="btn-banner"
                 @buttonClicked="goToElement('form-request')"
                 />
         </div>

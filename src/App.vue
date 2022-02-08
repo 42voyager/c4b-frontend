@@ -7,9 +7,7 @@ import { defineComponent } from 'vue'
 import '@/assets/style.css'
 
 export default defineComponent({
-  setup() {
-    return {} 
-  },
+
 })
 </script>
 

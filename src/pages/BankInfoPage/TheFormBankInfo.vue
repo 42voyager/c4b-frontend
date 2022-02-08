@@ -170,7 +170,7 @@ export default defineComponent({
         }
         onBeforeMount(async () => {
             getCustomerInfo()
-			getBankInfo()
+            getBankInfo()
         })
         return {
             formInfo,

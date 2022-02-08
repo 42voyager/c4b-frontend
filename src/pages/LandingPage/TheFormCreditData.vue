@@ -80,7 +80,8 @@ import { defineComponent, ref, watch } from 'vue-demi'
  * @props {String} limit - Limite de crédito
  * @props {String} installment - Parcelas para a solicitação
  * @emits nextStepClicked - utilizado para fazer a mudança de etapas do form
- * @emits valueChanged - utilizado para fazer a mudança dos valores do limits e installment
+ * @emits valueChanged - utilizado para fazer a mudança dos valores do 
+ * limits e installment
  */
 export default defineComponent({
     props: {
@@ -138,7 +139,7 @@ export default defineComponent({
         }
 
         /** Este evento é acionado sempre que o multiselect é clicado.*/
-        watch(reason, (reason) => handleReasonSelect())
+        watch(reason, () => handleReasonSelect())
         /** No momento que o radio input e clicado, handle input triggers */
         const handleInput = (
             limit: string | null,

@@ -7,7 +7,8 @@ import { defineComponent, PropType } from 'vue'
 
 /**
  * Component utilizado para mostrar os erros dos inputs
- * @prop {Array<String>} msg - Um array de strings contendo todas as mensagens de erro
+ * @prop {Array<String>} msg - Um array de strings contendo todas as 
+ * mensagens de erro
  */
 export default defineComponent({
     props: {
