@@ -66,7 +66,7 @@ import InfoBox from '@/components/ui/InfoBox.vue'
 import ButtonDefault from '@/components/ui/ButtonDefault.vue'
 import MultiSelect from '@/components/ui/MultiSelect.vue'
 import InputError from '@/components/ui/InputError.vue'
-import C4bApi from '@/api/C4bApi'
+import { c4bApi } from '@/api/C4bApi'
 
 export default defineComponent({
     props: {
@@ -156,10 +156,11 @@ export default defineComponent({
         }
         const CalculateIncome = async (limit: number, installment: number) => {
             try {
-                const recomendedIncome = await new C4bApi().getCreditInfo(
-                    limit,
-                    installment
-                )
+                const creditUser = {
+                    limit: limit,
+                    installment: installment
+                }
+                const recomendedIncome = await c4bApi.credit().post(creditUser)
                 return recomendedIncome.data
             } catch (error: any) {
                 console.log(error)

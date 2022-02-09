@@ -51,7 +51,7 @@
 import { defineComponent, ref } from 'vue'
 import { useReCaptcha } from 'vue-recaptcha-v3'
 import FormTextInput from '@/components/ui/FormTextInput.vue'
-import ApiController from '@/api/C4bApi'
+import { c4bApi } from '@/api/C4bApi'
 import ButtonDefault from '@/components/ui/ButtonDefault.vue'
 import InputError from '@/components/ui/InputError.vue'
 import TheSuccessForm from '@/components/common/TheSuccessForm.vue'
@@ -102,7 +102,7 @@ export default defineComponent({
                 const token = await executeRecaptcha('login')
                 userFeedBack.value.recaptchaToken = token
 
-                await new ApiController().postUserFeedback(userFeedBack.value)
+                await c4bApi.feedback().post(userFeedBack.value)
                 success.value = true
                 resetFeedBack()
                 inputValidationStatus.value =

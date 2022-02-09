@@ -57,7 +57,7 @@
 import { defineComponent, onMounted, ref } from 'vue'
 import { useReCaptcha } from 'vue-recaptcha-v3'
 import TheFormUserData from './TheFormUserData.vue'
-import C4bApi from '@/api/C4bApi'
+import { c4bApi } from '@/api/C4bApi'
 import IUserData from '@/types/user'
 import TheFormCreditData from './TheFormCreditData.vue'
 import TheFormCreditDataSlider from './TheFormCreditDataSlider.vue'
@@ -170,7 +170,7 @@ const TwoColumnSection = defineComponent({
             feedbackStar.email = userData.value.email
             try {
                 console.log(feedbackStar)
-                await new C4bApi().postRateStar(feedbackStar)
+                await c4bApi.feedbackStar().post(feedbackStar)
                 newRequestClicked()
             } catch (err: any) {
                 console.log(err)
@@ -203,7 +203,7 @@ const TwoColumnSection = defineComponent({
                 user.recaptchaToken = token
 
                 // Submit user handling
-                await new C4bApi().postUser(user)
+                await c4bApi.user().post(user)
                 requestSucceeded.value = true
                 enableMessage.value = true
                 messageResponse.value = {
