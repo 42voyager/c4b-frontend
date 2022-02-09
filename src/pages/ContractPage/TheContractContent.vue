@@ -67,7 +67,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onBeforeMount } from 'vue-demi'
-import C4bApi from '@/api/C4bApi'
+import { c4bApi } from '@/api/C4bApi'
 import { useRoute } from 'vue-router'
 import { currencyFormatBR } from '@/use/numberFormatBR'
 import CheckboxInput from '@/components/ui/CheckboxInput.vue'
@@ -100,7 +100,7 @@ export default defineComponent({
         const hash = route.params.id as string
         const generateContract = async () => {
             try {
-                const contractInfo = await new C4bApi().getContract(hash)
+                const contractInfo = await c4bApi.contract().get(hash)
                 if (
                     contractInfo.data.acceptTerms == true ||
                     contractInfo.data.authorizeSCR == true ||
@@ -114,7 +114,7 @@ export default defineComponent({
         }
         const getCustomerInfo = async () => {
             try {
-                const customerInfo = await new C4bApi().getCustomerInfo(hash)
+                const customerInfo = await c4bApi.user().get(hash)
                 credit.value = Number(customerInfo.data.limit)
                 installments.value = customerInfo.data.installment
             } catch (err: any) {
@@ -123,7 +123,7 @@ export default defineComponent({
         }
         const getBankInfo = async () => {
             try {
-                const bankInfo = await new C4bApi().getBankInfo(hash)
+                const bankInfo = await c4bApi.bankInfo().get(hash)
                 bank.value = bankInfo.data.bankName
                 branch.value = bankInfo.data.branch
                 account.value = bankInfo.data.checkingAccount
@@ -134,7 +134,7 @@ export default defineComponent({
         }
         const signContract = async () => {
             try {
-                await new C4bApi().postContract(contractData.value)
+                await c4bApi.contract().put(contractData.value)
                 wasContractSigned.value = true
             } catch (err: any) {
                 wasContractSigned.value = false

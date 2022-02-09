@@ -67,7 +67,7 @@ export const Infos = {
             'no seu computador',
             img: 'info-img4.jpg'
         }
-]}
+    ]}
 
 // Array of questions and answer
 export const FaqsInfo = {
@@ -148,7 +148,7 @@ export const CreditData = {
             'Compra de equipamentos',
             'Investimento em infraestrutura',
             'Compra de insumos e produtos',
-            'outros'
+            'Outros'
         ],
         errors: ['Você precisa escolher um motivo válido!']
     }

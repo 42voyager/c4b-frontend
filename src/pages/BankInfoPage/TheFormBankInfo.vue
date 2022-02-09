@@ -58,7 +58,7 @@ import MultiSelect from '@/components/ui/MultiSelect.vue'
 import SuccessForm from '@/components/common/TheSuccessForm.vue'
 import { BankInfoFormConfiguration } from '@/config/variables'
 import { EValidity, checkErrorsReturn } from '@/use/validInput'
-import C4bApi from '@/api/C4bApi'
+import { c4bApi } from '@/api/C4bApi'
 import banksList from '@/config/banksList.json'
 
 interface BankInfo {
@@ -91,25 +91,26 @@ export default defineComponent({
     },
     setup() {
         const route = useRoute()
+        const hash = route.params.id as string
         const formInfo = ref({
             bankName: '',
             branch: '',
             checkingAccount: '',
+            hash: hash
         })
-        const hash = route.params.id as string
         const inputsErrors = ref(initialInputErrors)
         const inputValidationStatus = ref(initialInputValidationStatus)
         const wasFormSubmitted = ref(false)
         const getCustomerInfo = async () => {
             try {
-                await new C4bApi().getCustomerInfo(hash)
+                await c4bApi.user().get(hash)
             } catch (err: any) {
                 window.location.href = '/Error'
             }
         }
         const getBankInfo = async () => {
             try {
-                await new C4bApi().getBankInfo(hash)
+                await c4bApi.bankInfo().get(hash)
                 window.location.href = '/contractSign/' + hash
             } catch (err: any) {
                 console.log()
@@ -138,10 +139,7 @@ export default defineComponent({
         /** Funcao que faz o request dos dados bancarios para o servidor */
         const handleSubmit = async () => {
             try {
-                await new C4bApi().postBankInfo({
-                    ...formInfo.value,
-                    hash: hash,
-                })
+                await c4bApi.bankInfo().post(formInfo.value)
                 wasFormSubmitted.value = true
             } catch (error: any) {
                 const newStatus = { ...initialInputValidationStatus }
