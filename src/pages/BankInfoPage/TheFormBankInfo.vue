@@ -33,12 +33,6 @@
                     :errors="inputsErrors[item.name]"
                     v-model="formInfo[item.name]"
                 />
-                <SuccessForm
-                    v-if="wasFormSubmitted"
-                    buttonLabel="Finalizar"
-                    :messages="['Recebemos seus dados']"
-                    @newRequestClicked="handleSuccessModalClose"
-                />
             </div>
             <ButtonDefault
                 id="btn-bank-info-submit"
@@ -142,7 +136,7 @@ export default defineComponent({
                     ...formInfo.value,
                     hash: hash,
                 })
-                wasFormSubmitted.value = true
+                window.location.href = '/contractSign/' + hash
             } catch (error: any) {
                 const newStatus = { ...initialInputValidationStatus }
                 const newErrors = { ...initialInputErrors }
