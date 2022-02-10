@@ -70,6 +70,13 @@ export default defineComponent({
     border-radius: 5px;
     border: solid 1px #b29475;
 }
+.input-base:hover {
+    background-color:rgb(255 255 255 / 80%);
+    /* box-shadow: 5px 5px 5px rgb(187 187 187 / 50%); */
+}
+.input-base:hover::placeholder {
+    font-size: 19px;
+}
 .btn-next {
     margin: 40px 20px;
     text-align: right;

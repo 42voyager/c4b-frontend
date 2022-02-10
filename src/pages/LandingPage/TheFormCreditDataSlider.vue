@@ -10,19 +10,21 @@
                     :min="Number(minCredit)"
                     :max="Number(maxCredit)"
                     v-model="creditUser.limit"
-                    :step="1000"
                 />
             </div>
-            <FormTextInput
-                :isInvalid="invalidCredit"
-                :errors="errorsCredit"
-                id="input-credit-slider"
-                class="current-value"
-                v-model="creditUser.limit"
-                v-maska="{ 
-                    mask: ['######','Y######'], 
-                    tokens: {'Y': {pattern: /[0-5]/}}}"
-            />
+            <div class="input-credit">
+                <FormTextInput
+                    :isInvalid="invalidCredit"
+                    :errors="errorsCredit"
+                    id="input-credit-slider"
+                    class="current-value"
+                    v-model="creditFormatted"
+                    v-maska="['R$##.###,##', 'R$###.###,##', 'R$#.###.###,##']"
+                />
+            </div>
+                <!-- v-maska="{ 
+                    mask: ['R$##.###,##','Y######'], 
+                    tokens: {'Y': {pattern: /[0-5]/}}}" -->
             <p class="creditLabel">Em quantas vezes você quer pagar?</p>
             <div class="wrapper-slider">
                 <Slider
@@ -66,12 +68,14 @@
                     v-model="reason"
                     placeholder="Selecione uma opção"
                 />
-                <FormTextInput
-                    v-if="reason === others"
-                    v-model="reasonOthers"
-                    placeholder="Motivo"
-                    name="Motivo"
-                />
+                <div class="reason-input">
+                    <FormTextInput
+                        v-if="reason === others"
+                        v-model="reasonOthers"
+                        placeholder="Escreva seu motivo"
+                        name="Motivo"
+                    />
+                </div>
                 <div v-show="isInvalid">
                     <InputError :msg="creditData.text.errors" />
                 </div>
@@ -192,14 +196,36 @@ export default defineComponent({
                     isInvalid.value = true
                 else isInvalid.value = false
         }
-        const convertToNumber = (value: string): string => {
+        /**
+         * Função utilizada para converter um numero em formato real
+         * para sem formato.
+         * @param {string} value - String do valor formatado
+         * @return {number} - retorna o valor formatado sem formato.
+         */
+        const convertToNumber = (value: string): number => {
             const newValue = value.replace(/,/g, '').replace(/\./g, '')
-            return newValue
+                .replace(/R/g, '').replace(/\$/g, '')
+            return Number(newValue.substr(0, newValue.length - 2))
         }
+        /**
+         * Função utilizada para pegar o valor do input e colocar no slider
+         * com um debounce de 500ms
+         * @param {string} inputSlide - O input do slider.
+         */
+        const changeSlide = debounce((inputSlide: string) => {
+            const newvalue = convertToNumber(inputSlide)
+            creditUser.value.limit = newvalue
+        }, 500)
+
+        /**
+         * variavel computed com posibilidade de pegar o valor atual 
+         * e setar um novo com debounce.
+         */
         const creditFormatted = computed({
-            get: () =>  currencyFormatBR(creditUser.value.limit),
-            set: value =>  {creditUser.value.limit =
-                Number(convertToNumber(value))}
+            get: () => 'R$' + currencyFormatBR(creditUser.value.limit),
+            set: value => {
+                changeSlide(value)
+            }
         })
         const minIncome = computed(() => {
             return currencyFormatBR(income.value)
@@ -302,6 +328,10 @@ export default defineComponent({
     --slider-handle-ring-color: #00000030;
     --slider-tooltip-bg: #64380c;
 }
+.reason-input :deep .input-base{
+    width: 400px;
+    text-align: left;
+}
 :deep .input-base {
     border: none;
 }
@@ -327,6 +357,11 @@ export default defineComponent({
 .current-value {
     margin-bottom: 10px;
 }
+
+.input-credit :deep .input-base {
+    width: 130px;
+}
+
 :deep .info-box {
     margin-top: 20px;
 }

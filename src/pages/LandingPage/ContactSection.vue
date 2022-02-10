@@ -275,7 +275,15 @@ function  createList(): Array<IInputsInfo> {
 .textarea-input::placeholder {
     font-size: 16px;
 }
-
+:deep .input-base:hover {
+    background-color:rgb(245 245 245 / 80%);
+}
+.textarea-input:hover {
+    background-color:rgb(245 245 245 / 80%);
+}
+.textarea-input:hover::placeholder {
+    font-size: 19px;
+}
 .form-Feedback button {
     margin-bottom: 50px;
 }

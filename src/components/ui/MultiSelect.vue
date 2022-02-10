@@ -62,7 +62,7 @@ export default defineComponent({
 }
 :deep .multiselect__content-wrapper::-webkit-scrollbar-thumb {
     background: #ddb893;
-    border-radius: 10px;
+    /* border-radius: 10px; */
     height: 30px;
 }
 :deep .multiselect__content-wrapper::-webkit-scrollbar-thumb:hover {
@@ -89,10 +89,18 @@ export default defineComponent({
 }
 :deep .multiselect__tags {
     padding: 14px !important;
-    border-radius: 5px;
-    border: solid 1px #b29475;
+    border-radius: 2px;
+    border: solid 1px #8d6236;
+
 }
+
+:deep .multiselect__tags:hover {
+    border: solid 1px #b29475;
+    box-shadow: 5px 5px 5px rgb(187 187 187 / 50%);
+}
+
 :deep .multiselect__select {
     top: 10px;
+    Z-index: 1;
 }
 </style>
