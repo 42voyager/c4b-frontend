@@ -33,12 +33,6 @@
                     :errors="inputsErrors[item.name]"
                     v-model="formInfo[item.name]"
                 />
-                <SuccessForm
-                    v-if="wasFormSubmitted"
-                    buttonLabel="Finalizar"
-                    :messages="['Recebemos seus dados']"
-                    @newRequestClicked="handleSuccessModalClose"
-                />
             </div>
             <ButtonDefault
                 id="btn-bank-info-submit"
@@ -131,16 +125,11 @@ export default defineComponent({
             }
         })
 
-        /** Função que vai redirecionar o usuário para a landing page */
-        const handleSuccessModalClose = () => {
-            window.location.href = '/contractSign/' + hash
-        }
-
         /** Funcao que faz o request dos dados bancarios para o servidor */
         const handleSubmit = async () => {
             try {
                 await c4bApi.bankInfo().post(formInfo.value)
-                wasFormSubmitted.value = true
+                window.location.href = '/contractSign/' + hash
             } catch (error: any) {
                 const newStatus = { ...initialInputValidationStatus }
                 const newErrors = { ...initialInputErrors }
@@ -178,8 +167,7 @@ export default defineComponent({
             banksListSum,
             wasFormSubmitted,
             BankInfoFormConfiguration,
-            handleSuccessModalClose,
-            handleSubmit,
+            handleSubmit
         }
     },
 })
