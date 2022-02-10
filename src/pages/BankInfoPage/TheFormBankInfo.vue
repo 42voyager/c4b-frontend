@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, onBeforeMount } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import FormTextInput from '@/components/ui/FormTextInput.vue'
 import ButtonDefault from '@/components/ui/ButtonDefault.vue'
@@ -95,21 +95,6 @@ export default defineComponent({
         const inputsErrors = ref(initialInputErrors)
         const inputValidationStatus = ref(initialInputValidationStatus)
         const wasFormSubmitted = ref(false)
-        const getCustomerInfo = async () => {
-            try {
-                await c4bApi.user().get(hash)
-            } catch (err: any) {
-                window.location.href = '/Error'
-            }
-        }
-        const getBankInfo = async () => {
-            try {
-                await c4bApi.bankInfo().get(hash)
-                window.location.href = '/contractSign/' + hash
-            } catch (err: any) {
-                console.log()
-            }
-        }
         const banksListSum = banksList.map((bank: BankInfo) => {
             return `${bank.COMPE} - ${bank.ShortName}`
         })
@@ -155,10 +140,6 @@ export default defineComponent({
                 inputsErrors.value = newErrors
             }
         }
-        onBeforeMount(async () => {
-            getCustomerInfo()
-            getBankInfo()
-        })
         return {
             formInfo,
             inputValidationStatus,
