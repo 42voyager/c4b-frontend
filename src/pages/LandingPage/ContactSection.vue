@@ -261,13 +261,21 @@ function  createList(): Array<IInputsInfo> {
 }
 
 .textarea-input {
-    border: solid 1px #b29475;
     margin: 10px 0;
     max-width: 100%;
     width: calc(100% - 30px);
-    border-radius: 5px;
     padding: 15px;
     font-family: inherit;
+    border: none;
+    border-radius: 5px;
+    border-bottom: inset 2px #b29475;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    background-color: rgb(245 245 245 / 80%);
+    resize: none;
+}
+:deep .input-base {
+    background-color: rgb(245 245 245 / 80%);
 }
 .wrapper-input {
     text-align: left;
@@ -275,7 +283,16 @@ function  createList(): Array<IInputsInfo> {
 .textarea-input::placeholder {
     font-size: 16px;
 }
-
+:deep .input-base:hover {
+    background-color:rgb(228 228 228 / 80%);
+}
+.textarea-input:hover {
+    border-bottom: inset 2px #937454;
+    background-color:rgb(228 228 228 / 80%);
+}
+/* .textarea-input:hover::placeholder {
+    font-size: 19px;
+} */
 .form-Feedback button {
     margin-bottom: 50px;
 }
