@@ -19,7 +19,7 @@
                     id="input-credit-slider"
                     class="current-value"
                     v-model="creditFormatted"
-                    v-maska="['R$##.###,##', 'R$###.###,##', 'R$#.###.###,##']"
+                    v-maska="['R$ ##.###,##', 'R$ ###.###,##', 'R$ #.###.###,##']"
                 />
             </div>
                 <!-- v-maska="{ 
@@ -172,7 +172,7 @@ export default defineComponent({
          * @param {number} value - Numbero recebido do slider
          */
         const format = (value: number): string => {
-            return `R$${currencyFormatBR(value)}`
+            return `R$ ${currencyFormatBR(value)}`
         }
         /**
          * Função utilizada para limpar o campo do motivo no form
@@ -222,7 +222,7 @@ export default defineComponent({
          * e setar um novo com debounce.
          */
         const creditFormatted = computed({
-            get: () => 'R$' + currencyFormatBR(creditUser.value.limit),
+            get: () => 'R$ ' + currencyFormatBR(creditUser.value.limit),
             set: value => {
                 changeSlide(value)
             }
@@ -332,9 +332,6 @@ export default defineComponent({
     width: 400px;
     text-align: left;
 }
-:deep .input-base {
-    border: none;
-}
 .input-wrapper {
     text-align: center;
 }
@@ -359,7 +356,7 @@ export default defineComponent({
 }
 
 .input-credit :deep .input-base {
-    width: 130px;
+    width: 132px;
 }
 
 :deep .info-box {
