@@ -247,6 +247,48 @@ export const FeedbackConfiguration = {
     }
 }
 
+export const UserConfiguration = {
+    text: {
+        formInputsInfo: [
+            {
+                type: 'text',
+                name: 'name',
+                placeholder: 'Nome Completo',
+                mask: '',
+                error: ['O nome é obrigatório.'],
+            },
+            {
+                type: 'email',
+                name: 'email',
+                mask: '',
+                placeholder: 'E-mail',
+                error: ['O email é obrigatório e deve ser válido!']
+            },
+            {
+                type: 'text',
+                name: 'cellphone',
+                mask: '(##) #####-####',
+                placeholder: 'Celular',
+                error: ['O número é obrigatório e deve ser válido!']
+            },
+            {
+                type: 'text',
+                name: 'cnpj',
+                mask: '##.###.###/####-##',
+                placeholder: 'CNPJ',
+                error: ['O CNPJ é obrigatório e deve ser válido!']
+            },
+            {
+                type: 'text',
+                name: 'company',
+                mask: '',
+                placeholder: 'Nome da Empresa',
+                error: ['O nome da empresa é obrigatório!']
+            }
+        ]
+    }
+}
+
 export const BankInfoFormConfiguration = {
     title: 'Insira seus dados bancários',
     formInputsInfo: [

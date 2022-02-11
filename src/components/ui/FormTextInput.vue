@@ -1,12 +1,12 @@
 <template>
-    <div class="div-error">
+    <div class="wrapper-input">
         <input
         v-bind="$attrs"
         class="input-base"
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
         />
-        <div v-show="isInvalid">
+        <div class="div-error" v-show="isInvalid">
             <InputError :msg="errors"/>
         </div>
     </div>

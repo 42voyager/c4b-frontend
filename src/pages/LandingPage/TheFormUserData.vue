@@ -1,17 +1,36 @@
 <template>
     <transition name="show-user-data">
         <div id="div-form-request" class="wrapper-form">
-            <div class="wrapper-input">
+            <FormTextInput
+                v-for="(item, index) of UserConfiguration.text.formInputsInfo"
+                :key="index"
+                :type="item.type"
+                :name="item.name"
+                :placeholder="item.placeholder"
+                :errors="
+                    !checkErrorsReturn(messageResponse[capitalize(item.name)])
+                        ? messageResponse[capitalize(item.name)]
+                        : item.error
+                "
+                :isInvalid="
+                    !checkErrorsReturn(messageResponse[capitalize(item.name)])
+                        ? true
+                        : inputValidationStatus[item.name] == EValidity.Invalid
+                "
+                v-model="user[item.name]"
+                v-maska="item.mask"
+            />
+            <!-- <div class="wrapper-input">
                 <input
                     type="text"
                     class="input-control"
                     placeholder="Nome Completo"
                     v-model="user.name"
                     v-bind:class="{
-                        invalid: !validInput(messageResponse.Name),
+                        invalid: !checkErrorsReturn(messageResponse.Name),
                     }"
                 />
-                <div v-if="!validInput(messageResponse.Name)">
+                <div v-if="!checkErrorsReturn(messageResponse.Name)">
                     <InputError :msg="messageResponse.Name" />
                 </div>
             </div>
@@ -22,10 +41,10 @@
                     placeholder="E-mail"
                     v-model="user.email"
                     v-bind:class="{
-                        invalid: !validInput(messageResponse.Email),
+                        invalid: !checkErrorsReturn(messageResponse.Email),
                     }"
                 />
-                <div v-if="!validInput(messageResponse.Email)">
+                <div v-if="!checkErrorsReturn(messageResponse.Email)">
                     <InputError :msg="messageResponse.Email" />
                 </div>
             </div>
@@ -37,10 +56,10 @@
                     v-maska="'(##) #####-####'"
                     v-model="user.cellphone"
                     v-bind:class="{
-                        invalid: !validInput(messageResponse.Cellphone),
+                        invalid: !checkErrorsReturn(messageResponse.Cellphone),
                     }"
                 />
-                <div v-if="!validInput(messageResponse.Cellphone)">
+                <div v-if="!checkErrorsReturn(messageResponse.Cellphone)">
                     <InputError :msg="messageResponse.Cellphone" />
                 </div>
             </div>
@@ -52,10 +71,10 @@
                     v-maska="'##.###.###/####-##'"
                     v-model="user.cnpj"
                     v-bind:class="{
-                        invalid: !validInput(messageResponse.Cnpj),
+                        invalid: !checkErrorsReturn(messageResponse.Cnpj),
                     }"
                 />
-                <div v-if="!validInput(messageResponse.Cnpj)">
+                <div v-if="!checkErrorsReturn(messageResponse.Cnpj)">
                     <InputError :msg="messageResponse.Cnpj" />
                 </div>
             </div>
@@ -66,13 +85,13 @@
                     placeholder="Nome da Empresa"
                     v-model="user.company"
                     v-bind:class="{
-                        invalid: !validInput(messageResponse.Company),
+                        invalid: !checkErrorsReturn(messageResponse.Company),
                     }"
                 />
-                <div v-if="!validInput(messageResponse.Company)">
+                <div v-if="!checkErrorsReturn(messageResponse.Company)">
                     <InputError :msg="messageResponse.Company" />
                 </div>
-            </div>
+            </div> -->
             <div class="wrapper-optin">
                 <label for="optin" class="label-optin">
                     Li e aceito os
@@ -87,13 +106,13 @@
                         class="checkbox-optin"
                         v-model="user.optin"
                         v-bind:class="{
-                            invalid: !validInput(messageResponse.Optin),
+                            invalid: !checkErrorsReturn(messageResponse.Optin),
                         }"
                         @change="$emit('change', $event.target.checked)"
                     />
                     <span class="checkmark"></span>
                 </label>
-                <div v-if="!validInput(messageResponse.Optin)">
+                <div v-if="!checkErrorsReturn(messageResponse.Optin)">
                     <InputError :msg="messageResponse.Optin" />
                 </div>
             </div>
@@ -109,7 +128,10 @@
                     @buttonClicked="submitForm()"
                 />
             </div>
-            <div id="message-panel" v-if="!validInput(messageResponse.title)">
+            <div
+                id="message-panel"
+                v-if="!checkErrorsReturn(messageResponse.title)"
+            >
                 <p>
                     {{ messageResponse.title }}
                 </p>
@@ -124,7 +146,7 @@
                         <h1>Autorização</h1>
                     </div>
                     <div class="content">
-                        <p v-for="(term, index) of terms" :key="index">
+                        <p v-for="(term, index) of Terms" :key="index">
                             {{ term.text }}
                         </p>
                     </div>
@@ -135,48 +157,45 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component'
 import ButtonDefault from '@/components/ui/ButtonDefault.vue'
 import InputError from '@/components/ui/InputError.vue'
 import Modal from '@/components/ui/Modal.vue'
-import { Terms } from '@/config/variables'
+import { Terms, UserConfiguration } from '@/config/variables'
+import FormTextInput from '@/components/ui/FormTextInput.vue'
+import { defineComponent, ref } from 'vue'
+import { checkErrorsReturn, EValidity } from '@/use/validInput'
 
-@Options({
+interface IUserBasicData {
+    name: string
+    email: string
+    cellphone: string
+    cnpj: string
+    company: string
+    optin: boolean
+    limit: string
+    installment: string
+}
+
+export default defineComponent({
     props: {
         enableMessage: Boolean,
         messageResponse: {
             type: Object,
-            default: {},
+            default: () => {
+                return {}
+            },
         },
     },
-    emit: ['submitForm', 'backStep'],
     components: {
         ButtonDefault,
         InputError,
         Modal,
+        FormTextInput,
     },
-})
-export default class TheFormUserData extends Vue {
-    openedModal = true
-    terms = Terms
-    user = {
-        name: '',
-        email: '',
-        cellphone: '',
-        cnpj: '',
-        company: '',
-        optin: false,
-        limit: '10k',
-        installment: '6x',
-    }
-    submitForm(): void {
-        this.$emit('submitForm', this.user, this.resetForm)
-    }
-    backStep(): void {
-        this.$emit('backStep')
-    }
-    resetForm(): void {
-        const emptyUser = {
+    emits: ['submitForm', 'backStep'],
+    setup(props, context) {
+        const openedModal = ref(true)
+        const user = ref({
             name: '',
             email: '',
             cellphone: '',
@@ -185,17 +204,81 @@ export default class TheFormUserData extends Vue {
             optin: false,
             limit: '10k',
             installment: '6x',
+        })
+        const inputValidationStatus = ref({
+            name: EValidity.Undefined,
+            email: EValidity.Undefined,
+            cellphone: EValidity.Undefined,
+            cnpj: EValidity.Undefined,
+            company: EValidity.Undefined,
+            optin: EValidity.Undefined,
+        })
+
+        const resetForm = (): void => {
+            const emptyUser = {
+                name: '',
+                email: '',
+                cellphone: '',
+                cnpj: '',
+                company: '',
+                optin: false,
+                limit: '10k',
+                installment: '6x',
+            }
+            user.value = emptyUser
         }
-        this.user = emptyUser
-    }
-    validInput(data: Array<string>): boolean {
-        if (data != undefined && data.length != 0) return false
-        else return true
-    }
-    openModal(): void {
-        this.openedModal = !this.openedModal
-    }
-}
+        const validFrontForm = (user: IUserBasicData): boolean => {
+            const newStatus = { ...inputValidationStatus.value }
+            if (user.name.length < 2) newStatus.name = EValidity.Invalid
+            else newStatus.name = EValidity.Valid
+            if (user.email.length < 11) newStatus.email = EValidity.Invalid
+            else newStatus.email = EValidity.Valid
+            if (user.cellphone.length < 15)
+                newStatus.cellphone = EValidity.Invalid
+            else newStatus.cellphone = EValidity.Valid
+            if (user.cnpj.length < 18) newStatus.cnpj = EValidity.Invalid
+            else newStatus.cnpj = EValidity.Valid
+            if (user.company.length < 2) newStatus.company = EValidity.Invalid
+            else newStatus.company = EValidity.Valid
+            inputValidationStatus.value = newStatus
+            if (
+                inputValidationStatus.value.name == EValidity.Valid &&
+                inputValidationStatus.value.email == EValidity.Valid &&
+                inputValidationStatus.value.cellphone == EValidity.Valid &&
+                inputValidationStatus.value.cnpj == EValidity.Valid &&
+                inputValidationStatus.value.company == EValidity.Valid
+            )
+                return true
+            else return false
+        }
+        const submitForm = (): void => {
+            if (!validFrontForm(user.value)) return
+            context.emit('submitForm', user.value, resetForm)
+        }
+        const backStep = (): void => {
+            context.emit('backStep')
+        }
+        const openModal = (): void => {
+            openedModal.value = !openedModal.value
+        }
+        const capitalize = (name: string): string => {
+            return name[0].toUpperCase() + name.substr(1).toLowerCase()
+        }
+        return {
+            Terms,
+            UserConfiguration,
+            openedModal,
+            user,
+            submitForm,
+            backStep,
+            checkErrorsReturn,
+            openModal,
+            inputValidationStatus,
+            EValidity,
+            capitalize,
+        }
+    },
+})
 </script>
 
 <style scoped>

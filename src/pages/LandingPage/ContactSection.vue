@@ -274,14 +274,14 @@ function  createList(): Array<IInputsInfo> {
     background-color: rgb(245 245 245 / 80%);
     resize: none;
 }
-:deep .input-base {
-    background-color: rgb(245 245 245 / 80%);
-}
 .wrapper-input {
     text-align: left;
 }
 .textarea-input::placeholder {
     font-size: 16px;
+}
+:deep .input-base {
+    background-color: rgb(245 245 245 / 80%);
 }
 :deep .input-base:hover {
     background-color:rgb(228 228 228 / 80%);
