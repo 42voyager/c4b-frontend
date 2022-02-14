@@ -101,12 +101,6 @@ export default defineComponent({
         const generateContract = async () => {
             try {
                 const contractInfo = await c4bApi.contract().get(hash)
-                if (
-                    contractInfo.data.acceptTerms == true ||
-                    contractInfo.data.authorizeSCR == true ||
-                    contractInfo.data.existsPEP == true
-                )
-                    window.location.href = '/Error'
                 pdfString.value = contractInfo.data.contractPdf
             } catch (err: any) {
                 window.location.href = '/Error'

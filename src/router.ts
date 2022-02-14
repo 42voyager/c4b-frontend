@@ -5,14 +5,14 @@ import ContractPage from '@/pages/ContractPage/ContractPage.vue'
 import ErrorPage from '@/pages/ErrorPage/ErrorPage.vue'
 import { c4bApi } from './api/C4bApi'
 
-enum UserProgressState {
-    CreditRequested,
-    BankInfoSent,
-    ContractSigned,
+enum UserProgressStatus {
+    Credit,
+    BankInfo,
+    Contract,
 }
 
 /**
- * A function to find the state of the business process in which the user is
+ * A function to get the user status in the business process
  * @param hash hash value to identify a user in the system
  * @returns UserProgressState, in which step of the business process the user is
  */
@@ -20,19 +20,19 @@ const getUserProgressState = async (hash: string) => {
     try {
         // Check if the user already have Bank information
         await c4bApi.bankInfo().get(hash)
-        // Check if the user already have contract signed
+        // Check if the user already have the contract signed
         const contractInfo = await c4bApi.contract().get(hash)
         if (
             contractInfo.data.acceptTerms == true ||
             contractInfo.data.authorizeSCR == true ||
             contractInfo.data.existsPEP == true
         )
-            return UserProgressState.ContractSigned
+            return UserProgressStatus.Contract
         else {
-            return UserProgressState.BankInfoSent
+            return UserProgressStatus.BankInfo
         }
     } catch (err: any) {
-        return UserProgressState.CreditRequested
+        return UserProgressStatus.Credit
     }
 }
 
@@ -60,13 +60,26 @@ const routes: RouteRecordRaw[] = [
             if (!isValid) return '/Error'
 
             const userState = await getUserProgressState(to.params.id as string)
-            if (userState == UserProgressState.BankInfoSent)
+            if (userState == UserProgressStatus.BankInfo)
                 return '/contractSign/' + to.params.id
-            if (userState == UserProgressState.ContractSigned) return '/Error'
-            if (userState == UserProgressState.CreditRequested) return
+            if (userState == UserProgressStatus.Contract) return '/Error'
+            if (userState == UserProgressStatus.Credit) return
         },
     },
-    { path: '/contractSign/:id', component: ContractPage },
+    { 
+        path: '/contractSign/:id', 
+        component: ContractPage,
+        beforeEnter: async (to) => {
+            const isValid = await isValidUser(to.params.id as string)
+            if (!isValid) return '/Error'
+
+            const userState = await getUserProgressState(to.params.id as string)
+            if (userState == UserProgressStatus.Credit || 
+                    userState == UserProgressStatus.Contract)
+                return '/Error'
+            if (userState == UserProgressStatus.BankInfo) return
+        },
+    },
     { path: '/Error', component: ErrorPage },
 ]
 
