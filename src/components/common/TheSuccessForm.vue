@@ -7,7 +7,10 @@
                     {{ message }}
                 </p>
             </div>
-            <div id="message-panel" v-if="useRateStar">
+            <div
+                id="message-panel"
+                v-if="useRateStar && userData !== undefined"
+            >
                 <Sucess height="60" width="60" color="#b29475" />
                 <p>
                     <b>{{ userData.name }}</b> recebemos sua solicitação de
@@ -78,6 +81,7 @@ export default defineComponent({
         },
         userData: {
             type: Object as PropType<IUserData>,
+            required: false,
         },
     },
     emits: ['newRequestClicked', 'rateClicked'],

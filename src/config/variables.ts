@@ -266,7 +266,7 @@ export const BankInfoFormConfiguration = {
                 '#########-#', '###########-#']
         },
     ],
-    submittLabel: 'Enviar'
+    submittLabel: 'Próximo'
 }
 
 export const ListItemsNavBar = [

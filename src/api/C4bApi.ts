@@ -44,7 +44,7 @@ class C4bApiBase<T> {
         return await axios.get(this.endpoint + hash)
     }
     async put(entity: T): Promise<AxiosResponse> {
-        return await axios.get(this.endpoint, entity)
+        return await axios.put(this.endpoint, entity)
     }
 
 }

@@ -33,12 +33,6 @@
                     :errors="inputsErrors[item.name]"
                     v-model="formInfo[item.name]"
                 />
-                <SuccessForm
-                    v-if="wasFormSubmitted"
-                    buttonLabel="Finalizar"
-                    :messages="['Recebemos seus dados']"
-                    @newRequestClicked="handleSuccessModalClose"
-                />
             </div>
             <ButtonDefault
                 id="btn-bank-info-submit"
@@ -50,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, onBeforeMount } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import FormTextInput from '@/components/ui/FormTextInput.vue'
 import ButtonDefault from '@/components/ui/ButtonDefault.vue'
@@ -101,21 +95,6 @@ export default defineComponent({
         const inputsErrors = ref(initialInputErrors)
         const inputValidationStatus = ref(initialInputValidationStatus)
         const wasFormSubmitted = ref(false)
-        const getCustomerInfo = async () => {
-            try {
-                await c4bApi.user().get(hash)
-            } catch (err: any) {
-                window.location.href = '/Error'
-            }
-        }
-        const getBankInfo = async () => {
-            try {
-                await c4bApi.bankInfo().get(hash)
-                window.location.href = '/contractSign/' + hash
-            } catch (err: any) {
-                console.log()
-            }
-        }
         const banksListSum = banksList.map((bank: BankInfo) => {
             return `${bank.COMPE} - ${bank.ShortName}`
         })
@@ -131,16 +110,11 @@ export default defineComponent({
             }
         })
 
-        /** Função que vai redirecionar o usuário para a landing page */
-        const handleSuccessModalClose = () => {
-            window.location.href = '/contractSign/' + hash
-        }
-
         /** Funcao que faz o request dos dados bancarios para o servidor */
         const handleSubmit = async () => {
             try {
                 await c4bApi.bankInfo().post(formInfo.value)
-                wasFormSubmitted.value = true
+                window.location.href = '/contractSign/' + hash
             } catch (error: any) {
                 const newStatus = { ...initialInputValidationStatus }
                 const newErrors = { ...initialInputErrors }
@@ -166,10 +140,6 @@ export default defineComponent({
                 inputsErrors.value = newErrors
             }
         }
-        onBeforeMount(async () => {
-            getCustomerInfo()
-            getBankInfo()
-        })
         return {
             formInfo,
             inputValidationStatus,
@@ -178,8 +148,7 @@ export default defineComponent({
             banksListSum,
             wasFormSubmitted,
             BankInfoFormConfiguration,
-            handleSuccessModalClose,
-            handleSubmit,
+            handleSubmit
         }
     },
 })
