@@ -249,6 +249,9 @@ export const FeedbackConfiguration = {
 
 export const UserConfiguration = {
     text: {
+        optin: {
+            error: ['Precisa aceitar os termos e condições!']
+        },
         formInputsInfo: [
             {
                 type: 'text',
@@ -286,6 +289,20 @@ export const UserConfiguration = {
                 error: ['O nome da empresa é obrigatório!']
             }
         ]
+    }
+}
+
+export const ContractConfiguration = {
+    text: {
+        acceptTerms: {
+            errors: ['Precisa aceitar os termos e condições!']
+        },
+        authorizeSCR: {
+            errors: ['Precisa autorizar a consulta de SCR!']
+        },
+        existsPEP: {
+            errors: ['Precisa responder a pergunta sobre a PEP!']
+        },
     }
 }
 
