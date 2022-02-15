@@ -124,6 +124,12 @@ export default defineComponent({
 </script>
 
 <style scoped>
+:deep .input-base {
+    background-color: rgb(245 245 245 / 80%);
+}
+:deep .input-base:hover {
+    background-color:rgb(228 228 228 / 80%);
+}
 :deep .modal-wrapper {
     height: auto;
     width: 280px;

@@ -113,6 +113,7 @@ export default defineComponent({
         /** Funcao que faz o request dos dados bancarios para o servidor */
         const handleSubmit = async () => {
             try {
+                
                 await c4bApi.bankInfo().post(formInfo.value)
                 window.location.href = '/contractSign/' + hash
             } catch (error: any) {

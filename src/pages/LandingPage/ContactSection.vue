@@ -11,30 +11,53 @@
                     :type="item.type"
                     :name="item.name"
                     :placeholder="item.placeholder"
-                    :isInvalid="item.isInvalid()"
-                    :errors="item.error"
                     v-model="userFeedBack[item.name]"
+                    :errors="
+                        !checkErrorsReturn(
+                            messageResponse[capitalize(item.name)]
+                        )
+                            ? messageResponse[capitalize(item.name)]
+                            : item.error
+                    "
+                    :isInvalid="
+                        !checkErrorsReturn(
+                            messageResponse[capitalize(item.name)]
+                        )
+                            ? true
+                            : inputValidationStatus[item.name] ==
+                              EValidity.Invalid
+                    "
                 />
                 <div class="wrapper-input">
                     <textarea
-                    name="Feedback"
-                    placeholder="Mensagem"
-                    id="Feedback"
-                    class="textarea-input"
-                    v-bind:class="{ invalid: validLocalTextArea()}"
-                    cols="40"
-                    rows="10"
-                    required
-                    v-model="userFeedBack.message"
+                        name="Feedback"
+                        placeholder="Mensagem"
+                        id="Feedback"
+                        class="textarea-input"
+                        v-bind:class="{
+                            invalid: validLocalTextArea(
+                                messageResponse.Message
+                            ),
+                        }"
+                        cols="40"
+                        rows="10"
+                        required
+                        v-model="userFeedBack.message"
                     />
                 </div>
-                <div v-show=" validLocalTextArea()">
+                <div v-show="validLocalTextArea(messageResponse.Message)">
                     <InputError
-                        :msg="FeedbackConfiguration.text.errorTextArea"
-                        />
+                        :msg="
+                            !checkErrorsReturn(messageResponse.Message)
+                                ? messageResponse.Message
+                                : FeedbackConfiguration.text.errorTextArea
+                        "
+                    />
                 </div>
-                <ButtonDefault id="btn-submit-contact-form"
-                    @buttonClicked="submitFeedBack()"/>
+                <ButtonDefault
+                    id="btn-submit-contact-form"
+                    @buttonClicked="submitFeedBack()"
+                />
             </form>
         </div>
         <TheSuccessForm
@@ -57,25 +80,28 @@ import InputError from '@/components/ui/InputError.vue'
 import TheSuccessForm from '@/components/common/TheSuccessForm.vue'
 import IUserFeedBack from '@/types/userFeedBack'
 import { FeedbackConfiguration } from '@/config/variables'
-import { checkErrorsReturn, EValidity } from '@/use/validInput'
+import { checkErrorsReturn, EValidity, capitalize, validName,
+    validEmail } from '@/use/validInput'
 
 interface IInputsInfo {
-    type: string,
-    name: string,
-    placeholder: string,
-    isInvalid: () => boolean,
+    type: string
+    name: string
+    placeholder: string
+    isInvalid: () => boolean
     error: string[]
 }
 
 const success = ref(false)
-const inputValidationStatus = ref(
-    {name: EValidity.Undefined, email: EValidity.Undefined,
-        message: EValidity.Undefined})
+const inputValidationStatus = ref({
+    name: EValidity.Undefined,
+    email: EValidity.Undefined,
+    message: EValidity.Undefined,
+})
 const userFeedBack = ref({
     name: '',
     email: '',
     message: '',
-    recaptchaToken: ''
+    recaptchaToken: '',
 })
 
 /**
@@ -86,18 +112,18 @@ export default defineComponent({
         ButtonDefault,
         InputError,
         TheSuccessForm,
-        FormTextInput
+        FormTextInput,
     },
     setup() {
+        const messageResponse = ref({})
         const { executeRecaptcha, recaptchaLoaded } = useReCaptcha()!
+
         /**
          * Função utilizada para gerar uma requisição para a API C4B
          */
         const submitFeedBack = async () => {
-            if (!validFormVue(userFeedBack.value))
-                return
-            try
-            {
+            if (!validFormVue(userFeedBack.value)) return
+            try {
                 await recaptchaLoaded()
                 const token = await executeRecaptcha('login')
                 userFeedBack.value.recaptchaToken = token
@@ -105,29 +131,23 @@ export default defineComponent({
                 await c4bApi.feedback().post(userFeedBack.value)
                 success.value = true
                 resetFeedBack()
-                inputValidationStatus.value =
-                    {name: EValidity.Valid, email: EValidity.Valid,
-                        message: EValidity.Valid}
-            }
-            catch (err: any)
-            {
-                const newStatus = {...inputValidationStatus.value}
-                if (!checkErrorsReturn(err.response.data.errors.Name))
-                    newStatus.name = EValidity.Invalid
-                if (!checkErrorsReturn(err.response.data.errors.Email))
-                    newStatus.email = EValidity.Invalid
-                if (!checkErrorsReturn(err.response.data.errors.Message))
-                    newStatus.message = EValidity.Invalid
-                inputValidationStatus.value = newStatus
+                inputValidationStatus.value = {
+                    name: EValidity.Valid,
+                    email: EValidity.Valid,
+                    message: EValidity.Valid,
+                }
+                messageResponse.value = {}
+            } catch (err: any) {
+                messageResponse.value = err.response.data.errors
             }
         }
         /**
-        * @param {KeyboardEvent} e - Evento do click
-        * Se a tecla esc é pressionada quando o modal de sucesso está aberto
-        * o modal será fechado
-        */
+         * @param {KeyboardEvent} e - Evento do click
+         * Se a tecla esc é pressionada quando o modal de sucesso está aberto
+         * o modal será fechado
+         */
         const keyEscDown = (e: KeyboardEvent) => {
-            if (success.value == true &&  e.key == 'Escape') newFeedback()
+            if (success.value == true && e.key == 'Escape') newFeedback()
         }
         document.addEventListener('keyup', keyEscDown)
         return {
@@ -140,11 +160,12 @@ export default defineComponent({
             checkErrorsReturn,
             newFeedback,
             validLocalTextArea,
+            messageResponse,
+            EValidity,
+            capitalize,
         }
-    }
+    },
 })
-
-
 
 /**
  * Função utilizada para limpar todos os campos do formulário
@@ -154,7 +175,7 @@ function resetFeedBack(): void {
         name: '',
         email: '',
         message: '',
-        recaptchaToken: ''
+        recaptchaToken: '',
     }
     userFeedBack.value = emptyUserFeedBack
 }
@@ -169,26 +190,21 @@ function resetFeedBack(): void {
  * caso contrário retorna true
  */
 function validFormVue(userFeedBack: IUserFeedBack): boolean {
-    const newStatus = {...inputValidationStatus.value}
-    if (userFeedBack.name.length < 2)
-        newStatus.name = EValidity.Invalid
-    else
-        newStatus.name = EValidity.Valid
-    if (userFeedBack.email.length < 11)
-        newStatus.email = EValidity.Invalid
-    else
-        newStatus.email = EValidity.Valid
-    if (userFeedBack.message.length < 10)
-        newStatus.message = EValidity.Invalid
-    else
-        newStatus.message = EValidity.Valid
+    const newStatus = { ...inputValidationStatus.value }
+    if (!validName(userFeedBack.name)) newStatus.name = EValidity.Invalid
+    else newStatus.name = EValidity.Valid
+    if (!validEmail(userFeedBack.email)) newStatus.email = EValidity.Invalid
+    else newStatus.email = EValidity.Valid
+    if (userFeedBack.message.length < 10) newStatus.message = EValidity.Invalid
+    else newStatus.message = EValidity.Valid
     inputValidationStatus.value = newStatus
-    if (inputValidationStatus.value.name == EValidity.Valid
-            && inputValidationStatus.value.email == EValidity.Valid
-            && inputValidationStatus.value.message == EValidity.Valid)
-        return (true)
-    else
-        return (false)
+    if (
+        inputValidationStatus.value.name == EValidity.Valid &&
+        inputValidationStatus.value.email == EValidity.Valid &&
+        inputValidationStatus.value.message == EValidity.Valid
+    )
+        return true
+    else return false
 }
 
 /**
@@ -196,11 +212,10 @@ function validFormVue(userFeedBack: IUserFeedBack): boolean {
  * @returns {boolean} - True se a mensagem for válida
  *  caso contrário retorna false
  */
-function validLocalTextArea(): boolean {
-    if (inputValidationStatus.value.message == EValidity.Invalid)
-        return true
-    else
-        return false
+function validLocalTextArea(msgError: any): boolean {
+    return !checkErrorsReturn(msgError)
+        ? true
+        : inputValidationStatus.value.message == EValidity.Invalid
 }
 
 /**
@@ -218,25 +233,24 @@ function newFeedback(): void {
  * @returns {Array<IInputsInfo>} - Um array com todos
  * os dados utilizados nos inputs
  */
-function  createList(): Array<IInputsInfo> {
-
+function createList(): Array<IInputsInfo> {
     let inputsInfo = [
         {
             type: 'text',
             name: 'name',
-            placeholder: FeedbackConfiguration.text.formInputInfolist[0]
-                .placeholder,
-            isInvalid: () => inputValidationStatus.value.name ==
-                EValidity.Invalid,
+            placeholder:
+                FeedbackConfiguration.text.formInputInfolist[0].placeholder,
+            isInvalid: () =>
+                inputValidationStatus.value.name == EValidity.Invalid,
             error: FeedbackConfiguration.text.formInputInfolist[0].error,
         },
         {
             type: 'email',
             name: 'email',
-            placeholder: FeedbackConfiguration.text.formInputInfolist[1]
-                .placeholder,
-            isInvalid: () => inputValidationStatus.value.email ==
-                EValidity.Invalid,
+            placeholder:
+                FeedbackConfiguration.text.formInputInfolist[1].placeholder,
+            isInvalid: () =>
+                inputValidationStatus.value.email == EValidity.Invalid,
             error: FeedbackConfiguration.text.formInputInfolist[1].error,
         },
     ]
@@ -245,10 +259,8 @@ function  createList(): Array<IInputsInfo> {
 </script>
 
 <style scoped>
-
 .feedback-title {
     padding-bottom: 15px;
-
 }
 .form-Feedback {
     max-width: 350px;
@@ -274,21 +286,21 @@ function  createList(): Array<IInputsInfo> {
     background-color: rgb(245 245 245 / 80%);
     resize: none;
 }
-:deep .input-base {
-    background-color: rgb(245 245 245 / 80%);
-}
 .wrapper-input {
     text-align: left;
 }
 .textarea-input::placeholder {
     font-size: 16px;
 }
+:deep .input-base {
+    background-color: rgb(245 245 245 / 80%);
+}
 :deep .input-base:hover {
-    background-color:rgb(228 228 228 / 80%);
+    background-color: rgb(228 228 228 / 80%);
 }
 .textarea-input:hover {
     border-bottom: inset 2px #937454;
-    background-color:rgb(228 228 228 / 80%);
+    background-color: rgb(228 228 228 / 80%);
 }
 /* .textarea-input:hover::placeholder {
     font-size: 19px;
@@ -297,8 +309,7 @@ function  createList(): Array<IInputsInfo> {
     margin-bottom: 50px;
 }
 
-@media (max-width: 576px)
-{
+@media (max-width: 576px) {
     .wrapper-Feedback {
         display: flex;
         align-items: center;

@@ -32,23 +32,62 @@
             <CheckboxInput
                 v-model="contractData.acceptTerms"
                 :nameID="'aceitaTermos'"
-                :labelMessage="'Li e acepto os Termos e Condições de ' +
+                :labelMessage="
+                'Li e acepto os Termos e Condições de ' +
                 'Relacionamento com o Banco ABC. Declaro que tenho poderes ' +
-                'de assinatura pela empresa e autorizo a ' + 
-                'assinatura eletrônica.'"
+                'de assinatura pela empresa e autorizo a ' +
+                'assinatura eletrônica.'
+                "
+                :errors="
+                    !checkErrorsReturn(messageResponse.AcceptTerms)
+                        ? messageResponse.AcceptTerms
+                        : ContractConfiguration.text.acceptTerms.errors
+                "
+                :isInvalid="
+                    !checkErrorsReturn(messageResponse.AcceptTerms)
+                        ? true
+                        : checkboxValidationStatus.acceptTerms ==
+                          EValidity.Invalid
+                "
             />
             <CheckboxInput
                 v-model="contractData.authorizeSCR"
                 :nameID="'autorizaSCR'"
-                :labelMessage="'Autorizo a Consulta de SCR e da Agenda de ' +
-                'Recebíveis e ac eito os Termos de Sigilo Bancário'"
+                :labelMessage="
+                    'Autorizo a Consulta de SCR e da Agenda de ' +
+                    'Recebíveis e ac eito os Termos de Sigilo Bancário'
+                "
+                :errors="
+                    !checkErrorsReturn(messageResponse.AuthorizeSCR)
+                        ? messageResponse.AuthorizeSCR
+                        : ContractConfiguration.text.authorizeSCR.errors
+                "
+                :isInvalid="
+                    !checkErrorsReturn(messageResponse.AuthorizeSCR)
+                        ? true
+                        : checkboxValidationStatus.authorizeSCR ==
+                          EValidity.Invalid
+                "
             />
             <CheckboxInput
                 v-model="contractData.existsPEP"
                 :nameID="'temPEP'"
-                :labelMessage="'Na empresa, há alguma Pessoa Exposta ' +
+                :labelMessage="
+                'Na empresa, há alguma Pessoa Exposta ' +
                 'Publicamente (PEP) em uma função de administração, controle ' +
-                'direto ou indireto, direção, procuração ou representação?'"
+                'direto ou indireto, direção, procuração ou representação?'
+                "
+                :errors="
+                    !checkErrorsReturn(messageResponse.ExistsPEP)
+                        ? messageResponse.ExistsPEP
+                        : ContractConfiguration.text.existsPEP.errors
+                "
+                :isInvalid="
+                    !checkErrorsReturn(messageResponse.ExistsPEP)
+                        ? true
+                        : checkboxValidationStatus.existsPEP ==
+                          EValidity.Invalid
+                "
             />
             <ButtonDefault
                 id="btn-submit-request-credit"
@@ -73,6 +112,9 @@ import { currencyFormatBR } from '@/use/numberFormatBR'
 import CheckboxInput from '@/components/ui/CheckboxInput.vue'
 import ButtonDefault from '@/components/ui/ButtonDefault.vue'
 import SuccessForm from '@/components/common/TheSuccessForm.vue'
+import { EValidity, checkErrorsReturn } from '@/use/validInput'
+import IContract from '@/types/contract'
+import { ContractConfiguration } from '@/config/variables'
 
 export default defineComponent({
     components: {
@@ -97,7 +139,13 @@ export default defineComponent({
             authorizeSCR: false,
             existsPEP: false,
         })
+        const messageResponse = ref({})
         const hash = route.params.id as string
+        const checkboxValidationStatus = ref({
+            acceptTerms: EValidity.Undefined,
+            authorizeSCR: EValidity.Undefined,
+            existsPEP: EValidity.Undefined,
+        })
         const generateContract = async () => {
             try {
                 const contractInfo = await c4bApi.contract().get(hash)
@@ -126,12 +174,35 @@ export default defineComponent({
                 window.location.href = '/Error'
             }
         }
+        const validFrontSign = (sign: IContract) => {
+            const newStatus = { ...checkboxValidationStatus.value }
+            if (sign.acceptTerms == false)
+                newStatus.acceptTerms = EValidity.Invalid
+            else newStatus.acceptTerms = EValidity.Valid
+            if (sign.authorizeSCR == false)
+                newStatus.authorizeSCR = EValidity.Invalid
+            else newStatus.authorizeSCR = EValidity.Valid
+            if (sign.existsPEP == false) newStatus.existsPEP = EValidity.Invalid
+            else newStatus.existsPEP = EValidity.Valid
+            checkboxValidationStatus.value = newStatus
+            if (
+                checkboxValidationStatus.value.acceptTerms == EValidity.Valid &&
+                checkboxValidationStatus.value.authorizeSCR ==
+                    EValidity.Valid &&
+                checkboxValidationStatus.value.existsPEP == EValidity.Valid
+            )
+                return true
+            else return false
+        }
         const signContract = async () => {
+            if (!validFrontSign(contractData.value)) return
             try {
                 await c4bApi.contract().put(contractData.value)
                 wasContractSigned.value = true
+                messageResponse.value = {}
             } catch (err: any) {
                 wasContractSigned.value = false
+                messageResponse.value = err.response.data.errors
             }
         }
         const handleSuccessModalClose = () => {
@@ -156,6 +227,11 @@ export default defineComponent({
             wasContractSigned,
             handleSuccessModalClose,
             pageReady,
+            messageResponse,
+            ContractConfiguration,
+            checkErrorsReturn,
+            checkboxValidationStatus,
+            EValidity,
         }
     },
 })
