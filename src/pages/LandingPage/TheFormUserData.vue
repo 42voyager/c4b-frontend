@@ -82,7 +82,8 @@ import { Terms, UserConfiguration } from '@/config/variables'
 import FormTextInput from '@/components/ui/FormTextInput.vue'
 import CheckboxInput from '@/components/ui/CheckboxInput.vue'
 import { defineComponent, ref } from 'vue'
-import { checkErrorsReturn, EValidity, capitalize } from '@/use/validInput'
+import { checkErrorsReturn, EValidity, capitalize, validName,
+    validEmail, validPhone, validCnpj } from '@/use/validInput'
 
 interface IUserBasicData {
     name: string
@@ -149,14 +150,14 @@ export default defineComponent({
         }
         const validFrontForm = (user: IUserBasicData): boolean => {
             const newStatus = { ...inputValidationStatus.value }
-            if (user.name.length < 2) newStatus.name = EValidity.Invalid
+            if (!validName(user.name)) newStatus.name = EValidity.Invalid
             else newStatus.name = EValidity.Valid
-            if (user.email.length < 11) newStatus.email = EValidity.Invalid
+            if (!validEmail(user.email)) newStatus.email = EValidity.Invalid
             else newStatus.email = EValidity.Valid
-            if (user.cellphone.length < 15)
+            if (!validPhone(user.cellphone))
                 newStatus.cellphone = EValidity.Invalid
             else newStatus.cellphone = EValidity.Valid
-            if (user.cnpj.length < 18) newStatus.cnpj = EValidity.Invalid
+            if (!validCnpj(user.cnpj)) newStatus.cnpj = EValidity.Invalid
             else newStatus.cnpj = EValidity.Valid
             if (user.company.length < 2) newStatus.company = EValidity.Invalid
             else newStatus.company = EValidity.Valid
@@ -175,7 +176,6 @@ export default defineComponent({
             else return false
         }
         const submitForm = (): void => {
-            console.log(user.value)
             if (!validFrontForm(user.value)) return
             context.emit('submitForm', user.value, resetForm)
         }

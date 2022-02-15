@@ -80,7 +80,8 @@ import InputError from '@/components/ui/InputError.vue'
 import TheSuccessForm from '@/components/common/TheSuccessForm.vue'
 import IUserFeedBack from '@/types/userFeedBack'
 import { FeedbackConfiguration } from '@/config/variables'
-import { checkErrorsReturn, EValidity, capitalize } from '@/use/validInput'
+import { checkErrorsReturn, EValidity, capitalize, validName,
+    validEmail } from '@/use/validInput'
 
 interface IInputsInfo {
     type: string
@@ -190,11 +191,11 @@ function resetFeedBack(): void {
  */
 function validFormVue(userFeedBack: IUserFeedBack): boolean {
     const newStatus = { ...inputValidationStatus.value }
-    if (userFeedBack.name.length < 2) newStatus.name = EValidity.Invalid
+    if (!validName(userFeedBack.name)) newStatus.name = EValidity.Invalid
     else newStatus.name = EValidity.Valid
-    if (userFeedBack.email.length < 11) newStatus.email = EValidity.Invalid
+    if (!validEmail(userFeedBack.email)) newStatus.email = EValidity.Invalid
     else newStatus.email = EValidity.Valid
-    if (userFeedBack.message.length < 2) newStatus.message = EValidity.Invalid
+    if (userFeedBack.message.length < 10) newStatus.message = EValidity.Invalid
     else newStatus.message = EValidity.Valid
     inputValidationStatus.value = newStatus
     if (
