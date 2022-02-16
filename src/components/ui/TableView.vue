@@ -36,13 +36,13 @@ export default defineComponent({
     },
     setup(props) {
         const messages = {
-            pagingInfo: "Mostrando {0}-{1} de {2}"
+            pagingInfo: 'Mostrando {0}-{1} de {2}'
         }
         const table = reactive({
             columns:  props.columns,
             rows: reactive([...props.data]),
             totalRecordCount: computed(() => {
-                return props.data.length;
+                return props.data.length
             })
         })
         return {

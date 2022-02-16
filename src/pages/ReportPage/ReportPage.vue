@@ -3,10 +3,10 @@
         <Header />
         <div class="wrapper-table">
             <div class="wrapper-top-bar">
-                <h1 class="title">Relatorio de Clientes C4b</h1>
+                <h1 class="title">Relatório de Clientes C4b</h1>
                 <ButtonDefault
                     :v-if="data.length > 0"
-                    msg="Descargar como .csv"
+                    msg="Baixar como .csv"
                     @buttonClicked="handleDownload()"
                 />
             </div>
@@ -37,8 +37,8 @@ export default defineComponent({
         const data = ref([])
 
         const handleDownload = () => {
-            const csv = Papa.unparse(data.value as any)
-            console.log(csv)
+            const csv = Papa.unparse(data.value)
+
             const csvData = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
             const csvURL = window.URL.createObjectURL(csvData)
             var testLink = document.createElement('a')
@@ -90,21 +90,21 @@ const tableColumns = [
         isKey: false,
     },
     {
-        label: 'Company',
+        label: 'Empresa',
         field: 'company',
         width: '3%',
         sortable: true,
         isKey: false,
     },
     {
-        label: 'Credito (R$)',
+        label: 'Crédito (R$)',
         field: 'limit',
         width: '3%',
         sortable: true,
         isKey: false,
     },
     {
-        label: 'Prazos (Meses)',
+        label: 'Prazos',
         field: 'installment',
         width: '3%',
         sortable: true,
