@@ -3,6 +3,7 @@ import App from './App.vue'
 import Maska from 'maska'
 import { VueReCaptcha } from 'vue-recaptcha-v3'
 import { router } from '@/router'
+import Vuetify from 'vuetify'
 
 const app = createApp(App);
 app.use(Maska);

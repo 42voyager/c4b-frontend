@@ -19,7 +19,8 @@
     "vue-multiselect": "^3.0.0-alpha.2",
     "vue-recaptcha-v3": "^2.0.1",
     "vue-router": "^4.0.12",
-    "vue-star-rating": "^2.1.0"
+    "vue-star-rating": "^2.1.0",
+    "vuetify": "^2.6.3"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.18.0",
@@ -30,10 +31,13 @@
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/eslint-config-typescript": "^7.0.0",
+    "deepmerge": "^4.2.2",
     "eslint": "^6.7.2",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-vue": "^7.0.0",
+    "sass": "^1.32.13",
+    "sass-loader": "^12.6.0",
     "typescript": "~4.1.5"
   }
 }

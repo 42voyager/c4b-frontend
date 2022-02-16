@@ -196,6 +196,7 @@ const TwoColumnSection = defineComponent({
             user.ipAddress = userIP.value
             user.operatingSystem = userOS.value
             userData.value = user
+			requestSucceeded.value = true //para testar, pode apagar
             try {
                 // ReCaptcha 3 handling
                 await recaptchaLoaded()
@@ -212,7 +213,7 @@ const TwoColumnSection = defineComponent({
                 resetFormData()
                 resetInputReason()
             } catch (err: any) {
-                requestSucceeded.value = false
+                // requestSucceeded.value = false
                 enableMessage.value = true
                 if (err.response && err.response.data.status == 429) {
                     messageResponse.value = { title: errorMsgs.tooManyRequests }
