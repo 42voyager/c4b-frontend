@@ -5,8 +5,8 @@ import { VueReCaptcha } from 'vue-recaptcha-v3'
 import { router } from '@/router'
 import Vuetify from 'vuetify'
 
-const app = createApp(App);
-app.use(Maska);
+const app = createApp(App)
+app.use(Maska)
 app.use(VueReCaptcha, { siteKey: '6LfrEXUdAAAAAMpB1YwkgnDkMB1rq2syZmSeDPKR'})
 app.use(router)
-app.mount('#app');
+app.mount('#app')
