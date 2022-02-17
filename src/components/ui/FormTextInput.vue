@@ -1,12 +1,12 @@
 <template>
-    <div class="div-error">
+    <div class="wrapper-input">
         <input
         v-bind="$attrs"
         class="input-base"
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
         />
-        <div v-show="isInvalid">
+        <div class="div-error" v-show="isInvalid">
             <InputError :msg="errors"/>
         </div>
     </div>
@@ -67,9 +67,20 @@ export default defineComponent({
     padding: 15px;
     font-size: 18px;
     margin: 10px 0;
+    border: none;
     border-radius: 5px;
-    border: solid 1px #b29475;
+    border-bottom: inset 2px #b29475;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
+.input-base:hover {
+    background-color:rgb(255 255 255 / 80%);
+    border-bottom: inset 2px #937454;
+    /* box-shadow: 5px 5px 5px rgb(187 187 187 / 50%); */
+}
+/* .input-base:hover::placeholder {
+    font-size: 19px;
+} */
 .btn-next {
     margin: 40px 20px;
     text-align: right;

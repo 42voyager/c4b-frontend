@@ -7,7 +7,8 @@ import { defineComponent, PropType } from 'vue'
 
 /**
  * Component utilizado para mostrar os erros dos inputs
- * @prop {Array<String>} msg - Um array de strings contendo todas as mensagens de erro
+ * @prop {Array<String>} msg - Um array de strings contendo todas as 
+ * mensagens de erro
  */
 export default defineComponent({
     props: {
@@ -23,10 +24,9 @@ export default defineComponent({
 p {
     font-size: 12px;
     color: red;
-    padding: 5px;
     max-width: 300px;
     width: 100%;
-    margin-top: 0;
+    margin: 0;
     text-align: left;
 }
 </style>

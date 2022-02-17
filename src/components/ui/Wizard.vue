@@ -1,12 +1,5 @@
 <template>
     <div class="wrapper-circle">
-        <!-- <input
-            class="slide-wizard"
-            type="range"
-            name=""
-            id=""
-            > -->
-
             <Circle
                 class="circle"
                 v-for="(step, index) of list"

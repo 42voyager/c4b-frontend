@@ -22,13 +22,6 @@
                     :limit="limit"
                     :installment="installment"
                 />
-                <!-- <TheFormCreditData
-          v-show="!nextStep"
-          @nextStepClicked="goNextStep"
-          @valueChanged="creditDataChanged"
-          :limit="limit"
-          :installment="installment"
-        /> -->
                 <TheFormUserData
                     v-show="nextStep && requestSucceeded == false"
                     @submitForm="submitUser"
@@ -43,9 +36,10 @@
                 />
                 <TheSuccessForm
                     v-if="requestSucceeded === true"
-                    buttonLabel="Avaliar"
+                    buttonLabel="ENVIAR"
                     @newRequestClicked="newRequestClicked"
                     @rateClicked="submitStarRate"
+                    :useRatingChips="true"
                     :useRateStar="true"
                     :userData="userData"
                 />
@@ -57,7 +51,7 @@
 import { defineComponent, onMounted, ref } from 'vue'
 import { useReCaptcha } from 'vue-recaptcha-v3'
 import TheFormUserData from './TheFormUserData.vue'
-import C4bApi from '@/api/C4bApi'
+import { c4bApi } from '@/api/C4bApi'
 import IUserData from '@/types/user'
 import TheFormCreditData from './TheFormCreditData.vue'
 import TheFormCreditDataSlider from './TheFormCreditDataSlider.vue'
@@ -170,7 +164,7 @@ const TwoColumnSection = defineComponent({
             feedbackStar.email = userData.value.email
             try {
                 console.log(feedbackStar)
-                await new C4bApi().postRateStar(feedbackStar)
+                await c4bApi.feedbackStar().post(feedbackStar)
                 newRequestClicked()
             } catch (err: any) {
                 console.log(err)
@@ -203,7 +197,7 @@ const TwoColumnSection = defineComponent({
                 user.recaptchaToken = token
 
                 // Submit user handling
-                await new C4bApi().postUser(user)
+                await c4bApi.user().post(user)
                 requestSucceeded.value = true
                 enableMessage.value = true
                 messageResponse.value = {
@@ -302,7 +296,6 @@ export default TwoColumnSection
     display: flex;
     flex-flow: column;
     justify-content: center;
-    overflow: hidden;
     position: relative;
 }
 .column-two h2 {
@@ -320,34 +313,23 @@ export default TwoColumnSection
         width: 100%;
         height: auto;
     }
-    .column-one {
-        height: calc(100vh - 50px);
-    }
 }
 @media (min-width: 992px) {
     .side-img {
         width: 100%;
-        /* height: 900px; */
+        position: relative;
+        z-index: 9;
     }
 }
 @media (min-width: 1200px) {
-    .side-img {
-        transform: translateY(-36%);
-        margin-top: 50%;
-        height: 950px;
-    }
     .two-column-section {
         flex-direction: row;
     }
     .column {
         width: 50%;
     }
-    .column-one {
-        height: calc(100vh - 50px);
-    }
     .column-two {
         padding: 0 20px;
-        height: calc(100vh - 50px);
     }
     .column-two h2 {
         font-size: 25px;
@@ -356,7 +338,11 @@ export default TwoColumnSection
 @media (min-width: 1460px) {
     .side-img {
         width: 100%;
-        height: auto;
+        height: unset;
+        object-fit: cover;
+    }
+    .two-column-section {
+        height: 800px;
     }
 }
 </style>

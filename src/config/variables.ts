@@ -60,25 +60,25 @@ export const Infos = {
         {
             text: 'O processo é digitalizado para facilitar ' +
             'o envío de informações, ' +
-            'esqueça de ter que agendar visitas ao banco ou ' + 
+            'esqueça de ter que agendar visitas ao banco ou ' +
             'de perder tempo em trámites ' +
             'burocráticos. Você faz a solicitação desde seu ' +
             'computador e recebe a resposta ' +
             'no seu computador',
             img: 'info-img4.jpg'
         }
-]}
+    ]}
 
 // Array of questions and answer
 export const FaqsInfo = {
     title: 'FAQ',
     faqs: [
         {
-            question: 'Preciso comprovar faturamento?', 
+            question: 'Preciso comprovar faturamento?',
             answer: 'Sim, porém, nosso processo ' +
             'permite solicitar um crédito a medida de seu faturamento.'
         },
-        { 
+        {
             question: 'Existe algúm processo além de preencher o formulário?',
             answer: 'Não, você só precisa preencher o formulário e C4B faz o '+
             'trabalho. Você faz a solicitação desde ' +
@@ -148,7 +148,7 @@ export const CreditData = {
             'Compra de equipamentos',
             'Investimento em infraestrutura',
             'Compra de insumos e produtos',
-            'outros'
+            'Outros'
         ],
         errors: ['Você precisa escolher um motivo válido!']
     }
@@ -170,7 +170,7 @@ export const Terms = [
         'qualquer outro sistema que venha a sucedê-los.'
     },
     {
-        text: 'As Empresas autorizam ainda, em caráter ' + 
+        text: 'As Empresas autorizam ainda, em caráter ' +
         'irrevogável e irretratável,'+
         'que referidas informações, no que tange a operações por estas'+
         'realizadas junto ao Banco ABC Brasil S.A., sejam por este, bem como'+
@@ -247,6 +247,65 @@ export const FeedbackConfiguration = {
     }
 }
 
+export const UserConfiguration = {
+    text: {
+        optin: {
+            error: ['Precisa aceitar os termos e condições!']
+        },
+        formInputsInfo: [
+            {
+                type: 'text',
+                name: 'name',
+                placeholder: 'Nome Completo',
+                mask: '',
+                error: ['O nome é obrigatório.'],
+            },
+            {
+                type: 'email',
+                name: 'email',
+                mask: '',
+                placeholder: 'E-mail',
+                error: ['O email é obrigatório e deve ser válido!']
+            },
+            {
+                type: 'text',
+                name: 'cellphone',
+                mask: '(##) #####-####',
+                placeholder: 'Celular',
+                error: ['O número é obrigatório e deve ser válido!']
+            },
+            {
+                type: 'text',
+                name: 'cnpj',
+                mask: '##.###.###/####-##',
+                placeholder: 'CNPJ',
+                error: ['O CNPJ é obrigatório e deve ser válido!']
+            },
+            {
+                type: 'text',
+                name: 'company',
+                mask: '',
+                placeholder: 'Nome da Empresa',
+                error: ['O nome da empresa é obrigatório!']
+            }
+        ]
+    }
+}
+
+export const ContractConfiguration = {
+    text: {
+        acceptTerms: {
+            errors: ['Precisa aceitar os termos e condições!']
+        },
+        authorizeSCR: {
+            errors: ['Precisa autorizar a consulta de SCR!']
+        },
+        existsPEP: {
+            errors: ['Precisa responder a pergunta sobre a PEP!']
+        },
+    }
+}
+
 export const BankInfoFormConfiguration = {
     title: 'Insira seus dados bancários',
     formInputsInfo: [
@@ -266,7 +325,7 @@ export const BankInfoFormConfiguration = {
                 '#########-#', '###########-#']
         },
     ],
-    submittLabel: 'Enviar'
+    submittLabel: 'Próximo'
 }
 
 export const ListItemsNavBar = [
@@ -298,3 +357,32 @@ export const ListItemsNavBarBankForm = [
         href: '/#faq-section'
     }
 ]
+
+export const RatingChips = {
+    text: {
+        titleChips: 'Gostou do processo?',
+        ratingChips: [
+            {
+                id: 1,
+                name: 'ratingChip',
+                label: 'Simples de usar'
+            },
+            {
+                id: 2,
+                name: 'ratingChip',
+                label: 'Visual lindo'
+            },
+            {
+                id: 3,
+                name: 'ratingChip',
+                label: 'Informações organizadas'
+            },
+            {
+                id: 4,
+                name: 'ratingChip',
+                label: 'Pode melhorar'
+            }
+        ],
+        errors: ['Você precisa escolher um motivo válido!']
+    }
+}

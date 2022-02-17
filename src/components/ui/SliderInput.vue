@@ -19,7 +19,8 @@ import { defineComponent } from 'vue'
 
 /**
  * Component utilizado para input numerico do tipo slider
- * @prop {Boolean} showLabels - Condição para habilitar os labels no extremo do slider
+ * @prop {Boolean} showLabels - Condição para habilitar os labels no 
+ * extremo do slider
  * @prop {number} modelValue - valor selecionado do input
  * @prop {string} minLabel - label para indicar o valor minimo
  * @prop {string} maxLabel - label para indicar o valor maximo

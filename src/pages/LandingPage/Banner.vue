@@ -6,7 +6,7 @@
             <p>{{ textBanner }}</p>
             <ButtonDefault
                 msg="Solicite seu crédito"
-				id="btn-banner"
+                id="btn-banner"
                 @buttonClicked="goToElement('form-request')"
                 />
         </div>
@@ -98,20 +98,10 @@ button {
         transform: translateX(0);
     }
 }
-
-@media (min-width: 1200px) {
+@media (min-width: 992px) {
     .banner img {
-        max-width: 100%;
-        height: calc(100vh - 75px);
-    }
-}
-@media (min-width: 1360px) {
-    .banner img {
-        height: auto;
-    }
-}
-@media (min-width: 1932px) {
-    .banner img {
+        height: unset;
+        object-fit: cover;
         width: 100%;
     }
 }
