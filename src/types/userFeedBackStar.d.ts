@@ -1,6 +1,6 @@
 export default interface IUserFeedBackStar {
-	name: string;
-	email: string;
-	message: string;
-	rateStar: number;
+    name: string;
+    email: string;
+    message: string;
+    rateStar: number;
 }

@@ -43,9 +43,10 @@
                 />
                 <TheSuccessForm
                     v-if="requestSucceeded === true"
-                    buttonLabel="Avaliar"
+                    buttonLabel="ENVIAR"
                     @newRequestClicked="newRequestClicked"
                     @rateClicked="submitStarRate"
+                    :useRatingChips="true"
                     :useRateStar="true"
                     :userData="userData"
                 />
@@ -57,7 +58,7 @@
 import { defineComponent, onMounted, ref } from 'vue'
 import { useReCaptcha } from 'vue-recaptcha-v3'
 import TheFormUserData from './TheFormUserData.vue'
-import C4bApi from '@/api/C4bApi'
+import { c4bApi } from '@/api/C4bApi'
 import IUserData from '@/types/user'
 import TheFormCreditData from './TheFormCreditData.vue'
 import TheFormCreditDataSlider from './TheFormCreditDataSlider.vue'
@@ -170,7 +171,7 @@ const TwoColumnSection = defineComponent({
             feedbackStar.email = userData.value.email
             try {
                 console.log(feedbackStar)
-                await new C4bApi().postRateStar(feedbackStar)
+                await c4bApi.feedbackStar().post(feedbackStar)
                 newRequestClicked()
             } catch (err: any) {
                 console.log(err)
@@ -196,7 +197,6 @@ const TwoColumnSection = defineComponent({
             user.ipAddress = userIP.value
             user.operatingSystem = userOS.value
             userData.value = user
-			requestSucceeded.value = true //para testar, pode apagar
             try {
                 // ReCaptcha 3 handling
                 await recaptchaLoaded()
@@ -204,7 +204,7 @@ const TwoColumnSection = defineComponent({
                 user.recaptchaToken = token
 
                 // Submit user handling
-                await new C4bApi().postUser(user)
+                await c4bApi.user().post(user)
                 requestSucceeded.value = true
                 enableMessage.value = true
                 messageResponse.value = {
@@ -213,7 +213,7 @@ const TwoColumnSection = defineComponent({
                 resetFormData()
                 resetInputReason()
             } catch (err: any) {
-                // requestSucceeded.value = false
+                requestSucceeded.value = false
                 enableMessage.value = true
                 if (err.response && err.response.data.status == 429) {
                     messageResponse.value = { title: errorMsgs.tooManyRequests }

@@ -9,29 +9,22 @@
                     :format="format"
                     :min="Number(minCredit)"
                     :max="Number(maxCredit)"
-                    v-model="credit"
-                    :step="1000"
+                    v-model="creditUser.limit"
                 />
             </div>
-            <!-- <SliderInput
-                :min="minCredit"
-                :max="maxCredit"
-                :minLabel="'R$' + currencyFormatBR(minCredit)"
-                :maxLabel="'R$' + currencyFormatBR(maxCredit)"
-                step="1000"
-                v-model="credit"
-            /> -->
-            <!-- <b class="current-value"> R$ {{ creditFormatted }} </b> -->
-            <FormTextInput
-                :isInvalid="invalidCredit"
-                :errors="errorsCredit"
-                id="input-credit-slider"
-                class="current-value"
-                v-model="credit"
-                v-maska="{ 
-                    mask: ['######','Y######'], 
-                    tokens: {'Y': {pattern: /[0-5]/}}}"
-            />
+            <div class="input-credit">
+                <FormTextInput
+                    :isInvalid="invalidCredit"
+                    :errors="errorsCredit"
+                    id="input-credit-slider"
+                    class="current-value"
+                    v-model="creditFormatted"
+                    v-maska="['R$ ##.###,##', 'R$ ###.###,##', 'R$ #.###.###,##']"
+                />
+            </div>
+                <!-- v-maska="{ 
+                    mask: ['R$##.###,##','Y######'], 
+                    tokens: {'Y': {pattern: /[0-5]/}}}" -->
             <p class="creditLabel">Em quantas vezes você quer pagar?</p>
             <div class="wrapper-slider">
                 <Slider
@@ -40,18 +33,9 @@
                     :min="6"
                     :max="36"
                     :step="1"
-                    v-model="installments"
+                    v-model="creditUser.installment"
                 />
             </div>
-            <!-- <SliderInput
-                :min="6"
-                :max="36"
-                :minLabel="'6 Meses'"
-                :maxLabel="'35 Meses'"
-                step="1"
-                v-model="installments"
-            /> -->
-            <!-- <b class="current-value"> {{ installments }} Meses </b> -->
             <InfoBox class="info-box">
                 <p>
                     Faturamento mensal recomendado seria:
@@ -79,16 +63,19 @@
                     {{ creditData.text.titleMotivo }}
                 </p>
                 <MultiSelect
+                    class="select-reason"
                     :options="creditData.text.listReasons"
                     v-model="reason"
                     placeholder="Selecione uma opção"
                 />
-                <FormTextInput
-                    v-if="reason === others"
-                    v-model="reasonOthers"
-                    placeholder="Motivo"
-                    name="Motivo"
-                />
+                <div class="reason-input">
+                    <FormTextInput
+                        v-if="reason === others"
+                        v-model="reasonOthers"
+                        placeholder="Escreva seu motivo"
+                        name="Motivo"
+                    />
+                </div>
                 <div v-show="isInvalid">
                     <InputError :msg="creditData.text.errors" />
                 </div>
@@ -118,8 +105,9 @@ import ButtonDefault from '@/components/ui/ButtonDefault.vue'
 import SliderInput from '@/components/ui/SliderInput.vue'
 import MultiSelect from '@/components/ui/MultiSelect.vue'
 import InputError from '@/components/ui/InputError.vue'
-import C4bApi from '@/api/C4bApi'
+import { c4bApi } from '@/api/C4bApi'
 import Slider from '@vueform/slider'
+import ICredit from '@/types/credit'
 
 enum ERequestStatus {
     Idle,
@@ -152,8 +140,10 @@ export default defineComponent({
     setup: (props, context) => {
         const minCredit = 10000
         const maxCredit = 5000000
-        const credit = ref(props.limit)
-        const installments = ref(props.installment)
+        const creditUser = ref({
+            limit: props.limit,
+            installment: props.installment
+        })
         const currencyOptions: CurrencyInputOptions = {
             currency: 'BRL',
             currencyDisplay: CurrencyDisplay.symbol,
@@ -182,7 +172,7 @@ export default defineComponent({
          * @param {number} value - Numbero recebido do slider
          */
         const format = (value: number): string => {
-            return `R$${currencyFormatBR(value)}`
+            return `R$ ${currencyFormatBR(value)}`
         }
         /**
          * Função utilizada para limpar o campo do motivo no form
@@ -190,8 +180,8 @@ export default defineComponent({
         const reset = (): void => {
             reasonOthers.value = ''
             isInvalid.value = false
-            credit.value = 10000
-            installments.value = 6
+            creditUser.value.limit = 10000
+            creditUser.value.installment = 6
         }
         /** Função para validar o multiselect */
         const handleReasonSelect = (reason: string): void => {
@@ -206,19 +196,43 @@ export default defineComponent({
                     isInvalid.value = true
                 else isInvalid.value = false
         }
-        const convertToNumber = (value: string): string => {
+        /**
+         * Função utilizada para converter um numero em formato real
+         * para sem formato.
+         * @param {string} value - String do valor formatado
+         * @return {number} - retorna o valor formatado sem formato.
+         */
+        const convertToNumber = (value: string): number => {
             const newValue = value.replace(/,/g, '').replace(/\./g, '')
-            return newValue
+                .replace(/R/g, '').replace(/\$/g, '')
+            return Number(newValue.substr(0, newValue.length - 2))
         }
+        /**
+         * Função utilizada para pegar o valor do input e colocar no slider
+         * com um debounce de 500ms
+         * @param {string} inputSlide - O input do slider.
+         */
+        const changeSlide = debounce((inputSlide: string) => {
+            const newvalue = convertToNumber(inputSlide)
+            creditUser.value.limit = newvalue
+        }, 500)
+
+        /**
+         * variavel computed com posibilidade de pegar o valor atual 
+         * e setar um novo com debounce.
+         */
         const creditFormatted = computed({
-            get: () =>  currencyFormatBR(credit.value),
-            set: value =>  {credit.value = Number(convertToNumber(value))}
+            get: () => 'R$ ' + currencyFormatBR(creditUser.value.limit),
+            set: value => {
+                changeSlide(value)
+            }
         })
         const minIncome = computed(() => {
             return currencyFormatBR(income.value)
         })
         const handleSubmit = () => {
-            context.emit('valuesChanged', credit.value, installments.value)
+            context.emit('valuesChanged', creditUser.value.limit,
+                creditUser.value.installment)
             validationReasonOthers()
             if (invalidCredit.value == true) return
             if (isInvalid.value == true) return
@@ -226,12 +240,9 @@ export default defineComponent({
                 context.emit('formButtonClicked', reasonOthers.value, reset)
             else context.emit('formButtonClicked', reason.value, reset)
         }
-        const CalculateIncome = async (limit: number, installment: number) => {
+        const CalculateIncome = async (creditUser: ICredit) => {
             try {
-                const recomendedIncome = await new C4bApi().getCreditInfo(
-                    limit,
-                    installment
-                )
+                const recomendedIncome = await c4bApi.credit().post(creditUser)
                 return recomendedIncome.data
             } catch (error: any) {
                 console.log(error)
@@ -240,30 +251,29 @@ export default defineComponent({
         /** Calculo para os valors por defeto do credito */
         onMounted(() => {
             requestStatus.value = ERequestStatus.InProgress
-            calMinIncome(credit.value, installments.value)
+            calMinIncome(creditUser.value)
         })
         /** Este evento é acionado sempre que o multiselect é clicado.*/
         watch(reason, (reason) => handleReasonSelect(reason))
         /** Espera que o slider do limite de crédito mude de valor */
-        watch(credit, (currentCredit) => {
+        watch(creditUser, (currentCreditUser) => {
             requestStatus.value = ERequestStatus.Debounced
-            if (credit.value < 10000 || credit.value > 5000000)
+            if (currentCreditUser.limit < 10000 ||
+                currentCreditUser.limit > 5000000)
                 invalidCredit.value = true
             else
                 invalidCredit.value = false
 
-            calMinIncomeDebounce(currentCredit, installments.value)
-        })
-        /** Espera que o slider de parcelas mude de valor */
-        watch(installments, (currentInstallments) => {
-            requestStatus.value = ERequestStatus.Debounced
-            calMinIncomeDebounce(credit.value, currentInstallments)
+            calMinIncomeDebounce(currentCreditUser)
+        },
+        { 
+            deep: true
         })
         /** Função asíncrona que espera que o backend faça o cálculo do
          * faturamento recomendado */
-        const calMinIncome = async (credit: number, installments: number) => {
-            const minIncome = await CalculateIncome(credit, installments)
-            if (credit <= 0 || installments <= 0) return 0
+        const calMinIncome = async (creditUser: ICredit) => {
+            const minIncome = await CalculateIncome(creditUser)
+            if (creditUser.limit <= 0 || creditUser.installment <= 0) return 0
             if (requestStatus.value != ERequestStatus.Debounced) {
                 income.value = minIncome
                 requestStatus.value = ERequestStatus.Done
@@ -271,9 +281,9 @@ export default defineComponent({
         }
         /** Wrapper de funcao calMinIncome para adicionar um delay */
         const calMinIncomeDebounce = debounce(
-            (credit: number, installments: number) => {
+            (creditUser: ICredit) => {
                 requestStatus.value = ERequestStatus.InProgress
-                calMinIncome(credit, installments)
+                calMinIncome(creditUser)
             },
             500 // 500ms
         )
@@ -281,9 +291,8 @@ export default defineComponent({
             handleSubmit,
             currencyFormatBR,
             minIncome,
-            credit,
+            creditUser,
             creditFormatted,
-            installments,
             currencyOptions,
             minCredit,
             maxCredit,
@@ -302,6 +311,9 @@ export default defineComponent({
 })
 </script>
 <style scoped>
+.select-reason {
+    text-transform: capitalize;
+}
 .wrapper-slider {
     width: 80%;
     margin-bottom: 20px;
@@ -316,8 +328,9 @@ export default defineComponent({
     --slider-handle-ring-color: #00000030;
     --slider-tooltip-bg: #64380c;
 }
-:deep .input-base {
-    border: none;
+.reason-input :deep .input-base{
+    width: 400px;
+    text-align: left;
 }
 .input-wrapper {
     text-align: center;
@@ -341,6 +354,11 @@ export default defineComponent({
 .current-value {
     margin-bottom: 10px;
 }
+
+.input-credit :deep .input-base {
+    width: 132px;
+}
+
 :deep .info-box {
     margin-top: 20px;
 }

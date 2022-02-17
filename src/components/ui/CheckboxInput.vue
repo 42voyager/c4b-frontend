@@ -3,12 +3,7 @@
         <div class="wrapper-checkbox">
             <label :for="nameID" class="label-checkbox">
                 <p v-if="labelMessage === ''">
-                    Li e aceito os
-                    <a v-on:click.prevent="openModal()" href="#">
-                        termos e condições
-                    </a>
-                    de relacionamento com o Banco ABC. Autorizo a consulta de
-                    SRC e da Agenda de recebíveis da empresa.
+                   <slot></slot>
                 </p>
                 <p v-if="labelMessage != ''">
                     {{ labelMessage }}
@@ -19,7 +14,6 @@
                     class="checkbox-input"
                     v-bind="$attrs"
                     :value="modelValue"
-                    v-bind:class="{ invalid: !checkErrorsReturn(messageError) }"
                     @input="
                         $emit(
                             'update:modelValue',
@@ -30,8 +24,8 @@
                 />
                 <span class="checkmark"></span>
             </label>
-            <div v-if="!checkErrorsReturn(messageError)">
-                <input-error :msg="messageError" />
+            <div class="div-error" v-show="isInvalid">
+                <InputError :msg="errors"/>
             </div>
         </div>
     </div>
@@ -42,8 +36,8 @@
  * @prop {String[]} messageError - Array de mensagens de erro
  * @prop {Boolean} modelValue - Variavel para salvar se o checkbox está
  * selecionado ou não
- * @prop {String} labelMessage - Label do checkbox, caso não passe nenhum vai
- * ir o padrão do form user data.
+ * @prop {String} labelMessage - Label do checkbox, caso não passe nenhum
+ * é possivel escreve dentro por causa do slot.
  */
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
@@ -55,7 +49,11 @@ export default defineComponent({
         InputError,
     },
     props: {
-        messageError: {
+        isInvalid: {
+            type: Boolean,
+            default: false
+        },
+        errors: {
             type: Array as PropType<string[]> | undefined,
             default: () => {
                 return ['']
@@ -150,9 +148,5 @@ export default defineComponent({
     transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
-}
-.invalid {
-    border: solid 1px red;
-    margin-bottom: 0;
 }
 </style>
