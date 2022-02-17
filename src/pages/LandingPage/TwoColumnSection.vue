@@ -22,13 +22,6 @@
                     :limit="limit"
                     :installment="installment"
                 />
-                <!-- <TheFormCreditData
-          v-show="!nextStep"
-          @nextStepClicked="goNextStep"
-          @valueChanged="creditDataChanged"
-          :limit="limit"
-          :installment="installment"
-        /> -->
                 <TheFormUserData
                     v-show="nextStep && requestSucceeded == false"
                     @submitForm="submitUser"
@@ -303,7 +296,6 @@ export default TwoColumnSection
     display: flex;
     flex-flow: column;
     justify-content: center;
-    overflow: hidden;
     position: relative;
 }
 .column-two h2 {
@@ -321,34 +313,23 @@ export default TwoColumnSection
         width: 100%;
         height: auto;
     }
-    .column-one {
-        height: calc(100vh - 50px);
-    }
 }
 @media (min-width: 992px) {
     .side-img {
         width: 100%;
-        /* height: 900px; */
+        position: relative;
+        z-index: 9;
     }
 }
 @media (min-width: 1200px) {
-    .side-img {
-        transform: translateY(-36%);
-        margin-top: 50%;
-        height: 950px;
-    }
     .two-column-section {
         flex-direction: row;
     }
     .column {
         width: 50%;
     }
-    .column-one {
-        height: calc(100vh - 50px);
-    }
     .column-two {
         padding: 0 20px;
-        height: calc(100vh - 50px);
     }
     .column-two h2 {
         font-size: 25px;
@@ -357,7 +338,11 @@ export default TwoColumnSection
 @media (min-width: 1460px) {
     .side-img {
         width: 100%;
-        height: auto;
+        height: unset;
+        object-fit: cover;
+    }
+    .two-column-section {
+        height: 800px;
     }
 }
 </style>

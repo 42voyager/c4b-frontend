@@ -89,11 +89,13 @@
                           EValidity.Invalid
                 "
             />
-            <ButtonDefault
-                id="btn-submit-request-credit"
-                msg="Assinar"
-                @buttonClicked="signContract"
-            />
+            <div class="div-btn">
+                <ButtonDefault
+                    id="btn-submit-request-credit"
+                        msg="Assinar"
+                    @buttonClicked="signContract"
+                />
+            </div>
             <SuccessForm
                 v-if="wasContractSigned"
                 buttonLabel="Finalizar"
@@ -237,6 +239,14 @@ export default defineComponent({
 })
 </script>
 <style scoped>
+:deep .wrapper-checkbox {
+    margin-left: 30px;
+    margin-right: 30px;
+    width: unset;
+}
+.div-btn {
+    text-align: center;
+}
 .wrapper-contract-info {
     display: flex;
     flex-flow: column;
