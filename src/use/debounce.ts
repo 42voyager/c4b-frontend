@@ -13,7 +13,7 @@ export const debounce = <F extends (...args: any[]) => unknown>(
 
     return (...args: Parameters<F>) => {
         clearTimeout(timer)
-        timer = setTimeout(() => {
+        timer = window.setTimeout(() => {
             cb.apply(this, args)
         }, timeOut)
     }

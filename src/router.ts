@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import LandingPage from '@/pages/LandingPage/LandingPage.vue'
 import BankInfoPage from '@/pages/BankInfoPage/BankInfoPage.vue'
 import ContractPage from '@/pages/ContractPage/ContractPage.vue'
+import ReportPage from '@/pages/ReportPage/ReportPage.vue'
 import ErrorPage from '@/pages/ErrorPage/ErrorPage.vue'
 import { c4bApi } from './api/C4bApi'
 
@@ -80,6 +81,7 @@ const routes: RouteRecordRaw[] = [
             if (userState == UserProgressStatus.BankInfo) return
         },
     },
+    { path: '/Admin', component: ReportPage },
     { path: '/Error', component: ErrorPage },
 ]
 

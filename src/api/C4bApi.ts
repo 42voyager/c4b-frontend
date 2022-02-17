@@ -12,6 +12,7 @@ const API_URL_BANK_INFO = '/BankInfo/'
 const API_URL_CREDIT = '/Credit/'
 const API_URL_CONTRACT = '/Contract/'
 const API_URL_RATESTAR = '/FeedbackStar/'
+const API_URL_REPORT = '/Report/'
 
 
 export const c4bApi = {
@@ -32,6 +33,9 @@ export const c4bApi = {
     },
     credit: (): C4bApiCredit => {
         return apiCredit
+    },
+    report: (): C4bApiReport => {
+        return apiReport
     }
 }
 class C4bApiBase<T> {
@@ -40,13 +44,12 @@ class C4bApiBase<T> {
     async post(entity: T): Promise<AxiosResponse> {
         return await axios.post(this.endpoint, entity)
     }
-    async get(hash: string): Promise<AxiosResponse> {
+    async get(hash?: string): Promise<AxiosResponse> {
         return await axios.get(this.endpoint + hash)
     }
     async put(entity: T): Promise<AxiosResponse> {
         return await axios.put(this.endpoint, entity)
     }
-
 }
 
 class C4bApiUser extends C4bApiBase<IUserData> {
@@ -73,9 +76,14 @@ class C4bApiCredit extends C4bApiBase<ICredit> {
     protected endpoint = API_URL_CREDIT
 }
 
+class C4bApiReport extends C4bApiBase<ICredit> {
+    protected endpoint = API_URL_REPORT
+}
+
 const apiUser = new C4bApiUser()
 const apiBankInfo = new C4bApiBankInfo()
 const apiFeedback = new C4bApiFeedback()
 const apiContract = new C4bApiContract()
 const apiFeedbackStar = new C4bApiFeedbackStar()
 const apiCredit = new C4bApiCredit()
+const apiReport = new C4bApiReport()
