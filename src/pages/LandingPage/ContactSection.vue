@@ -307,6 +307,7 @@ function createList(): Array<IInputsInfo> {
 } */
 .form-Feedback button {
     margin-bottom: 50px;
+    margin-top: 15px;
 }
 
 @media (max-width: 576px) {

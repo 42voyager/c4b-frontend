@@ -176,7 +176,7 @@ export default defineComponent({
             else return false
         }
         const submitForm = (): void => {
-            // if (!validFrontForm(user.value)) return
+            if (!validFrontForm(user.value)) return
             context.emit('submitForm', user.value, resetForm)
         }
         const backStep = (): void => {
@@ -215,15 +215,8 @@ export default defineComponent({
     margin: 20px 0;
     width: 100%;
 }
-#message-panel {
-    margin-bottom: 15px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    width: 100%;
-    height: 100%;
-    background-color: #fff;
-    text-align: center;
-    border: solid 1px green;
+#btn-step-back {
+    width: 146px;
 }
 .modal-body {
     overflow-y: auto;

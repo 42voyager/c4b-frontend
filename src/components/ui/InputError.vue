@@ -24,10 +24,9 @@ export default defineComponent({
 p {
     font-size: 12px;
     color: red;
-    padding: 5px;
     max-width: 300px;
     width: 100%;
-    margin-top: 0;
+    margin: 0;
     text-align: left;
 }
 </style>

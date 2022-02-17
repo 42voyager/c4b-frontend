@@ -156,6 +156,14 @@ export default defineComponent({
 </script>
 
 <style scoped>
+:deep .wrapper-input {
+    width: 310px;
+    margin-left: auto;
+    margin-right: auto;
+}
+:deep .default {
+    width: 310px;
+}
 .two-column {
     display: flex;
     width: 100%;
@@ -187,8 +195,6 @@ export default defineComponent({
     text-align: center;
 }
 .inputs {
-    width: calc(100% - 40px);
-    max-width: 500px;
     margin: 20px 0px;
 }
 .side-img {
@@ -212,6 +218,10 @@ export default defineComponent({
     }
     .side-img {
         width: auto;
+    }
+    :deep .wrapper-input, 
+    :deep .default {
+        width: 450px;
     }
 }
 @media (min-width: 992px) {

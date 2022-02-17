@@ -54,8 +54,9 @@ export default defineComponent({
 <style scoped>
 .default {
     max-width: 100%;
-    font-size: 18px;
-    margin: 10px 0 !important;
+    font-size: 14px;
+    margin: 10px auto !important;
+    width: 310px;
 }
 :deep .multiselect__content-wrapper::-webkit-scrollbar {
     width: 12px;
@@ -73,7 +74,10 @@ export default defineComponent({
 }
 :deep .multiselect__option {
     white-space: normal;
-    line-height: 22px;
+    line-height: 1.2;
+}
+:deep .multiselect__option span {
+    padding: 7px 14px;
 }
 :deep .multiselect__placeholder {
     font-size: 18px !important;
@@ -82,16 +86,15 @@ export default defineComponent({
     margin-bottom: 0px;
 }
 :deep .multiselect__single {
-    font-size: 18px !important;
+    font-size: 14px !important;
     color: black !important;
     padding: 0;
     margin-bottom: 0;
 }
 :deep .multiselect__tags {
-    padding: 14px !important;
+    padding: 7px 14px !important;
     border-radius: 2px;
     border: solid 1px #8d6236;
-
 }
 
 :deep .multiselect__tags:hover {
@@ -100,7 +103,6 @@ export default defineComponent({
 }
 
 :deep .multiselect__select {
-    top: 10px;
-    Z-index: 1;
+    z-index: 1;
 }
 </style>

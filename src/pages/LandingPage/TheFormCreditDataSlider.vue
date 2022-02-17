@@ -59,7 +59,7 @@
                 </p>
             </InfoBox>
             <div class="input-wrapper">
-                <p class="creditLabel">
+                <p class="creditLabel-reason">
                     {{ creditData.text.titleMotivo }}
                 </p>
                 <MultiSelect
@@ -76,7 +76,7 @@
                         name="Motivo"
                     />
                 </div>
-                <div v-show="isInvalid">
+                <div v-show="isInvalid" class="div-error-reason">
                     <InputError :msg="creditData.text.errors" />
                 </div>
             </div>
@@ -311,6 +311,17 @@ export default defineComponent({
 })
 </script>
 <style scoped>
+.div-error-reason p{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.creditLabel-reason {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 20px;
+}
 .select-reason {
     text-transform: capitalize;
 }
@@ -329,18 +340,19 @@ export default defineComponent({
     --slider-tooltip-bg: #64380c;
 }
 .reason-input :deep .input-base{
-    width: 400px;
+    width: 280px;
+    padding: 7px 14px;
     text-align: left;
 }
 .input-wrapper {
     text-align: center;
 }
 .btn-next {
-    margin: 40px 20px 50px 20px;
+    margin: 20px 20px 50px 20px;
     text-align: right;
 }
 .creditLabel {
-    margin: 25px 0;
+    margin: 20px 0;
     margin-bottom: 50px;
     text-align: center;
     font-size: 20px;
@@ -357,10 +369,23 @@ export default defineComponent({
 
 .input-credit :deep .input-base {
     width: 132px;
+    padding: 7px 14px;
+    font-size: 14px;
+}
+
+.input-credit :deep .wrapper-input {
+    text-align: center;
+}
+:deep .div-error p {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 :deep .info-box {
-    margin-top: 20px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    padding: 7px 14px;
 }
 :deep .info-box p {
     margin-bottom: 2px;
