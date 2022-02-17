@@ -176,7 +176,7 @@ export default defineComponent({
             else return false
         }
         const submitForm = (): void => {
-            if (!validFrontForm(user.value)) return
+            // if (!validFrontForm(user.value)) return
             context.emit('submitForm', user.value, resetForm)
         }
         const backStep = (): void => {

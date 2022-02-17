@@ -43,9 +43,10 @@
                 />
                 <TheSuccessForm
                     v-if="requestSucceeded === true"
-                    buttonLabel="Avaliar"
+                    buttonLabel="ENVIAR"
                     @newRequestClicked="newRequestClicked"
                     @rateClicked="submitStarRate"
+                    :useRatingChips="true"
                     :useRateStar="true"
                     :userData="userData"
                 />

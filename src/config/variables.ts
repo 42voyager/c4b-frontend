@@ -60,7 +60,7 @@ export const Infos = {
         {
             text: 'O processo é digitalizado para facilitar ' +
             'o envío de informações, ' +
-            'esqueça de ter que agendar visitas ao banco ou ' + 
+            'esqueça de ter que agendar visitas ao banco ou ' +
             'de perder tempo em trámites ' +
             'burocráticos. Você faz a solicitação desde seu ' +
             'computador e recebe a resposta ' +
@@ -74,11 +74,11 @@ export const FaqsInfo = {
     title: 'FAQ',
     faqs: [
         {
-            question: 'Preciso comprovar faturamento?', 
+            question: 'Preciso comprovar faturamento?',
             answer: 'Sim, porém, nosso processo ' +
             'permite solicitar um crédito a medida de seu faturamento.'
         },
-        { 
+        {
             question: 'Existe algúm processo além de preencher o formulário?',
             answer: 'Não, você só precisa preencher o formulário e C4B faz o '+
             'trabalho. Você faz a solicitação desde ' +
@@ -170,7 +170,7 @@ export const Terms = [
         'qualquer outro sistema que venha a sucedê-los.'
     },
     {
-        text: 'As Empresas autorizam ainda, em caráter ' + 
+        text: 'As Empresas autorizam ainda, em caráter ' +
         'irrevogável e irretratável,'+
         'que referidas informações, no que tange a operações por estas'+
         'realizadas junto ao Banco ABC Brasil S.A., sejam por este, bem como'+
@@ -357,3 +357,32 @@ export const ListItemsNavBarBankForm = [
         href: '/#faq-section'
     }
 ]
+
+export const RatingChips = {
+    text: {
+        titleChips: 'Gostou do processo?',
+        ratingChips: [
+            {
+                id: 1,
+                name: 'ratingChip',
+                label: 'Simples de usar'
+            },
+            {
+                id: 2,
+                name: 'ratingChip',
+                label: 'Visual lindo'
+            },
+            {
+                id: 3,
+                name: 'ratingChip',
+                label: 'Informações organizadas'
+            },
+            {
+                id: 4,
+                name: 'ratingChip',
+                label: 'Pode melhorar'
+            }
+        ],
+        errors: ['Você precisa escolher um motivo válido!']
+    }
+}
