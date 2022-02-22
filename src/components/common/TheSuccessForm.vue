@@ -33,17 +33,17 @@
                     >!
                 </p>
             </div>
-            <div class="wrapper-star" v-if="useRateStar">
-                <StarRating
-                    v-model:rating="feedbackStar.rateStar"
-                    :show-rating="false"
-                    :star-size="20"
-                />
-            </div>
             <div class="wrapper-chips" v-if="useRatingChips">
                 <p class="label-chip">
                     {{ ratingChips.text.titleChips }}
                 </p>
+                <div class="wrapper-star" v-if="useRateStar">
+                    <StarRating
+                        v-model:rating="feedbackStar.rateStar"
+                        :show-rating="false"
+                        :star-size="20"
+                    />
+                </div>
                 <div class="chip-group">
                     <ChipInput
                         v-for="(ratingChip, id) of ratingChips.text.ratingChips"
@@ -55,6 +55,9 @@
                         :isChecked="chipsText.indexOf(ratingChip.label) != -1"
                         @chipClicked="chipClicked(ratingChip.label)"
                     />
+                </div>
+                <div class="input-reason">
+                    <FormTextInput :label="'Feedback'" v-model="inputRating"/>
                 </div>
             </div>
             <ButtonDefault
@@ -79,6 +82,7 @@ import StarRating from 'vue-star-rating'
 import { RatingChips } from '@/config/variables'
 import ChipInput from '@/components/ui/ChipInput.vue'
 import IUserData from '@/types/user'
+import FormTextInput from '@/components/ui/FormTextInput.vue'
 import { currencyFormatBR } from '@/use/numberFormatBR'
 
 /**
@@ -122,6 +126,7 @@ export default defineComponent({
         Modal,
         StarRating,
         ChipInput,
+        FormTextInput,
     },
     setup(props, context) {
         const feedbackStar = ref({
@@ -132,6 +137,7 @@ export default defineComponent({
         })
         const ratingChips = RatingChips
         const chipsText = ref([] as string[])
+        const inputRating = ref('')
         /**
          * Função invoca o emit para fechar o modal.
          */
@@ -143,15 +149,19 @@ export default defineComponent({
          * E fechar o modal.
          */
         const handleRateStar = () => {
-		let chipText
-		let tempMessage = ''
-		let newFeedbackStar = { ...feedbackStar.value }
-		for(chipText of chipsText.value)
-		{
-			tempMessage += chipText + ', '
-		}
-		newFeedbackStar.message = tempMessage
-		if (newFeedbackStar.rateStar >= 0)
+            let chipText
+            let tempMessage = ''
+            let newFeedbackStar = { ...feedbackStar.value }
+            for (chipText of chipsText.value) {
+                tempMessage += chipText + ', '
+            }
+            if (inputRating.value.length > 0)
+            {
+                tempMessage += ' inputRating: { '
+                tempMessage += inputRating.value + ' }'
+            }
+            newFeedbackStar.message = tempMessage
+            if (newFeedbackStar.rateStar >= 0)
                 context.emit('rateClicked', newFeedbackStar)
         }
         const chipClicked = (label: string) => {
@@ -169,18 +179,19 @@ export default defineComponent({
             ratingChips,
             chipClicked,
             chipsText,
+            inputRating
         }
     },
 })
 </script>
 
 <style scoped>
-:deep .input-base {
+/* :deep .input-base {
     background-color: rgb(245 245 245 / 80%);
 }
 :deep .input-base:hover {
     background-color: rgb(228 228 228 / 80%);
-}
+} */
 :deep .modal-wrapper {
     height: auto;
     width: 280px;
@@ -188,6 +199,11 @@ export default defineComponent({
 }
 p {
     margin-bottom: 5px;
+}
+.input-reason {
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
 }
 .wrapper-success {
     display: flex;
@@ -219,6 +235,8 @@ p {
 }
 .wrapper-star {
     text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 :deep .vue-star-rating-pointer {
     background-color: #64380c;
@@ -228,8 +246,8 @@ p {
     margin-right: 2px !important;
 }
 .wrapper-chips {
-    margin-top: 40px;
-    margin-bottom: 40px;
+    margin-top: 0;
+    margin-bottom: 30px;
 }
 .label-chip {
     text-align: center;

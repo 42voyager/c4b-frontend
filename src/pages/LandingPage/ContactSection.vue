@@ -10,7 +10,7 @@
                     :key="index"
                     :type="item.type"
                     :name="item.name"
-                    :placeholder="item.placeholder"
+                    :label="item.placeholder"
                     v-model="userFeedBack[item.name]"
                     :errors="
                         !checkErrorsReturn(
@@ -28,10 +28,15 @@
                               EValidity.Invalid
                     "
                 />
-                <div class="wrapper-input">
+                <div class="wrapper-textarea">
+                    <label
+                        class="label-textarea"
+                        :class="{ 'textarea-focus': inFocus || filled ? true : false}"
+                        >
+                        Mensagem
+                    </label>
                     <textarea
                         name="Feedback"
-                        placeholder="Mensagem"
                         id="Feedback"
                         class="textarea-input"
                         v-bind:class="{
@@ -43,6 +48,8 @@
                         rows="10"
                         required
                         v-model="userFeedBack.message"
+                        @focus="focusTextArea"
+                        @blur="outFocusTextArea"
                     />
                 </div>
                 <div v-show="validLocalTextArea(messageResponse.Message)">
@@ -115,6 +122,9 @@ export default defineComponent({
         FormTextInput,
     },
     setup() {
+        const inFocus = ref(false)
+        const outFocus = ref(true)
+        const filled = ref(false)
         const messageResponse = ref({})
         const { executeRecaptcha, recaptchaLoaded } = useReCaptcha()!
 
@@ -150,6 +160,24 @@ export default defineComponent({
             if (success.value == true && e.key == 'Escape') newFeedback()
         }
         document.addEventListener('keyup', keyEscDown)
+
+        const changeFilled = (): void => {
+            if (userFeedBack.value.message.length != 0)
+                filled.value = true
+            else
+                filled.value = false
+        }
+
+        const focusTextArea = (): void => {
+            inFocus.value = true
+            outFocus.value = false
+            changeFilled()
+        }
+        const outFocusTextArea = (): void => {
+            inFocus.value = false
+            outFocus.value = true
+            changeFilled()
+        }
         return {
             success,
             FeedbackConfiguration,
@@ -163,6 +191,11 @@ export default defineComponent({
             messageResponse,
             EValidity,
             capitalize,
+            focusTextArea,
+            outFocusTextArea,
+            inFocus,
+            outFocus,
+            filled
         }
     },
 })
@@ -272,7 +305,7 @@ function createList(): Array<IInputsInfo> {
     text-align: center;
 }
 
-.textarea-input {
+.wrapper-textarea {
     margin: 10px 0;
     max-width: 100%;
     width: calc(100% - 30px);
@@ -284,21 +317,46 @@ function createList(): Array<IInputsInfo> {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     background-color: rgb(245 245 245 / 80%);
-    resize: none;
+    position: relative;
 }
-.wrapper-input {
+.label-textarea {
+    position: absolute;
+    top: 21px;
+    left: 29px;
+    z-index: 1;
+}
+.textarea-focus {
+    top: 10px;
+    color: #b29475;
+    font-size: 14px;
+}
+.wrapper-textarea {
     text-align: left;
+}
+.textarea-input {
+    position: relative;
+    resize: none;
+    outline: none;
+    z-index: 9;
+    border: none;
+    background: none;
+    font-size: 18px;
+    padding: 15px;
+    max-width: 90%;
+}
+.textarea-input:focus {
+    background: none;
 }
 .textarea-input::placeholder {
     font-size: 16px;
 }
-:deep .input-base {
+:deep .wrapper-input {
     background-color: rgb(245 245 245 / 80%);
 }
-:deep .input-base:hover {
+:deep .wrapper-input:hover {
     background-color: rgb(228 228 228 / 80%);
 }
-.textarea-input:hover {
+.wrapper-textarea:hover {
     border-bottom: inset 2px #937454;
     background-color: rgb(228 228 228 / 80%);
 }

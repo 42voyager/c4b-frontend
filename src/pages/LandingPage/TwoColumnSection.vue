@@ -163,7 +163,6 @@ const TwoColumnSection = defineComponent({
             feedbackStar.name = userData.value.name
             feedbackStar.email = userData.value.email
             try {
-                console.log(feedbackStar)
                 await c4bApi.feedbackStar().post(feedbackStar)
                 newRequestClicked()
             } catch (err: any) {
