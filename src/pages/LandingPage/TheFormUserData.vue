@@ -6,7 +6,8 @@
                 :key="index"
                 :type="item.type"
                 :name="item.name"
-                :placeholder="item.placeholder"
+                :label="item.placeholder"
+   
                 :errors="
                     !checkErrorsReturn(messageResponse[capitalize(item.name)])
                         ? messageResponse[capitalize(item.name)]
