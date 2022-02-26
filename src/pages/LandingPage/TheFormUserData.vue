@@ -85,6 +85,7 @@ import CheckboxInput from '@/components/ui/CheckboxInput.vue'
 import { defineComponent, ref } from 'vue'
 import { checkErrorsReturn, EValidity, capitalize, validName,
     validEmail, validPhone, validCnpj } from '@/use/validInput'
+import { theme } from '@/config/styles'
 
 interface IUserBasicData {
     name: string
@@ -199,6 +200,7 @@ export default defineComponent({
             inputValidationStatus,
             EValidity,
             capitalize,
+            theme
         }
     },
 })
@@ -224,7 +226,7 @@ export default defineComponent({
     height: 100%;
 }
 a {
-    color: #977f66;
+    color: v-bind('theme.colors.primary.midlight');
     text-decoration: underline;
 }
 a:hover {

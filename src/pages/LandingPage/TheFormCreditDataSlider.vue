@@ -27,9 +27,6 @@
                     ]"
                 />
             </div>
-            <!-- v-maska="{ 
-                    mask: ['R$##.###,##','Y######'], 
-                    tokens: {'Y': {pattern: /[0-5]/}}}" -->
             <p class="creditLabel">Em quantas vezes você quer pagar?</p>
             <div class="wrapper-slider">
                 <Slider
@@ -113,6 +110,7 @@ import InputError from '@/components/ui/InputError.vue'
 import { c4bApi } from '@/api/C4bApi'
 import Slider from '@vueform/slider'
 import ICredit from '@/types/credit'
+import { theme } from '@/config/styles'
 
 enum ERequestStatus {
     Idle,
@@ -330,6 +328,7 @@ export default defineComponent({
             format,
             errorsCredit,
             invalidCredit,
+            theme
         }
     },
 })
@@ -358,10 +357,10 @@ export default defineComponent({
     --slider-handle-height: 30px;
     --slider-width: 16px;
     --slider-height: 16px;
-    --slider-bg: #b9ada0;
-    --slider-connect-bg: #64380c;
-    --slider-handle-ring-color: #00000030;
-    --slider-tooltip-bg: #64380c;
+    --slider-bg: v-bind('theme.colors.secondary.light');
+    --slider-connect-bg: v-bind('theme.colors.secondary.middark');
+    --slider-handle-ring-color: v-bind('theme.colors.black');
+    --slider-tooltip-bg: v-bind('theme.colors.secondary.middark');
 }
 .reason-input :deep .input-base {
     width: 280px;

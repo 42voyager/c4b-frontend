@@ -7,7 +7,7 @@
                 :alt="altText"
             />
         </div>
-        <div class="column column-two">
+        <div class="column column-two" id="column-two">
             <h2 v-if="requestSucceeded == false">{{ titleForm }}</h2>
             <form
                 id="form-request"
@@ -61,6 +61,7 @@ import TheSuccessForm from '@/components/common/TheSuccessForm.vue'
 import { TitleForm, errorMsgs } from '@/config/variables'
 import GetIPApi from '@/api/getIpApi'
 import IUserFeedBackStar from '@/types/userFeedBackStar'
+import { theme } from '@/config/styles'
 
 const TwoColumnSection = defineComponent({
     props: {
@@ -242,6 +243,7 @@ const TwoColumnSection = defineComponent({
             installment,
             limit,
             userData,
+            theme
         }
     },
 })
@@ -279,7 +281,7 @@ export default TwoColumnSection
 .two-column-section {
     display: flex;
     width: 100%;
-    background-color: #b2937548;
+    background-color: v-bind("theme.colors.primary.lightest");
     flex-direction: column;
 }
 .column {

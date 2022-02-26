@@ -1,6 +1,6 @@
 <template>
     <li v-for="(item, index) of listItems" :key="index">
-        <a :href="item.href">
+        <a v-on:click="goToElement(item.href)">
             {{ item.title }}
         </a>
     </li>
@@ -9,6 +9,8 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { ListItemsNavBar } from '@/config/variables'
+import { goToElement } from '@/use/navigation'
+import { theme } from '@/config/styles'
 
 export interface IitemsNavBar {
     title: string
@@ -21,6 +23,12 @@ export default defineComponent({
             type: Object as PropType<IitemsNavBar[]>,
             default: ListItemsNavBar,
         },
+    },
+    setup() {
+        return {
+            goToElement,
+            theme,
+        }
     },
 })
 </script>
@@ -37,16 +45,16 @@ li a {
 }
 
 a:hover {
-    color: #b29475;
+    color: v-bind('theme.colors.primary.midlight');
 }
 
 li:first-child a:hover {
-    background-color: #b29475;
-    color: white;
+    background-color: v-bind('theme.colors.primary.midlight');
+    color: v-bind('theme.colors.white');
     border-radius: 10px;
 }
 
 li:first-child a {
-    color: #b29475;
+    color: v-bind('theme.colors.primary.midlight');
 }
 </style>

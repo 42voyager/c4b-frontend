@@ -74,6 +74,7 @@ import MultiSelect from '@/components/ui/MultiSelect.vue'
 import InputError from '@/components/ui/InputError.vue'
 import { CreditData } from '@/config/variables'
 import { defineComponent, ref, watch } from 'vue-demi'
+import { theme } from '@/config/styles'
 
 /**
  * Component utilizado na primeira etapa da solicitação de crédito
@@ -155,6 +156,7 @@ export default defineComponent({
             isInvalid,
             nextStepClicked,
             handleInput,
+            theme
         }
     },
 })

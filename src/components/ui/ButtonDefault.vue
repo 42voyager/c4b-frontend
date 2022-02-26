@@ -6,6 +6,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { theme } from '@/config/styles'
 
 /**
  * Component utilizado para inserir um botão
@@ -27,6 +28,7 @@ export default defineComponent({
         }
         return {
             onClick,
+            theme
         }
     },
 })
@@ -34,18 +36,18 @@ export default defineComponent({
 
 <style scoped>
 button {
-    color: #b29475;
+    color: v-bind('theme.colors.primary.midlight');
     padding: 7px 30px;
-    background-color: #fff;
+    background-color: v-bind('theme.colors.white');
     border-radius: 10px;
     font-size: 15px;
     cursor: pointer;
-    border: 1px solid #b29475;
+    border: 1px solid v-bind('theme.colors.primary.midlight');
 }
 
 button:hover {
-    color: #fff;
-    background-color: #b29475;
+    color: v-bind('theme.colors.white');
+    background-color: v-bind('theme.colors.primary.midlight');
 }
 @media (min-width: 768px) {
     button {

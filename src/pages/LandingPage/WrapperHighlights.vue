@@ -19,6 +19,7 @@
 <script lang="ts">
 import Highlight from '@/components/common/HighlightItem.vue'
 import { defineComponent, PropType } from 'vue-demi'
+import { theme } from '@/config/styles'
 
 interface IPontosForte {
     title: string
@@ -45,6 +46,11 @@ export default defineComponent({
     components: {
         Highlight,
     },
+    setup() {
+        return {
+            theme
+        }
+    }
 })
 </script>
 

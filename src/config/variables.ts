@@ -331,15 +331,15 @@ export const BankInfoFormConfiguration = {
 export const ListItemsNavBar = [
     {
         title: 'Solicite seu crédito',
-        href: '#form-request'
+        href: 'column-two'
     },
     {
         title: 'Informações',
-        href: '#information-section'
+        href: 'information-section'
     },
     {
         title: 'FAQ',
-        href: '#faq-section'
+        href: 'faq-section'
     }
 ]
 

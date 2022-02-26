@@ -12,6 +12,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import CollapsiblePanel from '@/components/common/CollapsiblePanel.vue'
+import { theme } from '@/config/styles'
 
 interface IFaqs {
     faqs: [
@@ -34,14 +35,18 @@ export default defineComponent({
     components: {
         CollapsiblePanel,
     },
+    setup() {
+        return {
+            theme,
+        }
+    },
 })
-
 </script>
 
 <style scoped>
 .faq-section {
     margin-top: 1px;
-    background-color: #e9e1d8;
+    background-color: v-bind('theme.colors.primary.lightest');
     font-size: 12px;
 }
 

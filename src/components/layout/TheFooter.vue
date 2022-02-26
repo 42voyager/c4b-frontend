@@ -23,8 +23,15 @@
 </template>
 
 <script lang="ts">
+import { theme } from '@/config/styles'
+
 export default {
-    name: 'TheFooter'
+    name: 'TheFooter',
+    setup() {
+        return {
+            theme
+        }
+    }
 }
 </script>
 
@@ -32,10 +39,10 @@ export default {
 .wrapper-footer {
     width: calc(100% - 60px);
     padding: 40px 30px 10px 30px;
-    background-color: #070708;
+    background-color: v-bind('theme.colors.black');
     margin-left: 0;
     margin-right: 0;
-    color: white;
+    color: v-bind('theme.colors.white');
     display: flex;
     text-align: left;
     flex-direction: column;
@@ -52,7 +59,7 @@ p {
 
 a {
     text-decoration: none;
-    color: white;
+    color: v-bind('theme.colors.white');
 }
 
 p:hover {
