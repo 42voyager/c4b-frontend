@@ -1,14 +1,15 @@
 <template>
     <TheHeader>
         <template #menu-list>
-            <NavBarMenuItems
-                :listItems="ListItemsNavBarBankForm"/>
+            <NavBarMenuItems :listItems="ListItemsNavBarBankForm" />
         </template>
     </TheHeader>
     <div class="alert">
-        <h1>Erro 400</h1>
-        <h3>Página não encontrada</h3>
-        <p><a href="/">Voltar para a home.</a></p>
+        <h1>{{ ErrorConfiguration.text.error }}</h1>
+        <h3>{{ ErrorConfiguration.text.title }}</h3>
+        <p>
+            <a href="/">{{ ErrorConfiguration.text.text }}</a>
+        </p>
     </div>
     <TheFooter />
 </template>
@@ -17,18 +18,19 @@
 import { defineComponent } from 'vue'
 import TheHeader from '@/components/layout/TheHeader.vue'
 import NavBarMenuItems from '@/components/common/NavBarMenuItems.vue'
-import { ListItemsNavBarBankForm } from '@/config/variables'
+import { ListItemsNavBarBankForm, ErrorConfiguration } from '@/config/variables'
 import TheFooter from '@/components/layout/TheFooter.vue'
 
 export default defineComponent({
     components: {
         TheHeader,
         NavBarMenuItems,
-        TheFooter
+        TheFooter,
     },
     setup() {
         return {
-            ListItemsNavBarBankForm
+            ListItemsNavBarBankForm,
+            ErrorConfiguration,
         }
     },
 })

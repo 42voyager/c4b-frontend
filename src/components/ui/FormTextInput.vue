@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, watch } from 'vue'
+import { defineComponent, PropType, ref } from 'vue'
 import InputError from '@/components/ui/InputError.vue'
 import { checkErrorsReturn } from '@/use/validInput'
 import { theme } from '@/config/styles'
@@ -158,9 +158,6 @@ label {
     background-color: v-bind('theme.colors.grays.lightest');
     border-bottom: inset 2px v-bind("theme.colors.primary.mid");
 }
-/* .input-base:hover::placeholder {
-    font-size: 19px;
-} */
 .btn-next {
     margin: 40px 20px;
     text-align: right;

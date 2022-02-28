@@ -23,9 +23,9 @@
                     :isCollapsed="true"
                 />
                 <p>
-                    <b>{{ userData.name }}</b> recebemos sua solicitação de<br />
+                    <b>{{ userData.name }}</b> recebemos sua solicitação de<br/>
                     <b>R$ {{ currencyFormatBR(userData.limit) }}</b> para pagar
-                    em <b>{{ userData.installment }}</b> meses.<br />
+                    em <b>{{ userData.installment }}</b> meses.<br/>
                     Obrigado pelo seu interesse!
                 </p>
                 <p>
@@ -188,12 +188,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-/* :deep .input-base {
-    background-color: rgb(245 245 245 / 80%);
-}
-:deep .input-base:hover {
-    background-color: rgb(228 228 228 / 80%);
-} */
 :deep .modal-wrapper {
     height: auto;
     width: 280px;
@@ -284,7 +278,3 @@ p {
     }
 }
 </style>
-
-function label(arg0: string, label: any): any {
-  throw new Error('Function not implemented.')
-}

@@ -31,8 +31,10 @@
                 <div class="wrapper-textarea">
                     <label
                         class="label-textarea"
-                        :class="{ 'textarea-focus': inFocus || filled ? true : false}"
-                        >
+                        :class="{
+                            'textarea-focus': inFocus || filled ? true : false,
+                        }"
+                    >
                         Mensagem
                     </label>
                     <textarea
@@ -87,8 +89,13 @@ import InputError from '@/components/ui/InputError.vue'
 import TheSuccessForm from '@/components/common/TheSuccessForm.vue'
 import IUserFeedBack from '@/types/userFeedBack'
 import { FeedbackConfiguration } from '@/config/variables'
-import { checkErrorsReturn, EValidity, capitalize, validName,
-    validEmail } from '@/use/validInput'
+import {
+    checkErrorsReturn,
+    EValidity,
+    capitalize,
+    validName,
+    validEmail,
+} from '@/use/validInput'
 import { theme } from '@/config/styles'
 
 interface IInputsInfo {
@@ -163,10 +170,8 @@ export default defineComponent({
         document.addEventListener('keyup', keyEscDown)
 
         const changeFilled = (): void => {
-            if (userFeedBack.value.message.length != 0)
-                filled.value = true
-            else
-                filled.value = false
+            if (userFeedBack.value.message.length != 0) filled.value = true
+            else filled.value = false
         }
 
         const focusTextArea = (): void => {
@@ -197,7 +202,7 @@ export default defineComponent({
             inFocus,
             outFocus,
             filled,
-            theme
+            theme,
         }
     },
 })
@@ -362,9 +367,6 @@ function createList(): Array<IInputsInfo> {
     border-bottom: inset 2px v-bind('theme.colors.primary.mid');
     background-color: v-bind('theme.colors.grays.mid');
 }
-/* .textarea-input:hover::placeholder {
-    font-size: 19px;
-} */
 .form-Feedback button {
     margin-bottom: 50px;
     margin-top: 15px;

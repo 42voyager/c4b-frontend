@@ -1,7 +1,7 @@
 <template>
     <transition name="show-user-credit">
         <div class="container-credit">
-            <p class="creditLabel">De quanto seu negócio precisa</p>
+            <p class="creditLabel">{{ creditData.text.titleLimits }}</p>
             <div class="wrapper-slider">
                 <Slider
                     id="credit-slider"
@@ -27,7 +27,7 @@
                     ]"
                 />
             </div>
-            <p class="creditLabel">Em quantas vezes você quer pagar?</p>
+            <p class="creditLabel">{{ creditData.titleInstallments }}</p>
             <div class="wrapper-slider">
                 <Slider
                     id="installments-slider"
@@ -40,7 +40,7 @@
             </div>
             <InfoBox class="info-box">
                 <p>
-                    Faturamento mensal recomendado seria:
+                    {{ creditData.text.titleFaturamento }}
                     <br />
                     <b
                         v-show="
@@ -264,7 +264,7 @@ export default defineComponent({
                 console.log(error)
             }
         }
-        /** Calculo para os valors por defeto do credito */
+        /** Calculo para os valores por defeto do credito */
         onMounted(() => {
             requestStatus.value = ERequestStatus.InProgress
             calMinIncome(creditUser.value)
