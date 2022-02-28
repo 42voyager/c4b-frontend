@@ -1,9 +1,9 @@
 <template>
-    <div class="chip-input"
-		v-on:click="clicked()"
-		:class="{'checked': isChecked}"
-	>
-		<!-- @change="$emit('change', $event.target.checked)" -->
+    <div
+        class="chip-input"
+        v-on:click="clicked()"
+        :class="{ checked: isChecked }"
+    >
         <label class="label-chip" :for="id">{{ label }}</label>
     </div>
 </template>
@@ -35,7 +35,7 @@ export default defineComponent({
         }
         return {
             clicked,
-            theme
+            theme,
         }
     },
 })
@@ -51,11 +51,11 @@ export default defineComponent({
     text-align: center;
     border-radius: 15px;
     cursor: pointer;
-	white-space: nowrap;
-	font-size: 14px;
+    white-space: nowrap;
+    font-size: 14px;
 }
 .label-chip:hover {
-	background-color: v-bind('theme.colors.secondary.mid');
+    background-color: v-bind('theme.colors.secondary.mid');
 }
 .checkbox-chip {
     position: absolute;

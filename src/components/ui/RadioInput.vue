@@ -8,7 +8,6 @@
             :value="id"
             :checked="isChecked"
         />
-		<!-- @change="$emit('change', $event.target.checked)" -->
         <label class="label-radio" :for="id">{{ label }}</label>
     </div>
 </template>

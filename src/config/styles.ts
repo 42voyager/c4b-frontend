@@ -20,7 +20,7 @@ export const theme = {
         },
         foreground: {},
         grays: {
-			lightest: 'rgb(255 255 255 / 80%)',
+            lightest: 'rgb(255 255 255 / 80%)',
             light: 'rgb(245 245 245 / 80%)',
             mid: 'rgb(228 228 228 / 80%)',
             dark: 'rgba(187, 187, 187, 0.5)',

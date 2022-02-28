@@ -62,7 +62,7 @@ export default defineComponent({
     border-radius: 25px;
     outline: none;
     opacity: 0.7;
-	overflow: hidden;
+    overflow: hidden;
     -webkit-transition: 0.2s;
     transition: opacity 0.2s;
     width: calc(80% - 30px);
@@ -78,8 +78,8 @@ export default defineComponent({
     height: 25px;
     border-radius: 50%;
     background: #64380c;
-	box-shadow: -500px 0 0 490px #807264;
-	cursor: pointer;
+    box-shadow: -500px 0 0 490px #807264;
+    cursor: pointer;
     border: none;
 }
 
@@ -97,23 +97,22 @@ export default defineComponent({
 }
 .slider-input::-webkit-slider-runnable-track {
     color: #b9ada0;
-	height: 25px;
+    height: 25px;
 }
 .slider-input::-moz-range-progress {
     background-color: #807264;
-	height: 25px;
+    height: 25px;
 }
 .slider-input::-moz-range-track {
     background-color: #b9ada0;
-	height: 25px;
+    height: 25px;
 }
-/* IE*/
 .slider-input::-ms-fill-lower {
     background-color: #807264;
-	height: 25px;
+    height: 25px;
 }
 .slider-input::-ms-fill-upper {
     background-color: #b9ada0;
-	height: 25px;
+    height: 25px;
 }
 </style>
