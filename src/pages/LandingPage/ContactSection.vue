@@ -31,8 +31,10 @@
                 <div class="wrapper-textarea">
                     <label
                         class="label-textarea"
-                        :class="{ 'textarea-focus': inFocus || filled ? true : false}"
-                        >
+                        :class="{
+                            'textarea-focus': inFocus || filled ? true : false,
+                        }"
+                    >
                         Mensagem
                     </label>
                     <textarea
@@ -87,8 +89,14 @@ import InputError from '@/components/ui/InputError.vue'
 import TheSuccessForm from '@/components/common/TheSuccessForm.vue'
 import IUserFeedBack from '@/types/userFeedBack'
 import { FeedbackConfiguration } from '@/config/variables'
-import { checkErrorsReturn, EValidity, capitalize, validName,
-    validEmail } from '@/use/validInput'
+import {
+    checkErrorsReturn,
+    EValidity,
+    capitalize,
+    validName,
+    validEmail,
+} from '@/use/validInput'
+import { theme } from '@/config/styles'
 
 interface IInputsInfo {
     type: string
@@ -162,10 +170,8 @@ export default defineComponent({
         document.addEventListener('keyup', keyEscDown)
 
         const changeFilled = (): void => {
-            if (userFeedBack.value.message.length != 0)
-                filled.value = true
-            else
-                filled.value = false
+            if (userFeedBack.value.message.length != 0) filled.value = true
+            else filled.value = false
         }
 
         const focusTextArea = (): void => {
@@ -195,7 +201,8 @@ export default defineComponent({
             outFocusTextArea,
             inFocus,
             outFocus,
-            filled
+            filled,
+            theme,
         }
     },
 })
@@ -313,10 +320,10 @@ function createList(): Array<IInputsInfo> {
     font-family: inherit;
     border: none;
     border-radius: 5px;
-    border-bottom: inset 2px #b29475;
+    border-bottom: inset 2px v-bind('theme.colors.primary.midlight');
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    background-color: rgb(245 245 245 / 80%);
+    background-color: v-bind('theme.colors.grays.light');
     position: relative;
 }
 .label-textarea {
@@ -327,7 +334,7 @@ function createList(): Array<IInputsInfo> {
 }
 .textarea-focus {
     top: 10px;
-    color: #b29475;
+    color: v-bind('theme.colors.primary.midlight');
     font-size: 14px;
 }
 .wrapper-textarea {
@@ -351,18 +358,15 @@ function createList(): Array<IInputsInfo> {
     font-size: 16px;
 }
 :deep .wrapper-input {
-    background-color: rgb(245 245 245 / 80%);
+    background-color: v-bind('theme.colors.grays.light');
 }
 :deep .wrapper-input:hover {
-    background-color: rgb(228 228 228 / 80%);
+    background-color: v-bind('theme.colors.grays.mid');
 }
 .wrapper-textarea:hover {
-    border-bottom: inset 2px #937454;
-    background-color: rgb(228 228 228 / 80%);
+    border-bottom: inset 2px v-bind('theme.colors.primary.mid');
+    background-color: v-bind('theme.colors.grays.mid');
 }
-/* .textarea-input:hover::placeholder {
-    font-size: 19px;
-} */
 .form-Feedback button {
     margin-bottom: 50px;
     margin-top: 15px;

@@ -7,7 +7,6 @@
                 :type="item.type"
                 :name="item.name"
                 :label="item.placeholder"
-   
                 :errors="
                     !checkErrorsReturn(messageResponse[capitalize(item.name)])
                         ? messageResponse[capitalize(item.name)]
@@ -40,8 +39,7 @@
                 <a v-on:click.prevent="openModal()" href="#">
                     termos e condições
                 </a>
-                de relacionamento com o Banco ABC. Autorizo a consulta de SRC e
-                da Agenda de recebíveis da empresa.
+                {{ Terms.textTerm }}
             </CheckboxInput>
             <div class="wrapper-button">
                 <ButtonDefault
@@ -57,15 +55,18 @@
             </div>
             <Modal v-show="!openedModal" @buttonXModal="openModal()">
                 <div class="modal-header">
-                    <h3>Termos e condições</h3>
+                    <h3>{{ Terms.modal.title }}</h3>
                 </div>
                 <div class="modal-body">
                     <div class="header">
-                        <p>Informação de uso publico</p>
-                        <h1>Autorização</h1>
+                        <p>{{ Terms.modal.headerText }}</p>
+                        <h1>{{ Terms.modal.headerTitle }}</h1>
                     </div>
                     <div class="content">
-                        <p v-for="(term, index) of Terms" :key="index">
+                        <p
+                            v-for="(term, index) of Terms.modal.list"
+                            :key="index"
+                        >
                             {{ term.text }}
                         </p>
                     </div>
@@ -83,8 +84,16 @@ import { Terms, UserConfiguration } from '@/config/variables'
 import FormTextInput from '@/components/ui/FormTextInput.vue'
 import CheckboxInput from '@/components/ui/CheckboxInput.vue'
 import { defineComponent, ref } from 'vue'
-import { checkErrorsReturn, EValidity, capitalize, validName,
-    validEmail, validPhone, validCnpj } from '@/use/validInput'
+import {
+    checkErrorsReturn,
+    EValidity,
+    capitalize,
+    validName,
+    validEmail,
+    validPhone,
+    validCnpj,
+} from '@/use/validInput'
+import { theme } from '@/config/styles'
 
 interface IUserBasicData {
     name: string
@@ -199,6 +208,7 @@ export default defineComponent({
             inputValidationStatus,
             EValidity,
             capitalize,
+            theme,
         }
     },
 })
@@ -224,7 +234,7 @@ export default defineComponent({
     height: 100%;
 }
 a {
-    color: #977f66;
+    color: v-bind('theme.colors.primary.midlight');
     text-decoration: underline;
 }
 a:hover {

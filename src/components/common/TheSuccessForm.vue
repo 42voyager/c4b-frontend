@@ -23,9 +23,9 @@
                     :isCollapsed="true"
                 />
                 <p>
-                    <b>{{ userData.name }}</b> recebemos sua solicitação de<br />
+                    <b>{{ userData.name }}</b> recebemos sua solicitação de<br/>
                     <b>R$ {{ currencyFormatBR(userData.limit) }}</b> para pagar
-                    em <b>{{ userData.installment }}</b> meses.<br />
+                    em <b>{{ userData.installment }}</b> meses.<br/>
                     Obrigado pelo seu interesse!
                 </p>
                 <p>
@@ -84,6 +84,7 @@ import ChipInput from '@/components/ui/ChipInput.vue'
 import IUserData from '@/types/user'
 import FormTextInput from '@/components/ui/FormTextInput.vue'
 import { currencyFormatBR } from '@/use/numberFormatBR'
+import { theme } from '@/config/styles'
 
 /**
  * Component de finalização dos formulário.
@@ -179,23 +180,18 @@ export default defineComponent({
             ratingChips,
             chipClicked,
             chipsText,
-            inputRating
+            inputRating,
+            theme
         }
     },
 })
 </script>
 
 <style scoped>
-/* :deep .input-base {
-    background-color: rgb(245 245 245 / 80%);
-}
-:deep .input-base:hover {
-    background-color: rgb(228 228 228 / 80%);
-} */
 :deep .modal-wrapper {
     height: auto;
     width: 280px;
-    background-color: #e9e0d8;
+    background-color: v-bind('theme.colors.primary.lightest');
 }
 p {
     margin-bottom: 5px;
@@ -220,9 +216,9 @@ p {
     padding: 13px 65px;
     border-radius: 4px;
     font-size: 14px;
-    background-color: #b29475;
-    color: #fff;
-    border-color: #b29475;
+    background-color: v-bind('theme.colors.primary.midlight');
+    color: v-bind('theme.colors.white');
+    border-color: v-bind('theme.colors.primary.midlight');
     font-size: 16px;
     letter-spacing: 1px;
 }
@@ -231,7 +227,7 @@ p {
     font-size: 14px;
 }
 .wrapper-success button:hover {
-    background-color: #685747;
+    background-color: v-bind('theme.colors.primary.middark');
 }
 .wrapper-star {
     text-align: center;
@@ -239,7 +235,7 @@ p {
     margin-bottom: 20px;
 }
 :deep .vue-star-rating-pointer {
-    background-color: #64380c;
+    background-color: v-bind('theme.colors.secondary.middark');
     padding: 3px 3px 1px 5px;
     border-radius: 13px;
     margin-left: 2px;
@@ -282,7 +278,3 @@ p {
     }
 }
 </style>
-
-function label(arg0: string, label: any): any {
-  throw new Error('Function not implemented.')
-}

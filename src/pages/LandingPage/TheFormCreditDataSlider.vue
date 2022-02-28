@@ -1,7 +1,7 @@
 <template>
     <transition name="show-user-credit">
         <div class="container-credit">
-            <p class="creditLabel">De quanto seu negócio precisa</p>
+            <p class="creditLabel">{{ creditData.text.titleLimits }}</p>
             <div class="wrapper-slider">
                 <Slider
                     id="credit-slider"
@@ -27,10 +27,7 @@
                     ]"
                 />
             </div>
-            <!-- v-maska="{ 
-                    mask: ['R$##.###,##','Y######'], 
-                    tokens: {'Y': {pattern: /[0-5]/}}}" -->
-            <p class="creditLabel">Em quantas vezes você quer pagar?</p>
+            <p class="creditLabel">{{ creditData.titleInstallments }}</p>
             <div class="wrapper-slider">
                 <Slider
                     id="installments-slider"
@@ -43,7 +40,7 @@
             </div>
             <InfoBox class="info-box">
                 <p>
-                    Faturamento mensal recomendado seria:
+                    {{ creditData.text.titleFaturamento }}
                     <br />
                     <b
                         v-show="
@@ -113,6 +110,7 @@ import InputError from '@/components/ui/InputError.vue'
 import { c4bApi } from '@/api/C4bApi'
 import Slider from '@vueform/slider'
 import ICredit from '@/types/credit'
+import { theme } from '@/config/styles'
 
 enum ERequestStatus {
     Idle,
@@ -266,7 +264,7 @@ export default defineComponent({
                 console.log(error)
             }
         }
-        /** Calculo para os valors por defeto do credito */
+        /** Calculo para os valores por defeto do credito */
         onMounted(() => {
             requestStatus.value = ERequestStatus.InProgress
             calMinIncome(creditUser.value)
@@ -330,6 +328,7 @@ export default defineComponent({
             format,
             errorsCredit,
             invalidCredit,
+            theme
         }
     },
 })
@@ -358,10 +357,10 @@ export default defineComponent({
     --slider-handle-height: 30px;
     --slider-width: 16px;
     --slider-height: 16px;
-    --slider-bg: #b9ada0;
-    --slider-connect-bg: #64380c;
-    --slider-handle-ring-color: #00000030;
-    --slider-tooltip-bg: #64380c;
+    --slider-bg: v-bind('theme.colors.secondary.light');
+    --slider-connect-bg: v-bind('theme.colors.secondary.middark');
+    --slider-handle-ring-color: v-bind('theme.colors.black');
+    --slider-tooltip-bg: v-bind('theme.colors.secondary.middark');
 }
 .reason-input :deep .input-base {
     width: 280px;

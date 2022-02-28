@@ -1,41 +1,43 @@
 <template>
     <div class="wrapper-footer">
-        <div class="footer-col">
-            <h3>Sobre nós</h3>
-            <a href="https://www.abcbrasil.com.br/quem-somos/" target="_blank">
-                <p>Banco ABC Brasil</p>
+        <div
+            v-for="(item, index) of FooterConfiguration.list"
+            :key="index"
+            class="footer-col"
+        >
+            <h3>{{ item.title }}</h3>
+            <a v-if="item.link.length > 0" :href="item.link" target="_blank">
+                <p>{{ item.text }}</p>
             </a>
-        </div>
-        <div class="footer-col">
-            <h3>SAC</h3>
-            <p>0800 724 74 11</p>
-        </div>
-        <div class="footer-col">
-            <h3>Ouvidoria</h3>
-            <p>800-725-7595</p>
-        </div>
-        <div class="footer-col">
-            <h3>Localização</h3>
-            <p>Avenida Cidade Jardim, 803 – 2º andar Itaim Bibi –
-                São Paulo-SP – 01453-000 CNPJ: 28.195.667/0001-06</p>
+            <p v-else>{{ item.text }}</p>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-export default {
-    name: 'TheFooter'
-}
+import { theme } from '@/config/styles'
+import { FooterConfiguration } from '@/config/variables'
+import { defineComponent } from 'vue-demi'
+
+export default defineComponent({
+    name: 'TheFooter',
+    setup() {
+        return {
+            theme,
+            FooterConfiguration,
+        }
+    },
+})
 </script>
 
 <style scoped>
 .wrapper-footer {
     width: calc(100% - 60px);
     padding: 40px 30px 10px 30px;
-    background-color: #070708;
+    background-color: v-bind('theme.colors.black');
     margin-left: 0;
     margin-right: 0;
-    color: white;
+    color: v-bind('theme.colors.white');
     display: flex;
     text-align: left;
     flex-direction: column;
@@ -52,7 +54,7 @@ p {
 
 a {
     text-decoration: none;
-    color: white;
+    color: v-bind('theme.colors.white');
 }
 
 p:hover {

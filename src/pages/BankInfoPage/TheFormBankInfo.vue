@@ -32,6 +32,7 @@
                     :isInvalid="inputIsInvalid[item.name]"
                     :errors="inputsErrors[item.name]"
                     v-model="formInfo[item.name]"
+                    class=""
                 />
             </div>
             <ButtonDefault
@@ -219,9 +220,14 @@ export default defineComponent({
     .side-img {
         width: auto;
     }
-    :deep .wrapper-input, 
     :deep .default {
-        width: 450px;
+        width: calc(450px - 30px);
+    }
+    :deep .wrapper-input {
+        width: calc(450px - 60px);
+    }
+    :deep .input-base {
+        padding: 5px;
     }
 }
 @media (min-width: 992px) {

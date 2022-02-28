@@ -67,6 +67,7 @@ import ButtonDefault from '@/components/ui/ButtonDefault.vue'
 import MultiSelect from '@/components/ui/MultiSelect.vue'
 import InputError from '@/components/ui/InputError.vue'
 import { c4bApi } from '@/api/C4bApi'
+import { theme } from '@/config/styles'
 
 export default defineComponent({
     props: {
@@ -199,6 +200,7 @@ export default defineComponent({
             others,
             reasonOthers,
             isInvalid,
+            theme
         }
     },
 })

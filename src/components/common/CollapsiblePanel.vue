@@ -26,6 +26,7 @@
 <script lang="ts">
 import Caret from '@/components/icons/Caret.vue'
 import { defineComponent, ref } from 'vue'
+import { theme } from '@/config/styles'
 
 export default defineComponent({
     props: {
@@ -49,7 +50,8 @@ export default defineComponent({
         }
         return {
             onHeaderClicked,
-            isCollapsed
+            isCollapsed,
+            theme
         }
     },
 })
@@ -66,13 +68,13 @@ export default defineComponent({
 .header-panel {
     display: flex;
     justify-content: space-between;
-    border: 1px solid #070708;
+    border: 1px solid v-bind('theme.colors.black');
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
-    color: #b29475;
+    color: v-bind('theme.colors.primary.midlight');
     padding: 15px 30px;
     cursor: pointer;
-    background-color: #070708;
+    background-color: v-bind('theme.colors.black');
 }
 .header-panel svg {
     transition: all 0.25s linear;
@@ -81,9 +83,9 @@ export default defineComponent({
     height: auto;
     transition: all 0.25s linear;
     overflow: hidden;
-    border-bottom: 1px solid #b29475;
-    border-left: 1px solid #b29475;
-    border-right: 1px solid #b29475;
+    border-bottom: 1px solid v-bind('theme.colors.primary.midlight');
+    border-left: 1px solid v-bind('theme.colors.primary.midlight');
+    border-right: 1px solid v-bind('theme.colors.primary.midlight');
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
     opacity: 1;

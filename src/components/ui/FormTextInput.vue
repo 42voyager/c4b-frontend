@@ -23,9 +23,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, watch } from 'vue'
+import { defineComponent, PropType, ref } from 'vue'
 import InputError from '@/components/ui/InputError.vue'
 import { checkErrorsReturn } from '@/use/validInput'
+import { theme } from '@/config/styles'
 
 /**
  * Component utilizado para input de texto/numerico
@@ -102,7 +103,8 @@ export default defineComponent({
             outFocusInput,
             inFocus,
             outFocus,
-            filled
+            filled,
+            theme
         }
     },
 })
@@ -111,7 +113,7 @@ export default defineComponent({
 <style scoped>
 .input-focus {
     top: 3px;
-    color: #b29475;
+    color: v-bind('theme.colors.primary.midlight');
     font-size: 14px;
 }
 
@@ -125,10 +127,10 @@ export default defineComponent({
     margin: 10px 0;
     border: none;
     border-radius: 5px;
-    border-bottom: inset 2px #b29475;
+    border-bottom: inset 2px v-bind('theme.colors.primary.midlight');
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    background-color: white;
+    background-color: v-bind('theme.colors.white');
     position: relative;
 }
 label {
@@ -153,12 +155,9 @@ label {
 }
 
 .wrapper-input:hover {
-    background-color: rgb(255 255 255 / 80%);
-    border-bottom: inset 2px #937454;
+    background-color: v-bind('theme.colors.grays.lightest');
+    border-bottom: inset 2px v-bind("theme.colors.primary.mid");
 }
-/* .input-base:hover::placeholder {
-    font-size: 19px;
-} */
 .btn-next {
     margin: 40px 20px;
     text-align: right;
