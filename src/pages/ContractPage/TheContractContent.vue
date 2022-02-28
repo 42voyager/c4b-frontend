@@ -25,74 +25,32 @@
             </div>
         </div>
         <p class="pw-alert">
-            A senha é o CNPJ usando . - e /. exemplo: (19.259.103/0001-07)
+            {{ ContractConfiguration.text.pw_exemple }}
         </p>
         <iframe :src="pdfString"></iframe>
         <div class="wrapper-checkboxes">
             <CheckboxInput
-                v-model="contractData.acceptTerms"
-                :nameID="'aceitaTermos'"
-                :labelMessage="
-                'Li e acepto os Termos e Condições de ' +
-                'Relacionamento com o Banco ABC. Declaro que tenho poderes ' +
-                'de assinatura pela empresa e autorizo a ' +
-                'assinatura eletrônica.'
-                "
+                v-for="(item, index) of ContractConfiguration.text.list"
+                :key="index"
+                v-model="contractData[item.name]"
+                :nameID="item.name"
+                :labelMessage="item.text"
                 :errors="
-                    !checkErrorsReturn(messageResponse.AcceptTerms)
-                        ? messageResponse.AcceptTerms
-                        : ContractConfiguration.text.acceptTerms.errors
+                    !checkErrorsReturn(messageResponse[capitalize(item.name)])
+                        ? messageResponse[capitalize(item.name)]
+                        : item.errors
                 "
                 :isInvalid="
-                    !checkErrorsReturn(messageResponse.AcceptTerms)
+                    !checkErrorsReturn(messageResponse[capitalize(item.name)])
                         ? true
-                        : checkboxValidationStatus.acceptTerms ==
-                          EValidity.Invalid
-                "
-            />
-            <CheckboxInput
-                v-model="contractData.authorizeSCR"
-                :nameID="'autorizaSCR'"
-                :labelMessage="
-                    'Autorizo a Consulta de SCR e da Agenda de ' +
-                    'Recebíveis e ac eito os Termos de Sigilo Bancário'
-                "
-                :errors="
-                    !checkErrorsReturn(messageResponse.AuthorizeSCR)
-                        ? messageResponse.AuthorizeSCR
-                        : ContractConfiguration.text.authorizeSCR.errors
-                "
-                :isInvalid="
-                    !checkErrorsReturn(messageResponse.AuthorizeSCR)
-                        ? true
-                        : checkboxValidationStatus.authorizeSCR ==
-                          EValidity.Invalid
-                "
-            />
-            <CheckboxInput
-                v-model="contractData.existsPEP"
-                :nameID="'temPEP'"
-                :labelMessage="
-                'Na empresa, há alguma Pessoa Exposta ' +
-                'Publicamente (PEP) em uma função de administração, controle ' +
-                'direto ou indireto, direção, procuração ou representação?'
-                "
-                :errors="
-                    !checkErrorsReturn(messageResponse.ExistsPEP)
-                        ? messageResponse.ExistsPEP
-                        : ContractConfiguration.text.existsPEP.errors
-                "
-                :isInvalid="
-                    !checkErrorsReturn(messageResponse.ExistsPEP)
-                        ? true
-                        : checkboxValidationStatus.existsPEP ==
+                        : checkboxValidationStatus[item.name] ==
                           EValidity.Invalid
                 "
             />
             <div class="div-btn">
                 <ButtonDefault
                     id="btn-submit-request-credit"
-                        msg="Assinar"
+                    msg="Assinar"
                     @buttonClicked="signContract"
                 />
             </div>
@@ -114,7 +72,7 @@ import { currencyFormatBR } from '@/use/numberFormatBR'
 import CheckboxInput from '@/components/ui/CheckboxInput.vue'
 import ButtonDefault from '@/components/ui/ButtonDefault.vue'
 import SuccessForm from '@/components/common/TheSuccessForm.vue'
-import { EValidity, checkErrorsReturn } from '@/use/validInput'
+import { EValidity, checkErrorsReturn, capitalize } from '@/use/validInput'
 import IContract from '@/types/contract'
 import { ContractConfiguration } from '@/config/variables'
 
@@ -234,6 +192,7 @@ export default defineComponent({
             checkErrorsReturn,
             checkboxValidationStatus,
             EValidity,
+            capitalize
         }
     },
 })

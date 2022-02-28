@@ -17,6 +17,7 @@
 <script lang="ts">
 import MenuButton from '@/components/icons/MenuButton.vue'
 import { defineComponent, ref } from 'vue'
+import { theme } from '@/config/styles'
 
 export default defineComponent({
     components: {
@@ -31,12 +32,12 @@ export default defineComponent({
         return {
             onClicked,
             isCollapsed,
+            theme,
         }
     },
 })
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .header {
     display: flex;
@@ -44,7 +45,7 @@ export default defineComponent({
     width: 100%;
     top: 0;
     padding: 7px 15px;
-    background-color: #fff;
+    background-color: v-bind('theme.colors.white');
     align-items: center;
     z-index: 99;
     box-shadow: 5px 5px 5px rgba(187, 187, 187, 0.5);
@@ -54,7 +55,7 @@ export default defineComponent({
     list-style-type: none;
     padding: 15px 5px;
     width: 100%;
-    background-color: white;
+    background-color: v-bind('theme.colors.white');
     margin-left: -15px;
     margin-right: -15px;
     margin-top: 180px;

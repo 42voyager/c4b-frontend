@@ -7,7 +7,7 @@
             <ButtonDefault
                 msg="Solicite seu crédito"
                 id="btn-banner"
-                @buttonClicked="goToElement('form-request')"
+                @buttonClicked="goToElement('column-two')"
                 />
         </div>
         <div class="banner-overlay"></div>
@@ -18,21 +18,19 @@
 import { defineComponent } from 'vue'
 import ButtonDefault from '@/components/ui/ButtonDefault.vue'
 import { TitleBanner, TextBanner } from '@/config/variables'
+import { goToElement } from '@/use/navigation'
+import { theme } from '@/config/styles'
 
 export default defineComponent({
     components: {
         ButtonDefault
     },
     setup() {
-        const goToElement = (id: string): void => {
-            document.getElementById(id)!.scrollIntoView({
-                behavior: 'smooth'
-            })
-        }
         return {
             titleBanner: TitleBanner,
             textBanner: TextBanner,
-            goToElement
+            goToElement,
+            theme
         }
     }
 })
@@ -56,14 +54,14 @@ button {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #47392b;
+    background-color: v-bind('theme.colors.primary.darker');
     display: block;
     z-index: 9;
     opacity: 0.5;
 }
 
 .text-banner {
-    color: white;
+    color: v-bind('theme.colors.white');
     position: absolute;
     left: 50%;
     bottom: 20px;

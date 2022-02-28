@@ -23,9 +23,9 @@
                     :isCollapsed="true"
                 />
                 <p>
-                    <b>{{ userData.name }}</b> recebemos sua solicitação de<br />
+                    <b>{{ userData.name }}</b> recebemos sua solicitação de<br/>
                     <b>R$ {{ currencyFormatBR(userData.limit) }}</b> para pagar
-                    em <b>{{ userData.installment }}</b> meses.<br />
+                    em <b>{{ userData.installment }}</b> meses.<br/>
                     Obrigado pelo seu interesse!
                 </p>
                 <p>
@@ -33,17 +33,17 @@
                     >!
                 </p>
             </div>
-            <div class="wrapper-star" v-if="useRateStar">
-                <StarRating
-                    v-model:rating="feedbackStar.rateStar"
-                    :show-rating="false"
-                    :star-size="20"
-                />
-            </div>
             <div class="wrapper-chips" v-if="useRatingChips">
                 <p class="label-chip">
                     {{ ratingChips.text.titleChips }}
                 </p>
+                <div class="wrapper-star" v-if="useRateStar">
+                    <StarRating
+                        v-model:rating="feedbackStar.rateStar"
+                        :show-rating="false"
+                        :star-size="20"
+                    />
+                </div>
                 <div class="chip-group">
                     <ChipInput
                         v-for="(ratingChip, id) of ratingChips.text.ratingChips"
@@ -55,6 +55,9 @@
                         :isChecked="chipsText.indexOf(ratingChip.label) != -1"
                         @chipClicked="chipClicked(ratingChip.label)"
                     />
+                </div>
+                <div class="input-reason">
+                    <FormTextInput :label="'Feedback'" v-model="inputRating"/>
                 </div>
             </div>
             <ButtonDefault
@@ -79,7 +82,9 @@ import StarRating from 'vue-star-rating'
 import { RatingChips } from '@/config/variables'
 import ChipInput from '@/components/ui/ChipInput.vue'
 import IUserData from '@/types/user'
+import FormTextInput from '@/components/ui/FormTextInput.vue'
 import { currencyFormatBR } from '@/use/numberFormatBR'
+import { theme } from '@/config/styles'
 
 /**
  * Component de finalização dos formulário.
@@ -122,6 +127,7 @@ export default defineComponent({
         Modal,
         StarRating,
         ChipInput,
+        FormTextInput,
     },
     setup(props, context) {
         const feedbackStar = ref({
@@ -132,6 +138,7 @@ export default defineComponent({
         })
         const ratingChips = RatingChips
         const chipsText = ref([] as string[])
+        const inputRating = ref('')
         /**
          * Função invoca o emit para fechar o modal.
          */
@@ -143,15 +150,19 @@ export default defineComponent({
          * E fechar o modal.
          */
         const handleRateStar = () => {
-		let chipText
-		let tempMessage = ''
-		let newFeedbackStar = { ...feedbackStar.value }
-		for(chipText of chipsText.value)
-		{
-			tempMessage += chipText + ', '
-		}
-		newFeedbackStar.message = tempMessage
-		if (newFeedbackStar.rateStar >= 0)
+            let chipText
+            let tempMessage = ''
+            let newFeedbackStar = { ...feedbackStar.value }
+            for (chipText of chipsText.value) {
+                tempMessage += chipText + ', '
+            }
+            if (inputRating.value.length > 0)
+            {
+                tempMessage += ' inputRating: { '
+                tempMessage += inputRating.value + ' }'
+            }
+            newFeedbackStar.message = tempMessage
+            if (newFeedbackStar.rateStar >= 0)
                 context.emit('rateClicked', newFeedbackStar)
         }
         const chipClicked = (label: string) => {
@@ -169,25 +180,26 @@ export default defineComponent({
             ratingChips,
             chipClicked,
             chipsText,
+            inputRating,
+            theme
         }
     },
 })
 </script>
 
 <style scoped>
-:deep .input-base {
-    background-color: rgb(245 245 245 / 80%);
-}
-:deep .input-base:hover {
-    background-color: rgb(228 228 228 / 80%);
-}
 :deep .modal-wrapper {
     height: auto;
     width: 280px;
-    background-color: #e9e0d8;
+    background-color: v-bind('theme.colors.primary.lightest');
 }
 p {
     margin-bottom: 5px;
+}
+.input-reason {
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
 }
 .wrapper-success {
     display: flex;
@@ -204,9 +216,9 @@ p {
     padding: 13px 65px;
     border-radius: 4px;
     font-size: 14px;
-    background-color: #b29475;
-    color: #fff;
-    border-color: #b29475;
+    background-color: v-bind('theme.colors.primary.midlight');
+    color: v-bind('theme.colors.white');
+    border-color: v-bind('theme.colors.primary.midlight');
     font-size: 16px;
     letter-spacing: 1px;
 }
@@ -215,21 +227,23 @@ p {
     font-size: 14px;
 }
 .wrapper-success button:hover {
-    background-color: #685747;
+    background-color: v-bind('theme.colors.primary.middark');
 }
 .wrapper-star {
     text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 :deep .vue-star-rating-pointer {
-    background-color: #64380c;
+    background-color: v-bind('theme.colors.secondary.middark');
     padding: 3px 3px 1px 5px;
     border-radius: 13px;
     margin-left: 2px;
     margin-right: 2px !important;
 }
 .wrapper-chips {
-    margin-top: 40px;
-    margin-bottom: 40px;
+    margin-top: 0;
+    margin-bottom: 30px;
 }
 .label-chip {
     text-align: center;
@@ -264,7 +278,3 @@ p {
     }
 }
 </style>
-
-function label(arg0: string, label: any): any {
-  throw new Error('Function not implemented.')
-}

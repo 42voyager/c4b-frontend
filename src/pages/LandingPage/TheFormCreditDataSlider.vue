@@ -1,7 +1,7 @@
 <template>
     <transition name="show-user-credit">
         <div class="container-credit">
-            <p class="creditLabel">De quanto seu negócio precisa</p>
+            <p class="creditLabel">{{ creditData.text.titleLimits }}</p>
             <div class="wrapper-slider">
                 <Slider
                     id="credit-slider"
@@ -17,15 +17,17 @@
                     :isInvalid="invalidCredit"
                     :errors="errorsCredit"
                     id="input-credit-slider"
+                    name="input-credit-slider"
                     class="current-value"
                     v-model="creditFormatted"
-                    v-maska="['R$ ##.###,##', 'R$ ###.###,##', 'R$ #.###.###,##']"
+                    v-maska="[
+                        'R$ ##.###,##',
+                        'R$ ###.###,##',
+                        'R$ #.###.###,##',
+                    ]"
                 />
             </div>
-                <!-- v-maska="{ 
-                    mask: ['R$##.###,##','Y######'], 
-                    tokens: {'Y': {pattern: /[0-5]/}}}" -->
-            <p class="creditLabel">Em quantas vezes você quer pagar?</p>
+            <p class="creditLabel">{{ creditData.titleInstallments }}</p>
             <div class="wrapper-slider">
                 <Slider
                     id="installments-slider"
@@ -38,7 +40,7 @@
             </div>
             <InfoBox class="info-box">
                 <p>
-                    Faturamento mensal recomendado seria:
+                    {{ creditData.text.titleFaturamento }}
                     <br />
                     <b
                         v-show="
@@ -108,6 +110,7 @@ import InputError from '@/components/ui/InputError.vue'
 import { c4bApi } from '@/api/C4bApi'
 import Slider from '@vueform/slider'
 import ICredit from '@/types/credit'
+import { theme } from '@/config/styles'
 
 enum ERequestStatus {
     Idle,
@@ -134,15 +137,16 @@ export default defineComponent({
         FormTextInput,
         MultiSelect,
         InputError,
-        Slider
+        Slider,
     },
     emits: ['formButtonClicked', 'valuesChanged'],
     setup: (props, context) => {
+        const inputStart = ref(false)
         const minCredit = 10000
         const maxCredit = 5000000
         const creditUser = ref({
             limit: props.limit,
-            installment: props.installment
+            installment: props.installment,
         })
         const currencyOptions: CurrencyInputOptions = {
             currency: 'BRL',
@@ -164,8 +168,10 @@ export default defineComponent({
         const income = ref(0)
         const requestStatus = ref(ERequestStatus.Idle)
         const invalidCredit = ref(false)
-        const errorsCredit = ['O crédito precisa ser maior que R$10.000,00'+
-            ' e menor que R$5.000.000,00']
+        const errorsCredit = [
+            'O crédito precisa ser maior que R$10.000,00' +
+                ' e menor que R$5.000.000,00',
+        ]
         /**
          * Está função serve para formatar o número mostrado no
          * tooltip do slider
@@ -203,8 +209,11 @@ export default defineComponent({
          * @return {number} - retorna o valor formatado sem formato.
          */
         const convertToNumber = (value: string): number => {
-            const newValue = value.replace(/,/g, '').replace(/\./g, '')
-                .replace(/R/g, '').replace(/\$/g, '')
+            const newValue = value
+                .replace(/,/g, '')
+                .replace(/\./g, '')
+                .replace(/R/g, '')
+                .replace(/\$/g, '')
             return Number(newValue.substr(0, newValue.length - 2))
         }
         /**
@@ -218,21 +227,28 @@ export default defineComponent({
         }, 500)
 
         /**
-         * variavel computed com posibilidade de pegar o valor atual 
+         * variavel computed com posibilidade de pegar o valor atual
          * e setar um novo com debounce.
          */
         const creditFormatted = computed({
-            get: () => 'R$ ' + currencyFormatBR(creditUser.value.limit),
-            set: value => {
+            get: () =>
+                'R$ ' +
+                currencyFormatBR(
+                    inputStart.value == true ? creditUser.value.limit : 0
+                ),
+            set: (value) => {
                 changeSlide(value)
-            }
+            },
         })
         const minIncome = computed(() => {
             return currencyFormatBR(income.value)
         })
         const handleSubmit = () => {
-            context.emit('valuesChanged', creditUser.value.limit,
-                creditUser.value.installment)
+            context.emit(
+                'valuesChanged',
+                creditUser.value.limit,
+                creditUser.value.installment
+            )
             validationReasonOthers()
             if (invalidCredit.value == true) return
             if (isInvalid.value == true) return
@@ -248,7 +264,7 @@ export default defineComponent({
                 console.log(error)
             }
         }
-        /** Calculo para os valors por defeto do credito */
+        /** Calculo para os valores por defeto do credito */
         onMounted(() => {
             requestStatus.value = ERequestStatus.InProgress
             calMinIncome(creditUser.value)
@@ -256,19 +272,25 @@ export default defineComponent({
         /** Este evento é acionado sempre que o multiselect é clicado.*/
         watch(reason, (reason) => handleReasonSelect(reason))
         /** Espera que o slider do limite de crédito mude de valor */
-        watch(creditUser, (currentCreditUser) => {
-            requestStatus.value = ERequestStatus.Debounced
-            if (currentCreditUser.limit < 10000 ||
-                currentCreditUser.limit > 5000000)
-                invalidCredit.value = true
-            else
-                invalidCredit.value = false
+        watch(
+            creditUser,
+            (currentCreditUser) => {
+                requestStatus.value = ERequestStatus.Debounced
 
-            calMinIncomeDebounce(currentCreditUser)
-        },
-        { 
-            deep: true
-        })
+                if (
+                    (currentCreditUser.limit < 10000 ||
+                        currentCreditUser.limit > 5000000) &&
+                    inputStart.value == true
+                )
+                    invalidCredit.value = true
+                else invalidCredit.value = false
+                inputStart.value = true
+                calMinIncomeDebounce(currentCreditUser)
+            },
+            {
+                deep: true,
+            }
+        )
         /** Função asíncrona que espera que o backend faça o cálculo do
          * faturamento recomendado */
         const calMinIncome = async (creditUser: ICredit) => {
@@ -305,13 +327,14 @@ export default defineComponent({
             ERequestStatus,
             format,
             errorsCredit,
-            invalidCredit
+            invalidCredit,
+            theme
         }
     },
 })
 </script>
 <style scoped>
-.div-error-reason p{
+.div-error-reason p {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
@@ -334,12 +357,12 @@ export default defineComponent({
     --slider-handle-height: 30px;
     --slider-width: 16px;
     --slider-height: 16px;
-    --slider-bg: #b9ada0;
-    --slider-connect-bg: #64380c;
-    --slider-handle-ring-color: #00000030;
-    --slider-tooltip-bg: #64380c;
+    --slider-bg: v-bind('theme.colors.secondary.light');
+    --slider-connect-bg: v-bind('theme.colors.secondary.middark');
+    --slider-handle-ring-color: v-bind('theme.colors.black');
+    --slider-tooltip-bg: v-bind('theme.colors.secondary.middark');
 }
-.reason-input :deep .input-base{
+.reason-input :deep .input-base {
     width: 280px;
     padding: 7px 14px;
     text-align: left;
@@ -365,6 +388,9 @@ export default defineComponent({
 }
 .current-value {
     margin-bottom: 10px;
+}
+.current-value :deep label {
+    display: none;
 }
 
 .input-credit :deep .input-base {

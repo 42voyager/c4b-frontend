@@ -1,14 +1,14 @@
 <template>
-	<div>
-		<TheHeader>
-			<template #menu-list>
-				<NavBarMenuItems
-					:listItems="ListItemsNavBarBankForm"/>
-			</template>
-		</TheHeader>
-		<TheContractContent />
-		<TheFooter />
-	</div>
+  <div>
+    <TheHeader>
+      <template #menu-list>
+        <NavBarMenuItems
+          :listItems="ListItemsNavBarBankForm"/>
+      </template>
+    </TheHeader>
+    <TheContractContent />
+    <TheFooter />
+  </div>
 </template>
 
 <script lang="ts">

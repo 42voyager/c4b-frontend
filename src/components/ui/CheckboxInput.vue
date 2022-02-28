@@ -14,6 +14,7 @@
                     class="checkbox-input"
                     v-bind="$attrs"
                     :value="modelValue"
+                    :checked="modelValue"
                     @input="
                         $emit(
                             'update:modelValue',
@@ -43,6 +44,7 @@
 import { defineComponent, PropType } from 'vue'
 import InputError from '@/components/ui/InputError.vue'
 import { checkErrorsReturn } from '@/use/validInput'
+import { theme } from '@/config/styles'
 
 export default defineComponent({
     components: {
@@ -76,6 +78,7 @@ export default defineComponent({
     setup() {
         return {
             checkErrorsReturn,
+            theme
         }
     },
 })
@@ -87,7 +90,7 @@ export default defineComponent({
     width: 100%;
 }
 .wrapper-checkbox a {
-    color: #977f66;
+    color: v-bind('theme.colors.primary.midlight');
     text-decoration: underline;
 }
 .wrapper-checkbox a:hover {
@@ -118,17 +121,17 @@ export default defineComponent({
     left: 0;
     height: 25px;
     width: 25px;
-    background-color: white;
-    border: solid 1px #b29475;
+    background-color: v-bind('theme.colors.white');
+    border: solid 1px v-bind('theme.colors.primary.midlight');
 }
 .label-checkbox:hover input ~ .checkmark {
-    border-color: #977f66;
+    border-color: v-bind('theme.colors.primary.midlight');
 }
 .label-checkbox:hover input:checked ~ .checkmark {
-    border-color: #b29475;
+    border-color: v-bind('theme.colors.primary.midlight');
 }
 .label-checkbox input:checked ~ .checkmark {
-    background-color: #b29475;
+    background-color: v-bind('theme.colors.primary.midlight');
 }
 .checkmark::after {
     content: '';
@@ -143,7 +146,7 @@ export default defineComponent({
     top: 5px;
     width: 5px;
     height: 10px;
-    border: solid white;
+    border: solid 1px v-bind('theme.colors.white');
     border-width: 0 3px 3px 0;
     transform: rotate(45deg);
     -ms-transform: rotate(45deg);
