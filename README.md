@@ -46,16 +46,16 @@ all of its componentes are independent and adaptable.
 
 ## :sparkles: Features ##
 
-:heavy_check_mark: Editable texts;\
-:heavy_check_mark: Editable images;\
-:heavy_check_mark: Responsive design;\
-:heavy_check_mark: Interchangeable components;\
-:heavy_check_mark: Rating system for the process;\
-:heavy_check_mark: Form to make first request;\
-:heavy_check_mark: FAQ Section;\
-:heavy_check_mark: Feedback/doubt form ;\
-:heavy_check_mark: Form to collect extra user data;\
-:heavy_check_mark: Contact form;\
+:heavy_check_mark: Editable texts\
+:heavy_check_mark: Editable images\
+:heavy_check_mark: Responsive design\
+:heavy_check_mark: Interchangeable components\
+:heavy_check_mark: Rating system for the process\
+:heavy_check_mark: Form to make first request\
+:heavy_check_mark: FAQ Section\
+:heavy_check_mark: Feedback/doubt form\
+:heavy_check_mark: Form to collect extra user data\
+:heavy_check_mark: Contact form\
 
 ## :rocket: Technologies ##
 
