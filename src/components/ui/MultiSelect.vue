@@ -16,6 +16,7 @@
 import { defineComponent, ref, PropType } from 'vue'
 import InputError from '@/components/ui/InputError.vue'
 import VueMultiselect from 'vue-multiselect'
+import { theme } from '@/config/styles'
 
 export default defineComponent({
     components: {
@@ -44,6 +45,7 @@ export default defineComponent({
 
         return {
             value,
+            theme
         }
     },
 })
@@ -62,15 +64,14 @@ export default defineComponent({
     width: 12px;
 }
 :deep .multiselect__content-wrapper::-webkit-scrollbar-thumb {
-    background: #ddb893;
-    /* border-radius: 10px; */
+    background: v-bind('theme.colors.primary.light');
     height: 30px;
 }
 :deep .multiselect__content-wrapper::-webkit-scrollbar-thumb:hover {
-    background: #c09f7f;
+    background: v-bind('theme.colors.primary.midlight');
 }
 :deep .multiselect__content-wrapper::-webkit-scrollbar-track {
-    background: #fcf6f0;
+    background: v-bind('theme.colors.primary.lightest');
 }
 :deep .multiselect__option {
     white-space: normal;
@@ -81,24 +82,24 @@ export default defineComponent({
 }
 :deep .multiselect__placeholder {
     font-size: 18px !important;
-    color: rgb(116, 114, 114) !important;
+    color: v-bind('theme.colors.grays.dark') !important;
     padding: 0;
     margin-bottom: 0px;
 }
 :deep .multiselect__single {
     font-size: 14px !important;
-    color: black !important;
+    color: v-bind('theme.colors.black');
     padding: 0;
     margin-bottom: 0;
 }
 :deep .multiselect__tags {
     padding: 7px 14px !important;
     border-radius: 2px;
-    border: solid 1px #8d6236;
+    border: solid 1px v-bind('theme.colors.primary.mid');
 }
 
 :deep .multiselect__tags:hover {
-    border: solid 1px #b29475;
+    border: solid 1px v-bind('theme.colors.primary.midlight');
     box-shadow: 5px 5px 5px rgb(187 187 187 / 50%);
 }
 

@@ -10,6 +10,7 @@
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core'
 import ButtonDefault from './ButtonDefault.vue'
+import { theme } from '@/config/styles'
 
 export default defineComponent({
     components: {
@@ -21,7 +22,8 @@ export default defineComponent({
             context.emit('buttonXModal')
         }
         return {
-            closeModal
+            closeModal,
+            theme
         }
     }
 })
@@ -30,7 +32,7 @@ export default defineComponent({
 <style scoped>
     .modal-bg {
         position: fixed;
-        background: rgba(255, 255, 255, 0.8);
+        background: v-bind('theme.colors.grays.lightest');
         top: 0;
         left: 0;
         height: 100%;
@@ -49,7 +51,7 @@ export default defineComponent({
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background-color: #ffffff;
+        background-color: v-bind('theme.colors.white');
         padding: 20px 30px 50px;
         border-radius: 15px;
         width: calc(100% - 40px);

@@ -16,6 +16,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { theme } from '@/config/styles'
 
 /**
  * Component utilizado para input numerico do tipo slider
@@ -45,6 +46,9 @@ export default defineComponent({
         },
     },
     inheritAttrs: false,
+    setup() {
+        return
+    }
 })
 </script>
 
@@ -58,7 +62,7 @@ export default defineComponent({
 .slider-input {
     -webkit-appearance: none;
     height: 25px;
-    background: #b9ada0;
+    background: v-bind('theme.colors.primary.light');
     border-radius: 25px;
     outline: none;
     opacity: 0.7;
@@ -77,8 +81,8 @@ export default defineComponent({
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    background: #64380c;
-    box-shadow: -500px 0 0 490px #807264;
+    background: v-bind('theme.colors.primary.dark');
+    box-shadow: -500px 0 0 490px v-bind('theme.colors.primary.mid');
     cursor: pointer;
     border: none;
 }
@@ -87,7 +91,7 @@ export default defineComponent({
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    background: #64380c;
+    background: v-bind('theme.colors.primary.dark');
     cursor: pointer;
     border: none;
 }
@@ -96,23 +100,23 @@ export default defineComponent({
     justify-content: space-between;
 }
 .slider-input::-webkit-slider-runnable-track {
-    color: #b9ada0;
+    color: v-bind('theme.colors.primary.light');
     height: 25px;
 }
 .slider-input::-moz-range-progress {
-    background-color: #807264;
+    background-color: v-bind('theme.colors.primary.light');
     height: 25px;
 }
 .slider-input::-moz-range-track {
-    background-color: #b9ada0;
+    background-color: v-bind('theme.colors.primary.light');
     height: 25px;
 }
 .slider-input::-ms-fill-lower {
-    background-color: #807264;
+    background-color: v-bind('theme.colors.primary.light');
     height: 25px;
 }
 .slider-input::-ms-fill-upper {
-    background-color: #b9ada0;
+    background-color: v-bind('theme.colors.primary.light');
     height: 25px;
 }
 </style>

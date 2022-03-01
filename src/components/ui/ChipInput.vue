@@ -43,7 +43,7 @@ export default defineComponent({
 
 <style scoped>
 .label-chip {
-    background-color: v-bind('theme.colors.primary.mid');
+    background-color: v-bind('theme.colors.primary.light');
     color: v-bind('theme.colors.white');
     padding: 6px 16px;
     margin: 10px;

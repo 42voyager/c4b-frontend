@@ -75,6 +75,7 @@ import SuccessForm from '@/components/common/TheSuccessForm.vue'
 import { EValidity, checkErrorsReturn, capitalize } from '@/use/validInput'
 import IContract from '@/types/contract'
 import { ContractConfiguration } from '@/config/variables'
+import { theme } from '@/config/styles'
 
 export default defineComponent({
     components: {
@@ -192,7 +193,8 @@ export default defineComponent({
             checkErrorsReturn,
             checkboxValidationStatus,
             EValidity,
-            capitalize
+            capitalize,
+            theme
         }
     },
 })
@@ -218,11 +220,11 @@ export default defineComponent({
 }
 .info-valor {
     padding: 20px 30px;
-    background-color: #b2937548;
+    background-color: v-bind('theme.colors.primary.light');
 }
 .info-banco {
     padding: 20px 30px;
-    background-color: #e7d9cb48;
+    background-color: v-bind('theme.colors.primary.lightest');
 }
 .info-banco span {
     margin-right: 15px;

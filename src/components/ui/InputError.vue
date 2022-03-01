@@ -4,6 +4,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
+import { theme } from '@/config/styles'
 
 /**
  * Component utilizado para mostrar os erros dos inputs
@@ -17,13 +18,18 @@ export default defineComponent({
             required: true,
         },
     },
+    setup() {
+        return {
+            theme
+        }
+    }
 })
 </script>
 
 <style scoped>
 p {
     font-size: 12px;
-    color: red;
+    color: v-bind('theme.colors.error');
     max-width: 300px;
     width: 100%;
     margin: 0;

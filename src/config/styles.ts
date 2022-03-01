@@ -1,20 +1,20 @@
 export const theme = {
     colors: {
         primary: {
-            lightest: '#e9e1d8',
-            light: '#e0ccba',
-            midlight: '#b29375',
-            mid: '#937454',
-            middark: '#685747',
-            dark: '#e0ccba',
-            darker: '#47392b',
+            lightest: '#c6b4c9',
+            light: '#ad93b1',
+            midlight: '#9b4fa9',
+            mid: '#cc3ae2',
+            middark: '#6d4873',
+            dark: '#a21ab7',
+            darker: '#714e74',
         },
         secondary: {
             lightest: '',
-            light: '#b9ada0',
+            light: '#907893',
             midlight: '',
-            mid: '#685747',
-            middark: '#64380c',
+            mid: '#714e74',
+            middark: '#89159b',
             dark: '',
             darker: '',
         },
@@ -27,5 +27,6 @@ export const theme = {
         },
         white: 'white',
         black: 'black',
+        error: 'red'
     },
 }

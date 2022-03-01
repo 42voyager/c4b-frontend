@@ -6,6 +6,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType, computed } from 'vue'
+import { theme } from '@/config/styles'
 
 type BoxType = 'info' | 'warning' | 'error'
 
@@ -24,6 +25,7 @@ export default defineComponent({
         })
         return {
             activeClass,
+            theme
         }
     },
 })
@@ -36,17 +38,17 @@ export default defineComponent({
 }
 
 .info-style {
-    background-color: #f6f2ef;
-    border-color: #b29475;
+    background-color: v-bind('theme.colors.white');
+    border-color: v-bind('theme.colors.primary.midlight');
 }
 
 .warning-style {
-    background-color: #cce5ff;
-    border-color: #b8daff;
+    background-color: v-bind('theme.colors.white');
+    border-color: v-bind('theme.colors.white');
 }
 
 .error-style {
-    background-color: #cce5ff;
-    border-color: #b8daff;
+    background-color: v-bind('theme.colors.white');
+    border-color: v-bind('theme.colors.error');
 }
 </style>>

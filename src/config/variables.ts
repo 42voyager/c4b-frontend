@@ -158,7 +158,7 @@ export const CreditData = {
 
 // Array for the text of terms
 export const Terms = {
-    textTerm: 'de relacionamento com o Banco ABC. Autorizo a consulta de SRC e'+
+    textTerm: 'de relacionamento com o C4B. Autorizo a consulta de SRC e'+
     ' da Agenda de recebíveis da empresa.',
     modal: {
         title: 'Termos e condições',
@@ -166,73 +166,25 @@ export const Terms = {
         headerTitle: 'Autorização',
         list: [
             {
-                text: 'Atendendo ao disposto na Resolução CMN nº 4571/2017' + 
-                    '(“Resolução SCR”), e, no artigo 1º da Resolução CMN nº ' + 
-                    '3920/2010, conforme alteradas, as empresas abaixo ' + 
-                    'elencadas e representadas (“Empresas”) autorizam, em ' + 
-                    'caráter irrevogável e irretratável o Banco ABC Brasil' +
-                    'S.A, bem como às demais empresas do Grupo ABC e seus ' +
-                    'eventuais sucessores, a consultar as informações ' + 
-                    'relativas a estas ou às operações de crédito e operações' +
-                    'no mercado de câmbio que estas realizem ou venham a ' +
-                    'realizar, conforme disponibilizadas pelo SCR –' +
-                    'Sistema de Informações de Créditos do Banco Central do ' +
-                    'Brasil e pelo SISBACEN – Sistema de Informações do Banco '+
-                    'Central do Brasil, ou por' +
-                    'qualquer outro sistema que venha a sucedê-los.'
+                text: ''
             },
             {
-                text: 'As Empresas autorizam ainda, em caráter ' +
-                    'irrevogável e irretratável,' +
-                    'que referidas informações, no que tange a operações ' + 
-                    'por estas realizadas junto ao Banco ABC Brasil S.A., ' + 
-                    'sejam por este, bem como por demais empresas do Grupo ' +
-                    'ABC e seus eventuais sucessores,' +
-                    'registradas junto a referidos sistemas.'
+                text: 'Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos,' +
+                'e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja' +
+                'de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não' +
+                'só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente' +
+                'inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum,' +
+                'e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.'
             },
             {
-                text:' A finalidade e o uso de tais informações estão ' + 
-                    'relacionados à operações de crédito, nos termos do ' + 
-                    'art.3º da Resolução SCR, tendo como finalidades ' + 
-                    'específicas: (i) o fornecimento de informações ao' +
-                    ' Banco Central do Brasil para fins de monitoramento ' + 
-                    'do crédito no sistema financeiro e para o exercício ' +
-                    'de suas atividades de fiscalização e (ii) propiciar o ' + 
-                    'intercâmbio, entre as instituições' +
-                    'financeiras sujeitas ao dever de conservar o sigilo ' +
-                    'bancário de que trata a Lei Complementar nº 105/2001, ' +
-                    'das informações referentes a' +
-                    'débitos e responsabilidades de seus clientes em ' + 
-                    'quaisquer operações de crédito, com o objetivo de ' +
-                    'subsidiar decisões negociais e de crédito.'
-            },
-            {
-                text: 'As Empresas declaram-se cientes de que poderão ' +
-                    'consultar as informações do SCR por meio do site do ' + 
-                    'Registrato – Extrato do Registro de Informações no ' +
-                    'BACEN ou na Central de Atendimento ao Público do BACEN.'
-            },
-            {
-                text: ' As eventuais manifestações de discordância ' +
-                    'quanto às informações' +
-                    'constantes do SCR e os pedidos de correções, exclusões ' +
-                    'e registros de medidas judiciais no SCR deverão ser ' + 
-                    'dirigidos ao Banco ABC Brasil S.A, por meio de ' + 
-                    'requerimento escrito e devidamente assinado' +
-                    'pelo(s) representante(s) das Empresas, conforme o caso, ' +
-                    'acompanhado da respectiva decisão judicial, quando ' + 
-                    'aplicável, observado o disposto nos artigos 11 e 12 ' +
-                    'da Circular BACEN nº 3.870, de 19 de dezembro de 2017.'
-            },
-            {
-                text: 'Ainda, as Empresas desde já concordam ' +
-                    'expressamente em estender a' +
-                    'presente autorização de consulta ao SCR às demais ' + 
-                    'instituições autorizadas a consulta-lo, nos termos da ' + 
-                    'Resolução SCR, que venham a adquirir ou receber em ' +
-                    'garantia, ou que manifestem interesse em' +
-                    'adquirir ou receber em garantia, total ou parcialmente, ' +
-                    'a presente operação de crédito.'
+                text:' Ao contrário do que se acredita, Lorem Ipsum não é simplesmente um texto randômico.' +
+                'Com mais de 2000 anos, suas raízes podem ser encontradas em uma obra de literatura latina' +
+                'clássica datada de 45 AC. Richard McClintock, um professor de latim do Hampden-Sydney College na Virginia,'+
+                ' pesquisou uma das mais obscuras palavras em latim, consectetur, oriunda de uma passagem de Lorem Ipsum, e,'+
+                ' procurando por entre citações da palavra na literatura clássica, descobriu a sua indubitável origem.'+
+                ' Lorem Ipsum vem das seções 1.10.32 e 1.10.33 do "de Finibus Bonorum et Malorum" (Os Extremos do Bem e do Mal),'+
+                'de Cícero, escrito em 45 AC. Este livro é um tratado de teoria da ética muito popular na época da Renascença. ' +
+                'A primeira linha de Lorem Ipsum, "Lorem Ipsum dolor sit amet..." vem de uma linha na seção 1.10.32.'
             }
         ]
     }
@@ -320,7 +272,7 @@ export const ContractConfiguration = {
             {
                 name: 'acceptTerms',
                 text: 'Li e acepto os Termos e Condições de ' +
-                    'Relacionamento com o Banco ABC. Declaro que tenho poderes'+
+                    'Relacionamento com o C4B. Declaro que tenho poderes'+
                     ' de assinatura pela empresa e autorizo a ' +
                     'assinatura eletrônica.',
                 errors: ['Precisa aceitar os termos e condições!']
@@ -429,23 +381,23 @@ export const FooterConfiguration = {
     list: [
         {
             title: 'Sobre nós',
-            text: 'Banco ABC Brasil',
-            link: 'https://www.abcbrasil.com.br/quem-somos/'
+            text: 'C4B - Voyager',
+            link: 'https://github.com/42voyager'
         },
         {
             title: 'SAC',
-            text: '0800 724 74 11',
+            text: '0888 888 88 99',
             link: ''
         },
         {
             title: 'Ouvidoria',
-            text: '800-725-7595',
+            text: '845-333-5555',
             link: ''
         },
         {
             title: 'Localização',
-            text: 'Avenida Cidade Jardim, 803 – 2º andar Itaim Bibi –' +
-                'São Paulo-SP – 01453-000 CNPJ: 28.195.667/0001-06',
+            text: 'Bairro Rua do Sol, Springfield ' +
+                'Gotham City – 12345-123 CNPJ: 54.4545.4545/4444-33',
             link: ''
         }
     ]

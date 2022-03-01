@@ -4,7 +4,7 @@
                 class="circle"
                 v-for="(step, index) of list"
                 :key="index"
-                :color="step ? '#64380c' : '#b29475'"
+                :color="step ? theme.colors.primary.dark : theme.colors.primary.midlight"
                 height="20"
                 width="20"
                 />
@@ -14,6 +14,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Circle from '@/components/icons/Circle.vue'
+import { theme } from '@/config/styles'
 
 export default defineComponent({
     components: {
@@ -25,6 +26,11 @@ export default defineComponent({
             default: () => {[true]}
         }
     },
+    setup() {
+        return {
+            theme
+        }
+    }
 }) 
 </script>
 

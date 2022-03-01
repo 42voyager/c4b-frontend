@@ -55,6 +55,7 @@ import { BankInfoFormConfiguration } from '@/config/variables'
 import { EValidity, checkErrorsReturn } from '@/use/validInput'
 import { c4bApi } from '@/api/C4bApi'
 import banksList from '@/config/banksList.json'
+import { theme } from '@/config/styles'
 
 interface BankInfo {
     ShortName: string
@@ -150,7 +151,8 @@ export default defineComponent({
             banksListSum,
             wasFormSubmitted,
             BankInfoFormConfiguration,
-            handleSubmit
+            handleSubmit,
+            theme
         }
     },
 })
@@ -168,7 +170,7 @@ export default defineComponent({
 .two-column {
     display: flex;
     width: 100%;
-    background-color: #e0ccba;
+    background-color: v-bind('theme.colors.primary.light');
     flex-direction: column;
     margin-top: 73px;
 }
@@ -187,9 +189,9 @@ export default defineComponent({
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-color: #e0ccba;
+    background-color: v-bind('theme.colors.primary.light');
     background-image: url('~@/assets/side-image-bank.jpg');
-    color: white;
+    color: v-bind('theme.colors.white');
     height: calc(100vh - 70px);
 }
 .title {
@@ -206,7 +208,7 @@ export default defineComponent({
 @media (min-width: 768px) {
     .column-form-wrapper {
         background-image: none;
-        color: black;
+        color: v-bind('theme.colors.black');
     }
     .two-column {
         flex-direction: row;

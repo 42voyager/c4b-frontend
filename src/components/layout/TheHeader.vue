@@ -2,7 +2,7 @@
     <header class="header">
         <div class="wrapper-logo">
             <a href="/"
-                ><img src="@/assets/logo-abc.png" alt="Logo Banco ABC"
+                ><img src="@/assets/logo-c4b-header.png" alt="Logo C4B"
             /></a>
         </div>
         <button class="toggle-menu" v-on:click="onClicked()">

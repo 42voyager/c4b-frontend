@@ -153,6 +153,9 @@ const TwoColumnSection = defineComponent({
             new GetIPApi().getIP().then((res) => {
                 userIP.value = res.data.ip
             })
+            .catch(error => {
+                console.log('Falho o endereco ip')
+            })
             getOS()
         })
         /**
