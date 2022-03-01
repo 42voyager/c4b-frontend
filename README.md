@@ -94,6 +94,22 @@ All texts can be edited in the file located at /src/config/variables.ts
 
 This project is under license from MIT. For more details, see the [LICENSE](LICENSE.md) file.
 
+## :honeybee: Issues ##
+
+Feel free to submit issues and enhancement requests.
+
+## :waxing_crescent_moon: Contributing ##
+
+Please refer to each project's style and contribution guidelines for submitting patches and additions. In general, we follow the "fork-and-pull" Git workflow.
+
+ 1. **Fork** the repo on GitHub
+ 2. **Clone** the project to your own machine
+ 3. **Commit** changes to your own branch
+ 4. **Push** your work back up to your fork
+ 5. Submit a **Pull request** so that we can review your changes
+
+NOTE: Be sure to merge the latest from "upstream" before making a pull request!
+
 &#xa0;
 
 Made with :heart: by <a href="https://github.com/pacorocha" target="_blank">Paco Rocha</a>
