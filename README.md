@@ -1,5 +1,5 @@
 <div align="center" id="top">
-  <img src="/c4b-frontend/assets/logo_c4b.png" alt="C4B" title="Logo C4B">
+  <img src="./assets/logo_c4b.png" alt="C4B" title="Logo C4B">
 
   &#xa0;
 
@@ -8,13 +8,13 @@
 <h1 align="center">C4B - Contract for business - frontend</h1>
 
 <p align="center">
-  <img alt="Github top language" src="https://img.shields.io/github/languages/top/42voyager/c4b?color=56BEB8">
+  <img alt="Github top language" src="https://img.shields.io/github/languages/top/42voyager/c4b-frontend?color=56BEB8">
 
-  <img alt="Github language count" src="https://img.shields.io/github/languages/count/42voyager/c4b?color=56BEB8">
+  <img alt="Github language count" src="https://img.shields.io/github/languages/count/42voyager/c4b-frontend?color=56BEB8">
 
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/42voyager/c4b?color=56BEB8">
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/42voyager/c4b-frontend?color=56BEB8">
 
-  <img alt="License" src="https://img.shields.io/github/license/42voyager/c4b?color=56BEB8">
+  <img alt="License" src="https://img.shields.io/github/license/42voyager/c4b-frontend?color=56BEB8">
 </p>
 
 <p align="center">
@@ -41,7 +41,7 @@ C4B is a B2B product, but it can be tweaked to be adapted for other uses because
 all of its componentes are independent and adaptable.
 
 <p align="center">
-<img src="/c4b-frontend/assets/preview_c4b.jpg" alt="Landing Page Preview" title="Landing Page Preview">
+<img src="./assets/preview_c4b.jpg" alt="Landing Page Preview" title="Landing Page Preview">
 </p>
 
 ## :sparkles: Features ##
