@@ -94,7 +94,7 @@ All texts can be edited in the file located at /src/config/variables.ts
 
 This project is under license from MIT. For more details, see the [LICENSE](LICENSE.md) file.
 
-## :honeybee: Issues ##
+## :rotating_light: Issues ##
 
 Feel free to submit issues and enhancement requests.
 
