@@ -1,20 +1,20 @@
 <div align="center" id="top">
-  <img src="./.github/app.gif" alt="C4B" />
+  <img src="/repository/assets/logo_c4b.png" alt="C4B" title="Logo C4B">
 
   &#xa0;
 
 </div>
 
-# C4B - Contract for business - frontend
+<h1 align="center">C4B - Contract for business - frontend</h1>
 
 <p align="center">
-  <img alt="Github top language" src="https://img.shields.io/github/languages/top/{{YOUR_GITHUB_USERNAME}}/c4b?color=56BEB8">
+  <img alt="Github top language" src="https://img.shields.io/github/languages/top/42voyager/c4b?color=56BEB8">
 
-  <img alt="Github language count" src="https://img.shields.io/github/languages/count/{{YOUR_GITHUB_USERNAME}}/c4b?color=56BEB8">
+  <img alt="Github language count" src="https://img.shields.io/github/languages/count/42voyager/c4b?color=56BEB8">
 
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/{{YOUR_GITHUB_USERNAME}}/c4b?color=56BEB8">
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/42voyager/c4b?color=56BEB8">
 
-  <img alt="License" src="https://img.shields.io/github/license/{{YOUR_GITHUB_USERNAME}}/c4b?color=56BEB8">
+  <img alt="License" src="https://img.shields.io/github/license/42voyager/c4b?color=56BEB8">
 </p>
 
 <p align="center">
@@ -24,7 +24,7 @@
   <a href="#white_check_mark-setup">Setup</a> &#xa0; | &#xa0;
   <a href="#checkered_flag-configuration">Configuration</a> &#xa0; | &#xa0;
   <a href="#memo-license">License</a> &#xa0; | &#xa0;
-  <a href="https://github.com/{{YOUR_GITHUB_USERNAME}}" target="_blank">Author</a>
+  <a href="https://github.com/42voyager" target="_blank">Author</a>
 </p>
 
 <br>
@@ -39,6 +39,10 @@ frontend related files.
 
 C4B is a B2B product, but it can be tweaked to be adapted for other uses because
 all of its componentes are independent and adaptable.
+
+<p align="center">
+<img src="/repository/assets/preview_c4b.jpg" alt="Landing Page Preview" title="Landing Page Preview">
+</p>
 
 ## :sparkles: Features ##
 
