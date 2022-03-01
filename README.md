@@ -1,5 +1,5 @@
 <div align="center" id="top">
-  <img src="/repository/assets/logo_c4b.png" alt="C4B" title="Logo C4B">
+  <img src="/c4b-frontend/assets/logo_c4b.png" alt="C4B" title="Logo C4B">
 
   &#xa0;
 
@@ -41,7 +41,7 @@ C4B is a B2B product, but it can be tweaked to be adapted for other uses because
 all of its componentes are independent and adaptable.
 
 <p align="center">
-<img src="/repository/assets/preview_c4b.jpg" alt="Landing Page Preview" title="Landing Page Preview">
+<img src="/c4b-frontend/assets/preview_c4b.jpg" alt="Landing Page Preview" title="Landing Page Preview">
 </p>
 
 ## :sparkles: Features ##
