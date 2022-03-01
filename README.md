@@ -55,7 +55,7 @@ all of its componentes are independent and adaptable.
 :heavy_check_mark: FAQ Section\
 :heavy_check_mark: Feedback/doubt form\
 :heavy_check_mark: Form to collect extra user data\
-:heavy_check_mark: Contact form\
+:heavy_check_mark: Contact form
 
 ## :rocket: Technologies ##
 
