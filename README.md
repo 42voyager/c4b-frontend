@@ -96,4 +96,7 @@ This project is under license from MIT. For more details, see the [LICENSE](LICE
 
 &#xa0;
 
+Made with :heart: by <a href="https://github.com/pacorocha" target="_blank">Paco Rocha</a>
+<a href="https://github.com/diegocl02" target="_blank">Diego Cisneros</a> <a href="https://github.com/MarcusVinix" target="_blank">Marcus Vinicius</a>
+
 <a href="#top">Back to top</a>
