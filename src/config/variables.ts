@@ -40,32 +40,32 @@ export const TitleForm = 'Esse formulário tem 2 passos'
 
 //textos de informações
 export const Infos = {
-    title: 'C4B é a resposta para sua necessidade de crédito',
+    title: 'Informações sobre as medusas',
     infosList: [
         {
-            text: 'O processo de solicitação é simples e ' +
-                'sem burocracia, você só precisa ' +
-                'preencher o formulário e esperar a resposta por e-mail. ' +
-                'C4B foi desenhado para ' +
-                'você não precisar se deslocar.',
+            text: 'Medusozoa é um agrupamento taxonómico ' +
+                'que inclui as medusas, mães d\'água, águas-vivas ou alforrecas, ' +
+                'formas de vida livre dos cnidários adultos, ' +
+                'que se encontram nas classes Scyphozoa, Hydrozoa ' +
+                'e Cubozoa. Quase todas as medusas vivem nos oceanos, ' +
+				'como componentes do zooplâncton.',
             img: 'info-img1.jpg'
         },
         {
-            text: 'Crédito a medida de sua empresa. ' +
-                'C4B permite calcular com antecipação ' +
-                'a quantidade solicitada para que esteja dentro das ' +
-                'possibilidades do seu negócio. Você pode decidir as parcelas' +
-                ' e organizar melhor suas finanças.',
+            text: 'Como todos os cnidários, o corpo das medusas. ' +
+                'é basicamente um saco com simetria radial formado ' +
+                'por duas camadas de células, a epiderme, no exterior, ' +
+                'e a gastroderme, no interior, com uma massa gelatinosa entre elas, ' +
+                'chamada mesogleia, e aberto para o exterior.',
             img: 'info-img3.jpg'
         },
         {
-            text: 'O processo é digitalizado para facilitar ' +
-                'o envío de informações, ' +
-                'esqueça de ter que agendar visitas ao banco ou ' +
-                'de perder tempo em trámites ' +
-                'burocráticos. Você faz a solicitação desde seu ' +
-                'computador e recebe a resposta ' +
-                'no seu computador',
+            text: 'A forma pode variar desde um disco achatado ' +
+                'até uma campânula quase fechada; na margem livre deste disco, ' +
+                'que pode ser lisa, fendida ou ondulada, ' +
+                'as medusas ostentam coroas de tentáculos ' +
+                'com células urticantes, os cnidócitos, capazes de ejectar ' +
+                'um minúsculo espinho que contém uma toxina, o nematocisto.',
             img: 'info-img4.jpg'
         }
     ]
