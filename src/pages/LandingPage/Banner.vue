@@ -1,6 +1,6 @@
 <template>
     <div class="banner">
-        <img src="@/assets/banner/banner2.png" alt="">
+        <img src="@/assets/banner/banner.jpg" alt="">
         <div class="text-banner">
             <h1>{{ titleBanner }}</h1>
             <p>{{ textBanner }}</p>

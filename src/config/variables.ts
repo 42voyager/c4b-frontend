@@ -1,27 +1,28 @@
 //Textos do Banner
-export const TitleBanner = 'Solicite um crédito para seu negócio'
-export const TextBanner = 'Rápido, simples, sem burocracia'
+export const TitleBanner = 'Se clicar no botão'
+export const TextBanner = 'Vai direto para o formulário'
 
 //textos dos pontos forte
 export const PontosForte = {
-    title: 'Por que C4B é diferente?',
+    title: 'Aqui você coloca pontos a destacar',
     pontos: [
         {
-            title: 'Liquidez',
-            description: 'Cristalize os planos para fazer crescer seu negócio.',
+            title: 'Bom',
+            description: 'Aqui pode falar' +
+                ' por que é bom.',
             image: 'img_item_01.jpg',
             altText: 'Imagen 1'
         },
         {
-            title: 'Facil de solicitar',
-            description: 'O processo é online, ' +
-                'e você recebe a resposta no seu e-mail.',
+            title: 'Bonito',
+            description: 'É bonito porque tem' +
+                'um visual muito equilibrado.',
             image: 'img_item_02.jpg',
             altText: 'Imagen 2'
         },
         {
-            title: 'Faça crescer seu negócio',
-            description: 'A rapidez de resposta ajuda você planejar melhor.',
+            title: 'Bacana',
+            description: 'Todo mundo gosta.',
             image: 'img_item_03.jpg',
             altText: 'Imagen 3'
         }
@@ -35,7 +36,7 @@ export const errorMsgs = {
 }
 
 //Textos  do form
-export const TitleForm = 'Solicite seu crédito em 2 passos'
+export const TitleForm = 'Esse formulário tem 2 passos'
 
 //textos de informações
 export const Infos = {
@@ -75,28 +76,27 @@ export const FaqsInfo = {
     title: 'FAQ',
     faqs: [
         {
-            question: 'Preciso comprovar faturamento?',
-            answer: 'Sim, porém, nosso processo ' +
-                'permite solicitar um crédito a medida de seu faturamento.'
+            question: 'Que romance famoso apresentava Jo, Meg, Beth e Amy March?',
+            answer: 'Adoráveis Mulheres.'
         },
         {
-            question: 'Existe algúm processo além de preencher o formulário?',
-            answer: 'Não, você só precisa preencher o formulário e C4B faz o ' +
-                'trabalho. Você faz a solicitação desde ' +
-                'seu computador e recebe a resposta no seu computador.'
+            question: 'Quanto pesa a fantasia de Chewbacca?',
+            answer: 'Quatro quilos.'
         },
         {
-            question: 'É seguro?',
-            answer: 'Todo o processo garante segurança e transparência. ' +
-                'São solicitadas o mínimo de informações necessárias para ' +
-                'tramitar o crédito.'
+            question: 'O que mede a Escala Mercalli?',
+            answer: 'A Escala Mercalli determina a intensidade dos sismos' +
+                    'a partir dos efeitos e danos causados no meio ambiente,' +
+                    'nas estruturas, nas pessoas e nos objetos. Ela foi criada' +
+                    'em 1902 pelo italiano, sismólogo e vulcanólogo,' +
+                    'Giuseppe Mercalli.'
         }
     ]
 }
 
 export const CreditData = {
     text: {
-        titleLimits: 'De quanto seu negócio precisa',
+        titleLimits: 'Aqui tem um slider legais para colocar quantidade',
         creditLimits: [
             {
                 id: 10000,
@@ -119,7 +119,7 @@ export const CreditData = {
                 label: 'R$1.000.001 - R$5.000.000'
             }
         ],
-        titleInstallments: 'Em quantas vezes você quer pagar?',
+        titleInstallments: 'Aqui tem outro slider para colocar parcelas',
         creditInstallments: [
             {
                 id: 6,
@@ -142,24 +142,24 @@ export const CreditData = {
                 label: '36x'
             }
         ],
-        titleFaturamento: 'Faturamento mensal recomendado seria:',
-        titleMotivo: 'Qual o motivo da sua solicitação de crédito?',
+        titleFaturamento: 'Aqui está mostrando o valor calculado das parcelas:',
+        titleMotivo: 'Quantos braços tem um polvo?',
         listReasons: [
-            'Capital de giro',
-            'Pagamento de folha ou 13º salário',
-            'Compra de equipamentos',
-            'Investimento em infraestrutura',
-            'Compra de insumos e produtos',
+            'Seis',
+            'Oito',
+            'Dez',
+            'Sete',
+            'Três',
             'Outros'
         ],
-        errors: ['Você precisa escolher um motivo válido!']
+        errors: ['Você precisa escrever alguma coisa!']
     }
 }
 
 // Array for the text of terms
 export const Terms = {
-    textTerm: 'de relacionamento com o C4B. Autorizo a consulta de SRC e'+
-    ' da Agenda de recebíveis da empresa.',
+    textTerm: 'Termosde relacionamento com o C4B. Aqui você pode colocar' +
+                'o blablabla de costume.',
     modal: {
         title: 'Termos e condições',
         headerText: 'Informação de uso publico',
@@ -170,21 +170,21 @@ export const Terms = {
             },
             {
                 text: 'Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos,' +
-                'e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja' +
-                'de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não' +
-                'só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente' +
-                'inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum,' +
-                'e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.'
+                    'e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja' +
+                    'de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não' +
+                    'só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente' +
+                    'inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum,' +
+                    'e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.'
             },
             {
-                text:' Ao contrário do que se acredita, Lorem Ipsum não é simplesmente um texto randômico.' +
-                'Com mais de 2000 anos, suas raízes podem ser encontradas em uma obra de literatura latina' +
-                'clássica datada de 45 AC. Richard McClintock, um professor de latim do Hampden-Sydney College na Virginia,'+
-                ' pesquisou uma das mais obscuras palavras em latim, consectetur, oriunda de uma passagem de Lorem Ipsum, e,'+
-                ' procurando por entre citações da palavra na literatura clássica, descobriu a sua indubitável origem.'+
-                ' Lorem Ipsum vem das seções 1.10.32 e 1.10.33 do "de Finibus Bonorum et Malorum" (Os Extremos do Bem e do Mal),'+
-                'de Cícero, escrito em 45 AC. Este livro é um tratado de teoria da ética muito popular na época da Renascença. ' +
-                'A primeira linha de Lorem Ipsum, "Lorem Ipsum dolor sit amet..." vem de uma linha na seção 1.10.32.'
+                text: ' Ao contrário do que se acredita, Lorem Ipsum não é simplesmente um texto randômico.' +
+                    'Com mais de 2000 anos, suas raízes podem ser encontradas em uma obra de literatura latina' +
+                    'clássica datada de 45 AC. Richard McClintock, um professor de latim do Hampden-Sydney College na Virginia,' +
+                    ' pesquisou uma das mais obscuras palavras em latim, consectetur, oriunda de uma passagem de Lorem Ipsum, e,' +
+                    ' procurando por entre citações da palavra na literatura clássica, descobriu a sua indubitável origem.' +
+                    ' Lorem Ipsum vem das seções 1.10.32 e 1.10.33 do "de Finibus Bonorum et Malorum" (Os Extremos do Bem e do Mal),' +
+                    'de Cícero, escrito em 45 AC. Este livro é um tratado de teoria da ética muito popular na época da Renascença. ' +
+                    'A primeira linha de Lorem Ipsum, "Lorem Ipsum dolor sit amet..." vem de uma linha na seção 1.10.32.'
             }
         ]
     }
@@ -272,24 +272,22 @@ export const ContractConfiguration = {
             {
                 name: 'acceptTerms',
                 text: 'Li e acepto os Termos e Condições de ' +
-                    'Relacionamento com o C4B. Declaro que tenho poderes'+
-                    ' de assinatura pela empresa e autorizo a ' +
+                    'tudo quanto li nos termos do link e ' +
+                    ' ainda por mais estou autorizando com minha ' +
                     'assinatura eletrônica.',
                 errors: ['Precisa aceitar os termos e condições!']
             },
             {
-                name: 'authorizeSCR',
-                text: 'Autorizo a Consulta de SCR e da Agenda de ' +
-                    'Recebíveis e ac eito os Termos de Sigilo Bancário',
-                errors: ['Precisa autorizar a consulta de SCR!']
+                name: 'authorize',
+                text: 'Autorizo o que é preciso para continuar ' +
+                    'com minha solicitação.',
+                errors: ['Precisa autorizar o processo!']
             },
             {
-                name: 'existsPEP',
-                text: 'Na empresa, há alguma Pessoa Exposta ' +
-                    'Publicamente (PEP) em uma função de administração, ' +
-                    'controle direto ou indireto, direção, procuração ou ' + 
-                    'representação?',
-                errors: ['Precisa responder a pergunta sobre a PEP!']
+                name: 'representative',
+                text: 'Tem uma pessoa de contato ' +
+                    'é possível entrar em contato com ela?',
+                errors: ['Precisa responder se tem uma pessoa de contato!']
             },
         ]
     }
@@ -320,7 +318,7 @@ export const BankInfoFormConfiguration = {
 
 export const ListItemsNavBar = [
     {
-        title: 'Solicite seu crédito',
+        title: 'Vai ao formulário',
         href: 'column-two'
     },
     {
@@ -335,7 +333,7 @@ export const ListItemsNavBar = [
 
 export const ListItemsNavBarBankForm = [
     {
-        title: 'Nova Solicitação de Crédito',
+        title: 'Aqui está o formulário',
         href: '/#form-request'
     },
     {
