@@ -42,6 +42,7 @@ li {
 
 li a {
     padding: 15px;
+	cursor: pointer;
 }
 
 a:hover {
